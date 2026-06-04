@@ -208,6 +208,11 @@ const ru: Dict = {
   "act.moba": "MOBA (Dota, LoL)",
   "act.console": "Приставка (PS, Xbox)",
   "act.videogames_other": "Другая игра",
+  "act.dance": "Танцы",
+  "act.tango": "Танго",
+  "act.bachata": "Бачата",
+  "act.salsa": "Сальса",
+  "act.folk_dance": "Народные",
 };
 
 // ── Latviešu ────────────────────────────────────────────────────────
@@ -401,6 +406,11 @@ const lv: Dict = {
   "act.moba": "MOBA (Dota, LoL)",
   "act.console": "Konsole (PS, Xbox)",
   "act.videogames_other": "Cita spēle",
+  "act.dance": "Dejas",
+  "act.tango": "Tango",
+  "act.bachata": "Bačata",
+  "act.salsa": "Salsa",
+  "act.folk_dance": "Tautas dejas",
 };
 
 // ── English ─────────────────────────────────────────────────────────
@@ -594,6 +604,11 @@ const en: Dict = {
   "act.moba": "MOBA (Dota, LoL)",
   "act.console": "Console (PS, Xbox)",
   "act.videogames_other": "Other game",
+  "act.dance": "Dancing",
+  "act.tango": "Tango",
+  "act.bachata": "Bachata",
+  "act.salsa": "Salsa",
+  "act.folk_dance": "Folk dances",
 };
 
 const DICTS: Record<Locale, Dict> = { ru, lv, en };

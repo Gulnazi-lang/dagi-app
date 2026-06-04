@@ -87,6 +87,16 @@ export const ACTIVITIES: ActivityCategory[] = [
       { key: "videogames_other" },
     ],
   },
+  {
+    key: "dance",
+    icon: "💃",
+    options: [
+      { key: "tango" },
+      { key: "bachata" },
+      { key: "salsa" },
+      { key: "folk_dance" },
+    ],
+  },
 ];
 
 // Плоский индекс по ключу-листу: иконка родительской категории + ключ родителя.
