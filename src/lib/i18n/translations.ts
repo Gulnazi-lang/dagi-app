@@ -212,7 +212,19 @@ const ru: Dict = {
   "act.tango": "Танго",
   "act.bachata": "Бачата",
   "act.salsa": "Сальса",
+  "act.kizomba": "Кизомба",
+  "act.zouk": "Зук",
+  "act.swing": "Свинг / Линди-хоп",
+  "act.hustle": "Хастл",
+  "act.ballroom": "Бальные",
+  "act.waltz": "Вальс",
+  "act.chacha": "Ча-ча-ча",
+  "act.hiphop": "Хип-хоп",
+  "act.zumba": "Зумба",
+  "act.biodanza": "Биоданса",
   "act.folk_dance": "Народные",
+  "act.line_dance": "Линейные",
+  "act.dance_other": "Другой танец",
 };
 
 // ── Latviešu ────────────────────────────────────────────────────────
@@ -410,7 +422,19 @@ const lv: Dict = {
   "act.tango": "Tango",
   "act.bachata": "Bačata",
   "act.salsa": "Salsa",
+  "act.kizomba": "Kizomba",
+  "act.zouk": "Zouk",
+  "act.swing": "Svings / Lindy Hop",
+  "act.hustle": "Hustle",
+  "act.ballroom": "Balles dejas",
+  "act.waltz": "Valsis",
+  "act.chacha": "Čačača",
+  "act.hiphop": "Hiphops",
+  "act.zumba": "Zumba",
+  "act.biodanza": "Biodanza",
   "act.folk_dance": "Tautas dejas",
+  "act.line_dance": "Līniju dejas",
+  "act.dance_other": "Cita deja",
 };
 
 // ── English ─────────────────────────────────────────────────────────
@@ -608,7 +632,19 @@ const en: Dict = {
   "act.tango": "Tango",
   "act.bachata": "Bachata",
   "act.salsa": "Salsa",
+  "act.kizomba": "Kizomba",
+  "act.zouk": "Zouk",
+  "act.swing": "Swing / Lindy Hop",
+  "act.hustle": "Hustle",
+  "act.ballroom": "Ballroom",
+  "act.waltz": "Waltz",
+  "act.chacha": "Cha-cha-cha",
+  "act.hiphop": "Hip-hop",
+  "act.zumba": "Zumba",
+  "act.biodanza": "Biodanza",
   "act.folk_dance": "Folk dances",
+  "act.line_dance": "Line dances",
+  "act.dance_other": "Other dance",
 };
 
 const DICTS: Record<Locale, Dict> = { ru, lv, en };
