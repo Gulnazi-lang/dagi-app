@@ -28,9 +28,6 @@ export function WishForm({
   const router = useRouter();
   const { t, locale } = useI18n();
   const isEdit = !!wish;
-  // Локаль для родных полей даты/времени (en → en-GB, чтобы было 24ч и ДД/ММ/ГГГГ,
-  // а не US-формат с AM/PM).
-  const inputLang = locale === "en" ? "en-GB" : locale;
 
   // Стартовые значения активности.
   const resolved = wish ? resolveActivity(wish.activity) : null;
@@ -61,6 +58,26 @@ export function WishForm({
   const category = ACTIVITIES.find((c) => c.key === categoryKey)!;
   const hasOptions = !!category.options && category.options.length > 0;
   const districtList = districtsForCity(city);
+
+  // Свои селекторы даты/времени (нативные <input> в Chrome показывают формат
+  // браузера, напр. US MM/DD/YYYY и AM/PM — это не переопределить). Поэтому день/
+  // месяц/год — выпадашки в порядке ДД·ММ·ГГГГ, а время — список 24ч.
+  const p2 = (n: number) => String(n).padStart(2, "0");
+  const thisYear = new Date().getFullYear();
+  const dateParts = date.split("-").map(Number);
+  const [yy, mm, dd] =
+    dateParts.length === 3 && dateParts.every((x) => !Number.isNaN(x))
+      ? (dateParts as [number, number, number])
+      : [thisYear, 1, 1];
+  const daysInMonth = new Date(yy, mm, 0).getDate();
+  const years = Array.from(new Set([thisYear, thisYear + 1, yy])).sort((a, b) => a - b);
+  const setDateParts = (ny: number, nm: number, nd: number) => {
+    const dim = new Date(ny, nm, 0).getDate();
+    setDate(`${ny}-${p2(nm)}-${p2(Math.min(nd, dim))}`);
+  };
+  const timeOptions: string[] = [];
+  for (let h = 0; h < 24; h++) for (const mn of [0, 30]) timeOptions.push(`${p2(h)}:${p2(mn)}`);
+  if (!timeOptions.includes(time)) timeOptions.unshift(time);
 
   function selectCategory(key: string) {
     setCategoryKey(key);
@@ -264,14 +281,44 @@ export function WishForm({
         </div>
 
         <Field label={t("wish.date")}>
-          <input
-            type="date"
-            lang={inputLang}
-            value={date}
-            min={todayISO()}
-            onChange={(e) => setDate(e.target.value)}
-            className="input-field"
-          />
+          <div className="grid grid-cols-3 gap-2">
+            <select
+              value={dd}
+              onChange={(e) => setDateParts(yy, mm, Number(e.target.value))}
+              className="input-field"
+              aria-label="DD"
+            >
+              {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((d) => (
+                <option key={d} value={d}>
+                  {p2(d)}
+                </option>
+              ))}
+            </select>
+            <select
+              value={mm}
+              onChange={(e) => setDateParts(yy, Number(e.target.value), dd)}
+              className="input-field"
+              aria-label="MM"
+            >
+              {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+                <option key={m} value={m}>
+                  {p2(m)}
+                </option>
+              ))}
+            </select>
+            <select
+              value={yy}
+              onChange={(e) => setDateParts(Number(e.target.value), mm, dd)}
+              className="input-field"
+              aria-label="YYYY"
+            >
+              {years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+          </div>
           <p className="mt-1 text-[11px] text-muted">{formatDate(date, locale)}</p>
         </Field>
 
@@ -288,14 +335,18 @@ export function WishForm({
               {t("wish.anyTime")}
             </label>
           </div>
-          <input
-            type="time"
-            lang={inputLang}
+          <select
             value={time}
             disabled={anyTime}
             onChange={(e) => setTime(e.target.value)}
             className="input-field disabled:opacity-50"
-          />
+          >
+            {timeOptions.map((tt) => (
+              <option key={tt} value={tt}>
+                {tt}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
