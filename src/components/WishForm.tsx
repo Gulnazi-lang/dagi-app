@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { ACTIVITIES, resolveActivity } from "@/lib/activities";
-import { CITIES, districtsForCity } from "@/lib/places";
+import { ACTIVITIES, resolveActivity, activityLabel } from "@/lib/activities";
+import { CITIES, districtsForCity, cityLabel, districtLabel } from "@/lib/places";
+import { useI18n } from "@/lib/i18n/client";
 import type { Wish } from "@/lib/types";
 
 function todayISO(): string {
@@ -24,6 +25,7 @@ export function WishForm({
 }) {
   const supabase = createClient();
   const router = useRouter();
+  const { t, locale } = useI18n();
   const isEdit = !!wish;
 
   // Стартовые значения активности.
@@ -65,15 +67,15 @@ export function WishForm({
     setError(null);
 
     if (hasOptions && !optionKey) {
-      setError(`Выбери вид: ${category.label}.`);
+      setError(t("wish.errChooseKind", { category: activityLabel(categoryKey, locale) }));
       return;
     }
     if (!city.trim()) {
-      setError("Укажи город.");
+      setError(t("wish.errCity"));
       return;
     }
     if (!date) {
-      setError("Выбери дату.");
+      setError(t("wish.errDate"));
       return;
     }
 
@@ -122,7 +124,7 @@ export function WishForm({
 
   async function handleDelete() {
     if (!wish) return;
-    if (!confirm("Удалить это желание?")) return;
+    if (!confirm(t("wish.confirmDelete"))) return;
     setError(null);
     setDeleting(true);
 
@@ -135,11 +137,11 @@ export function WishForm({
     setDeleting(false);
 
     if (error) {
-      setError(`Ошибка удаления: ${error.message}`);
+      setError(t("wish.errDelete", { msg: error.message }));
       return;
     }
     if (!data || data.length === 0) {
-      setError("Не удалось удалить (нет прав или сессия истекла).");
+      setError(t("wish.errDeleteNoRights"));
       return;
     }
 
@@ -150,7 +152,7 @@ export function WishForm({
   return (
     <div className="pb-2">
       {/* Категория активности */}
-      <p className="mb-1.5 block text-[11.5px] font-semibold text-muted">Чем хочешь заняться</p>
+      <p className="mb-1.5 block text-[11.5px] font-semibold text-muted">{t("wish.whatToDo")}</p>
       <div className="grid grid-cols-4 gap-2">
         {ACTIVITIES.map((a) => {
           const selected = a.key === categoryKey;
@@ -166,7 +168,7 @@ export function WishForm({
               }`}
             >
               <span className="text-xl">{a.icon}</span>
-              {a.label}
+              {activityLabel(a.key, locale)}
             </button>
           );
         })}
@@ -176,7 +178,7 @@ export function WishForm({
       {hasOptions && (
         <div className="mt-3">
           <p className="mb-1.5 block text-[11.5px] font-semibold text-muted">
-            Вид: {category.label}
+            {t("wish.kind", { category: activityLabel(categoryKey, locale) })}
           </p>
           <div className="flex flex-wrap gap-2">
             {category.options!.map((opt) => {
@@ -192,7 +194,7 @@ export function WishForm({
                       : "border-line bg-card text-muted"
                   }`}
                 >
-                  {opt.label}
+                  {activityLabel(opt.key, locale)}
                 </button>
               );
             })}
@@ -201,7 +203,7 @@ export function WishForm({
       )}
 
       <div className="mt-5 space-y-3">
-        <Field label="Город">
+        <Field label={t("wish.city")}>
           <select
             value={city}
             onChange={(e) => {
@@ -212,23 +214,23 @@ export function WishForm({
           >
             {CITIES.map((c) => (
               <option key={c} value={c}>
-                {c}
+                {cityLabel(c, locale)}
               </option>
             ))}
           </select>
         </Field>
 
-        <Field label="Район">
+        <Field label={t("wish.district")}>
           {districtList.length > 0 ? (
             <select
               value={district}
               onChange={(e) => setDistrict(e.target.value)}
               className="input-field"
             >
-              <option value="">— не важно —</option>
+              <option value="">{t("wish.districtAny")}</option>
               {districtList.map((d) => (
                 <option key={d} value={d}>
-                  {d}
+                  {districtLabel(d, locale)}
                 </option>
               ))}
             </select>
@@ -236,7 +238,7 @@ export function WishForm({
             <input
               value={district}
               onChange={(e) => setDistrict(e.target.value)}
-              placeholder="Район (необязательно)"
+              placeholder={t("wish.districtPlaceholder")}
               className="input-field"
             />
           )}
@@ -244,8 +246,8 @@ export function WishForm({
 
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <span className="text-[11.5px] font-semibold text-muted">Радиус поиска</span>
-            <span className="text-[11.5px] font-semibold text-accent">{radius} км</span>
+            <span className="text-[11.5px] font-semibold text-muted">{t("wish.searchRadius")}</span>
+            <span className="text-[11.5px] font-semibold text-accent">{t("common.km", { n: radius })}</span>
           </div>
           <input
             type="range"
@@ -257,7 +259,7 @@ export function WishForm({
           />
         </div>
 
-        <Field label="Дата">
+        <Field label={t("wish.date")}>
           <input
             type="date"
             value={date}
@@ -269,7 +271,7 @@ export function WishForm({
 
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <span className="text-[11.5px] font-semibold text-muted">Время</span>
+            <span className="text-[11.5px] font-semibold text-muted">{t("wish.time")}</span>
             <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] font-semibold text-muted">
               <input
                 type="checkbox"
@@ -277,7 +279,7 @@ export function WishForm({
                 onChange={(e) => setAnyTime(e.target.checked)}
                 className="accent-[var(--accent)]"
               />
-              время не важно
+              {t("wish.anyTime")}
             </label>
           </div>
           <input
@@ -291,7 +293,7 @@ export function WishForm({
       </div>
 
       <p className="mt-3 rounded-xl bg-green-soft px-3 py-2.5 text-[11.5px] leading-relaxed text-[#1c6b44]">
-        Другим видны только город и район — точное место не показываем.
+        {t("wish.privacyInline")}
       </p>
 
       {error && (
@@ -303,7 +305,7 @@ export function WishForm({
         disabled={saving || deleting}
         className="mt-4 w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white disabled:opacity-60"
       >
-        {saving ? "Сохраняем…" : isEdit ? "Сохранить изменения" : "Создать желание"}
+        {saving ? t("wish.saving") : isEdit ? t("wish.saveChanges") : t("wish.create")}
       </button>
 
       {isEdit && (
@@ -312,7 +314,7 @@ export function WishForm({
           disabled={saving || deleting}
           className="mt-2 w-full rounded-xl border border-line py-3 text-sm font-semibold text-accent disabled:opacity-60"
         >
-          {deleting ? "Удаляем…" : "Удалить желание"}
+          {deleting ? t("wish.deleting") : t("wish.delete")}
         </button>
       )}
     </div>

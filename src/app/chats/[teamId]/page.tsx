@@ -5,6 +5,8 @@ import { ChatView, type ChatMember } from "@/components/ChatView";
 import { createClient } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
+import { cityLabel, districtLabel } from "@/lib/places";
+import { getT } from "@/lib/i18n/server";
 import type { Team, Message } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -24,6 +26,7 @@ export default async function TeamChatPage({
 }) {
   const { teamId } = await params;
   const supabase = await createClient();
+  const { locale, t } = await getT();
 
   const {
     data: { user },
@@ -69,7 +72,7 @@ export default async function TeamChatPage({
 
   const members: ChatMember[] = profiles.map((p) => ({
     userId: p.id,
-    name: p.display_name || p.username || "Без имени",
+    name: p.display_name || p.username || t("common.noName"),
     avatarUrl: p.avatar_url,
   }));
 
@@ -86,7 +89,7 @@ export default async function TeamChatPage({
       <Link
         href="/chats"
         className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-accent-soft text-2xl font-bold leading-none text-accent"
-        aria-label="Назад к командам"
+        aria-label={t("chat.backAria")}
       >
         ‹
       </Link>
@@ -95,11 +98,11 @@ export default async function TeamChatPage({
       </span>
       <div className="min-w-0 flex-1">
         <div className="truncate text-[14px] font-bold leading-tight">
-          {activityFullLabel(team.activity)}
+          {activityFullLabel(team.activity, locale)}
         </div>
         <div className="truncate text-[10.5px] text-muted">
-          {formatDate(team.wish_date)} · {formatTime(team.wish_time)} · {team.city}
-          {team.district ? ` · ${team.district}` : ""}
+          {formatDate(team.wish_date, locale)} · {formatTime(team.wish_time, locale)} · {cityLabel(team.city, locale)}
+          {team.district ? ` · ${districtLabel(team.district, locale)}` : ""}
         </div>
       </div>
     </header>

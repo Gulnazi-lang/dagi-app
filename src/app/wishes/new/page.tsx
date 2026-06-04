@@ -2,9 +2,11 @@ import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
 import { WishForm } from "@/components/WishForm";
 import { createClient } from "@/lib/supabase/server";
+import { getT } from "@/lib/i18n/server";
 
 export default async function NewWishPage() {
   const supabase = await createClient();
+  const { t } = await getT();
 
   const {
     data: { user },
@@ -21,7 +23,7 @@ export default async function NewWishPage() {
     .single<{ city: string | null; district: string | null }>();
 
   return (
-    <AppShell header={<TopBar title="Новое желание" />}>
+    <AppShell header={<TopBar title={t("title.newWish")} />}>
       <WishForm
         defaultCity={profile?.city ?? ""}
         defaultDistrict={profile?.district ?? ""}

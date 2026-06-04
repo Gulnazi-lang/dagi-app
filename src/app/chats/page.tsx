@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
 import { TeamsView, type TeamView, type RatingScore } from "@/components/TeamsView";
+import { getT } from "@/lib/i18n/server";
 import type { Team, TeamMemberStatus, Reputation } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -22,6 +23,7 @@ type RatingRow = { team_id: string; ratee_id: string; score: RatingScore };
 
 export default async function ChatsPage() {
   const supabase = await createClient();
+  const { t: tr } = await getT();
 
   const {
     data: { user },
@@ -105,7 +107,7 @@ export default async function ChatsPage() {
         const prof = profileMap.get(m.user_id);
         return {
           userId: m.user_id,
-          name: prof?.display_name || prof?.username || "Без имени",
+          name: prof?.display_name || prof?.username || tr("common.noName"),
           avatarUrl: prof?.avatar_url ?? null,
           status: m.status,
           isCreator: m.user_id === t.creator_id,
@@ -134,7 +136,7 @@ export default async function ChatsPage() {
   });
 
   return (
-    <AppShell header={<TopBar title="Команды" />}>
+    <AppShell header={<TopBar title={tr("tab.teams")} />}>
       <TeamsView teams={visible} myId={user.id} />
     </AppShell>
   );

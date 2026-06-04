@@ -5,9 +5,12 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import type { Profile } from "@/lib/types";
 import { SignOutButton } from "@/components/SignOutButton";
+import { useI18n } from "@/lib/i18n/client";
+import { LOCALES, LOCALE_LABELS } from "@/lib/i18n/locale";
 
 export function ProfileForm({ profile, email }: { profile: Profile; email: string }) {
   const supabase = createClient();
+  const { t, locale, setLocale } = useI18n();
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [displayName, setDisplayName] = useState(profile.display_name ?? "");
@@ -34,7 +37,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
       .upload(path, file, { upsert: true, cacheControl: "3600" });
 
     if (upErr) {
-      setStatus({ ok: false, msg: `Не удалось загрузить фото: ${upErr.message}` });
+      setStatus({ ok: false, msg: t("profile.errUpload", { msg: upErr.message }) });
       setUploading(false);
       return;
     }
@@ -63,11 +66,11 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
     setSaving(false);
     if (error) {
       const msg = error.code === "23505"
-        ? "Этот ник уже занят — выбери другой."
+        ? t("profile.nickTaken")
         : error.message;
       setStatus({ ok: false, msg });
     } else {
-      setStatus({ ok: true, msg: "Сохранено" });
+      setStatus({ ok: true, msg: t("profile.saved") });
     }
   }
 
@@ -84,7 +87,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
             <Image src={avatarUrl} alt="" fill sizes="84px" className="object-cover" />
           )}
           <span className="absolute inset-x-0 bottom-0 bg-black/40 py-0.5 text-[10px] font-semibold text-white">
-            {uploading ? "…" : "изменить"}
+            {uploading ? "…" : t("profile.change")}
           </span>
         </button>
         <input
@@ -99,15 +102,15 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
 
       {/* Поля */}
       <div className="mt-5 space-y-3">
-        <Field label="Имя">
+        <Field label={t("profile.name")}>
           <input
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            placeholder="Как тебя зовут"
+            placeholder={t("profile.namePlaceholder")}
             className="input-field"
           />
         </Field>
-        <Field label="Ник">
+        <Field label={t("profile.nick")}>
           <input
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -115,26 +118,47 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
             className="input-field"
           />
         </Field>
-        <Field label="Город">
+        <Field label={t("profile.city")}>
           <input
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            placeholder="Рига"
+            placeholder={t("profile.cityPlaceholder")}
             className="input-field"
           />
         </Field>
-        <Field label="Район">
+        <Field label={t("profile.district")}>
           <input
             value={district}
             onChange={(e) => setDistrict(e.target.value)}
-            placeholder="Тейка"
+            placeholder={t("profile.districtPlaceholder")}
             className="input-field"
           />
         </Field>
       </div>
 
+      {/* Переключатель языка */}
+      <div className="mt-4">
+        <span className="mb-1.5 block text-[11.5px] font-semibold text-muted">{t("profile.language")}</span>
+        <div className="flex gap-2">
+          {LOCALES.map((l) => (
+            <button
+              key={l}
+              type="button"
+              onClick={() => setLocale(l)}
+              className={`flex-1 rounded-xl border py-2 text-[12.5px] font-semibold transition ${
+                locale === l
+                  ? "border-accent bg-accent text-white"
+                  : "border-line bg-card text-muted"
+              }`}
+            >
+              {LOCALE_LABELS[l]}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <p className="mt-3 rounded-xl bg-green-soft px-3 py-2.5 text-[11.5px] leading-relaxed text-[#1c6b44]">
-        Точный адрес указывать не нужно — другим видны только город и район.
+        {t("profile.privacy")}
       </p>
 
       {status && (
@@ -152,7 +176,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
         disabled={saving}
         className="mt-4 w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white disabled:opacity-60"
       >
-        {saving ? "Сохраняем…" : "Сохранить профиль"}
+        {saving ? t("profile.saving") : t("profile.save")}
       </button>
 
       <SignOutButton />

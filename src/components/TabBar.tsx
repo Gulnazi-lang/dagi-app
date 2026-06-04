@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useI18n } from "@/lib/i18n/client";
 
 const tabs = [
-  { href: "/", label: "Желания", icon: "✦" },
-  { href: "/matches", label: "Совпадения", icon: "⚲" },
-  { href: "/chats", label: "Команды", icon: "✉" },
-  { href: "/profile", label: "Профиль", icon: "☻" },
+  { href: "/", labelKey: "tab.wishes", icon: "✦" },
+  { href: "/matches", labelKey: "tab.matches", icon: "⚲" },
+  { href: "/chats", labelKey: "tab.teams", icon: "✉" },
+  { href: "/profile", labelKey: "tab.profile", icon: "☻" },
 ];
 
 export function TabBar() {
   const pathname = usePathname();
+  const { t } = useI18n();
 
   return (
     <nav className="flex border-t border-line bg-white">
@@ -27,7 +29,7 @@ export function TabBar() {
             }`}
           >
             <span className="mb-0.5 block text-[17px]">{tab.icon}</span>
-            {tab.label}
+            {t(tab.labelKey)}
           </Link>
         );
       })}

@@ -1,4 +1,6 @@
 import type { Reputation } from "@/lib/types";
+import { translate } from "@/lib/i18n/translations";
+import type { Locale } from "@/lib/i18n/locale";
 
 // Средняя оценка по звёздам: 👍=5, =3, 👎=1. null — оценок ещё нет.
 export function reputationStars(r?: Reputation | null): number | null {
@@ -9,9 +11,9 @@ export function reputationStars(r?: Reputation | null): number | null {
 }
 
 // Короткая метка для бейджа рядом с именем: «★ новый» или «★ 4.6».
-export function reputationLabel(r?: Reputation | null): string {
+export function reputationLabel(r?: Reputation | null, locale: Locale = "ru"): string {
   const stars = reputationStars(r);
-  return stars === null ? "★ новый" : `★ ${stars.toFixed(1)}`;
+  return stars === null ? `★ ${translate(locale, "rep.new")}` : `★ ${stars.toFixed(1)}`;
 }
 
 // Сколько всего оценок получил человек.

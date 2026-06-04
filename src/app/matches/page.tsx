@@ -3,6 +3,7 @@ import { AppShell, TopBar } from "@/components/AppShell";
 import { createClient } from "@/lib/supabase/server";
 import { MatchesView, type MatchGroup } from "@/components/MatchesView";
 import { reputationStars } from "@/lib/reputation";
+import { getT } from "@/lib/i18n/server";
 import type { Match, Reputation } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +11,11 @@ export const dynamic = "force-dynamic";
 // Ключ сортировки: выше ★ — выше в списке; новичок (нет оценок) — нейтрально посередине.
 const NEUTRAL_STARS = 3.5;
 
-function groupMatches(rows: Match[], repMap: Map<string, Reputation>): MatchGroup[] {
+function groupMatches(
+  rows: Match[],
+  repMap: Map<string, Reputation>,
+  noName: string
+): MatchGroup[] {
   const map = new Map<string, MatchGroup>();
   for (const r of rows) {
     let g = map.get(r.my_wish_id);
@@ -29,7 +34,7 @@ function groupMatches(rows: Match[], repMap: Map<string, Reputation>): MatchGrou
     g.people.push({
       matchUserId: r.match_user_id,
       matchWishId: r.match_wish_id,
-      name: r.display_name || r.username || "Без имени",
+      name: r.display_name || r.username || noName,
       avatarUrl: r.avatar_url,
       district: r.district,
       time: r.wish_time,
@@ -50,6 +55,7 @@ function groupMatches(rows: Match[], repMap: Map<string, Reputation>): MatchGrou
 
 export default async function MatchesPage() {
   const supabase = await createClient();
+  const { t } = await getT();
 
   const {
     data: { user },
@@ -63,10 +69,9 @@ export default async function MatchesPage() {
 
   if (error) {
     return (
-      <AppShell header={<TopBar title="Совпадения" />}>
+      <AppShell header={<TopBar title={t("tab.matches")} />}>
         <p className="rounded-xl bg-accent-soft px-3 py-2.5 text-[11.5px] text-accent">
-          Не удалось загрузить совпадения. Проверь, что выполнен SQL-скрипт
-          04_teams.sql в Supabase.
+          {t("matches.loadError")}
         </p>
       </AppShell>
     );
@@ -87,10 +92,10 @@ export default async function MatchesPage() {
   }
   const repMap = new Map(reputations.map((r) => [r.user_id, r]));
 
-  const groups = groupMatches(rows, repMap);
+  const groups = groupMatches(rows, repMap, t("common.noName"));
 
   return (
-    <AppShell header={<TopBar title="Совпадения" />}>
+    <AppShell header={<TopBar title={t("tab.matches")} />}>
       <MatchesView groups={groups} />
     </AppShell>
   );

@@ -8,6 +8,8 @@ import { createClient } from "@/lib/supabase/client";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { reputationLabel } from "@/lib/reputation";
+import { cityLabel, districtLabel } from "@/lib/places";
+import { useI18n } from "@/lib/i18n/client";
 import type { TeamMemberStatus, Reputation } from "@/lib/types";
 
 export type RatingScore = -1 | 0 | 1;
@@ -36,14 +38,15 @@ export type TeamView = {
   members: TeamMemberView[];
 };
 
-const STATUS_LABEL: Record<TeamMemberStatus, string> = {
-  invited: "ждёт",
-  accepted: "в команде",
-  declined: "отказался",
+const STATUS_KEY: Record<TeamMemberStatus, string> = {
+  invited: "team.statusInvited",
+  accepted: "team.statusAccepted",
+  declined: "team.statusDeclined",
 };
 
 export function TeamsView({ teams, myId }: { teams: TeamView[]; myId: string }) {
   const router = useRouter();
+  const { t } = useI18n();
 
   // «Живые» обновления: при любом изменении команд/участников перезагружаем
   // серверные данные. RLS realtime отдаёт события только по видимым строкам.
@@ -71,9 +74,9 @@ export function TeamsView({ teams, myId }: { teams: TeamView[]; myId: string }) 
     return (
       <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
         <div className="text-3xl">✉</div>
-        <p className="mt-2 text-sm font-semibold">Команд пока нет</p>
+        <p className="mt-2 text-sm font-semibold">{t("team.noTitle")}</p>
         <p className="mt-1 text-[11.5px] leading-relaxed text-muted">
-          Собери команду на вкладке «Совпадения» — или дождись приглашения.
+          {t("team.noNote")}
         </p>
       </div>
     );
@@ -91,6 +94,7 @@ export function TeamsView({ teams, myId }: { teams: TeamView[]; myId: string }) 
 function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
   const supabase = createClient();
   const router = useRouter();
+  const { t, locale } = useI18n();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -120,12 +124,12 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
     setBusy(false);
     if (error) return setErr(error.message);
     if (!data || data.length === 0)
-      return setErr("Не удалось сохранить ответ — обнови страницу и попробуй снова.");
+      return setErr(t("team.errSaveResponse"));
     router.refresh();
   }
 
   async function disband() {
-    if (!confirm("Распустить команду? Это действие необратимо.")) return;
+    if (!confirm(t("team.confirmDisband"))) return;
     setBusy(true);
     setErr(null);
     const { data, error } = await supabase
@@ -136,12 +140,12 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
     setBusy(false);
     if (error) return setErr(error.message);
     if (!data || data.length === 0)
-      return setErr("Не удалось удалить — нет прав или команда уже удалена.");
+      return setErr(t("team.errDisband"));
     router.refresh();
   }
 
   async function finishGame() {
-    if (!confirm("Отметить, что игра состоялась? Откроется оценка участников.")) return;
+    if (!confirm(t("team.confirmFinish"))) return;
     setBusy(true);
     setErr(null);
     const { data, error } = await supabase
@@ -152,7 +156,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
     setBusy(false);
     if (error) return setErr(error.message);
     if (!data || data.length === 0)
-      return setErr("Не удалось — только организатор может завершить игру.");
+      return setErr(t("team.errFinish"));
     router.refresh();
   }
 
@@ -173,9 +177,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
   }
 
   async function report(userId: string, name: string) {
-    const reason = prompt(
-      `Пожаловаться на: ${name}.\nКоротко опишите, что случилось (необязательно). Жалобу видит только администрация — человек об этом не узнает.`
-    );
+    const reason = prompt(t("team.reportPrompt", { name }));
     if (reason === null) return; // нажал «Отмена»
     setErr(null);
     const { error } = await supabase.rpc("report_user", {
@@ -187,7 +189,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
       setErr(error.message);
       return;
     }
-    alert("Спасибо, жалоба отправлена. Её видит только администрация.");
+    alert(t("team.reportThanks"));
   }
 
   async function markAttendance(userId: string, attended: boolean) {
@@ -224,19 +226,19 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           {activityIcon(team.activity)}
         </span>
         <div className="min-w-0 flex-1">
-          <div className="text-sm font-semibold">{activityFullLabel(team.activity)}</div>
+          <div className="text-sm font-semibold">{activityFullLabel(team.activity, locale)}</div>
           <div className="text-[11.5px] text-muted">
-            {formatDate(team.date)} · {formatTime(team.time)} · {team.city}
-            {team.district ? ` · ${team.district}` : ""}
+            {formatDate(team.date, locale)} · {formatTime(team.time, locale)} · {cityLabel(team.city, locale)}
+            {team.district ? ` · ${districtLabel(team.district, locale)}` : ""}
           </div>
         </div>
         {done ? (
           <span className="flex-shrink-0 rounded-full bg-accent-soft px-2 py-0.5 text-[10.5px] font-semibold text-accent">
-            сыграна
+            {t("team.played")}
           </span>
         ) : (
           <span className="flex-shrink-0 rounded-full bg-green-soft px-2 py-0.5 text-[10.5px] font-semibold text-green">
-            {accepted} в команде
+            {t("team.inTeam", { n: accepted })}
           </span>
         )}
       </div>
@@ -257,10 +259,10 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                 </div>
                 <span className="min-w-0 flex-1 truncate text-[12.5px] font-medium">
                   {m.name}
-                  {m.isCreator && <span className="text-muted"> · организатор</span>}
+                  {m.isCreator && <span className="text-muted"> · {t("team.creator")}</span>}
                 </span>
                 <span className="flex-shrink-0 rounded-full bg-green-soft px-1.5 py-0.5 text-[10px] font-semibold text-green">
-                  {reputationLabel(m.reputation)}
+                  {reputationLabel(m.reputation, locale)}
                 </span>
                 {done ? (
                   <span
@@ -268,7 +270,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                       present ? "text-green" : "text-accent"
                     }`}
                   >
-                    {present ? "был" : "не был"}
+                    {present ? t("team.was") : t("team.wasNot")}
                   </span>
                 ) : (
                   <span
@@ -280,7 +282,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                           : "text-muted"
                     }`}
                   >
-                    {STATUS_LABEL[m.status]}
+                    {t(STATUS_KEY[m.status])}
                   </span>
                 )}
               </div>
@@ -320,7 +322,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                         att === false ? "bg-accent text-white" : "bg-accent-soft text-accent"
                       }`}
                     >
-                      не пришёл
+                      {t("team.didNotCome")}
                     </button>
                   )}
                   {/* Тихая жалоба — на любого, кроме себя. */}
@@ -330,7 +332,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                       onClick={() => report(m.userId, m.name)}
                       className="text-[10.5px] font-semibold text-muted underline underline-offset-2"
                     >
-                      пожаловаться
+                      {t("team.report")}
                     </button>
                   )}
                 </div>
@@ -348,19 +350,19 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           href={`/chats/${team.id}`}
           className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl bg-accent-soft py-2.5 text-sm font-semibold text-accent"
         >
-          <span>✉</span> Открыть чат
+          <span>✉</span> {t("team.openChat")}
         </Link>
       )}
 
       {/* Подсказка после игры */}
       {done && !ratedAll && (
         <p className="mt-3 text-center text-[11px] leading-relaxed text-muted">
-          Оцени всех, кто был — и команда уйдёт из списка. Чат после игры закрыт.
+          {t("team.rateHint")}
         </p>
       )}
       {done && ratedAll && (
         <p className="mt-3 text-center text-[11px] font-semibold leading-relaxed text-green">
-          ✓ Спасибо, вы всех оценили. Команда скроется при следующем заходе.
+          {t("team.ratedAll")}
         </p>
       )}
 
@@ -373,7 +375,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
             disabled={busy}
             className="flex-1 rounded-xl bg-accent py-2.5 text-sm font-semibold text-white disabled:opacity-60"
           >
-            Принять
+            {t("common.accept")}
           </button>
           <button
             type="button"
@@ -381,7 +383,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
             disabled={busy}
             className="flex-1 rounded-xl border border-line py-2.5 text-sm font-semibold text-muted disabled:opacity-60"
           >
-            Отклонить
+            {t("common.decline")}
           </button>
         </div>
       )}
@@ -394,7 +396,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           disabled={busy}
           className="mt-3 w-full rounded-xl border border-line py-2 text-[12.5px] font-semibold text-muted disabled:opacity-60"
         >
-          Выйти из команды
+          {t("team.leave")}
         </button>
       )}
 
@@ -406,7 +408,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           disabled={busy}
           className="mt-3 w-full rounded-xl bg-accent py-2.5 text-sm font-semibold text-white disabled:opacity-60"
         >
-          Вернуться в команду
+          {t("team.return")}
         </button>
       )}
 
@@ -418,7 +420,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           disabled={busy}
           className="mt-3 w-full rounded-xl bg-green py-2.5 text-sm font-semibold text-white disabled:opacity-60"
         >
-          Игра состоялась
+          {t("team.gameHappened")}
         </button>
       )}
 
@@ -431,7 +433,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           disabled={busy}
           className="mt-3 w-full rounded-xl border border-line py-2 text-[12.5px] font-semibold text-muted disabled:opacity-60"
         >
-          Распустить команду
+          {t("team.disband")}
         </button>
       )}
     </div>

@@ -7,6 +7,8 @@ import { createClient } from "@/lib/supabase/client";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { reputationLabel } from "@/lib/reputation";
+import { cityLabel, districtLabel } from "@/lib/places";
+import { useI18n } from "@/lib/i18n/client";
 import type { Reputation } from "@/lib/types";
 
 export type MatchPerson = {
@@ -30,14 +32,14 @@ export type MatchGroup = {
 };
 
 export function MatchesView({ groups }: { groups: MatchGroup[] }) {
+  const { t } = useI18n();
   if (groups.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
         <div className="text-3xl">⚲</div>
-        <p className="mt-2 text-sm font-semibold">Пока совпадений нет</p>
+        <p className="mt-2 text-sm font-semibold">{t("matches.noTitle")}</p>
         <p className="mt-1 text-[11.5px] leading-relaxed text-muted">
-          Как только рядом появится человек с таким же желанием на эту дату —
-          он покажется здесь, и можно будет собрать команду.
+          {t("matches.noNote")}
         </p>
       </div>
     );
@@ -55,6 +57,7 @@ export function MatchesView({ groups }: { groups: MatchGroup[] }) {
 function GroupBlock({ group }: { group: MatchGroup }) {
   const supabase = createClient();
   const router = useRouter();
+  const { t, locale } = useI18n();
 
   const [selecting, setSelecting] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -76,16 +79,11 @@ function GroupBlock({ group }: { group: MatchGroup }) {
   }
 
   async function block(userId: string, name: string) {
-    if (
-      !confirm(
-        `Заблокировать ${name}? Вы перестанете видеть друг друга в «Совпадениях», и пригласить друг друга в команду будет нельзя.`
-      )
-    )
-      return;
+    if (!confirm(t("matches.confirmBlock", { name }))) return;
     setMsg(null);
     const { error } = await supabase.rpc("block_user", { p_target: userId });
     if (error) {
-      setMsg(`Не удалось заблокировать: ${error.message}`);
+      setMsg(t("matches.errBlock", { msg: error.message }));
       return;
     }
     router.refresh();
@@ -93,7 +91,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
 
   async function createTeam() {
     if (selected.size === 0) {
-      setMsg("Отметь хотя бы одного человека.");
+      setMsg(t("matches.errSelectOne"));
       return;
     }
     setBusy(true);
@@ -110,7 +108,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
 
     setBusy(false);
     if (error) {
-      setMsg(`Не удалось собрать команду: ${error.message}`);
+      setMsg(t("matches.errCreateTeam", { msg: error.message }));
       return;
     }
     router.push("/chats");
@@ -122,9 +120,9 @@ function GroupBlock({ group }: { group: MatchGroup }) {
       {/* Заголовок: моё желание + кнопка создания команды */}
       <div className="mb-2 flex items-center gap-2">
         <span className="text-base">{activityIcon(group.activity)}</span>
-        <span className="text-sm font-semibold">{activityFullLabel(group.activity)}</span>
+        <span className="text-sm font-semibold">{activityFullLabel(group.activity, locale)}</span>
         <span className="flex-1 text-[11.5px] text-muted">
-          · {formatDate(group.date)} · {formatTime(group.time)}
+          · {formatDate(group.date, locale)} · {formatTime(group.time, locale)}
         </span>
         {!selecting ? (
           <button
@@ -132,7 +130,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
             onClick={() => setSelecting(true)}
             className="flex-shrink-0 rounded-full bg-accent px-3 py-1 text-[11px] font-semibold text-white"
           >
-            Создать команду
+            {t("matches.createTeam")}
           </button>
         ) : (
           <button
@@ -140,7 +138,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
             onClick={cancel}
             className="flex-shrink-0 rounded-full border border-line px-3 py-1 text-[11px] font-semibold text-muted"
           >
-            Отмена
+            {t("common.cancel")}
           </button>
         )}
       </div>
@@ -177,14 +175,14 @@ function GroupBlock({ group }: { group: MatchGroup }) {
                 <div className="flex items-center gap-1.5">
                   <span className="truncate text-sm font-semibold">{p.name}</span>
                   <span className="flex-shrink-0 rounded-full bg-green-soft px-1.5 py-0.5 text-[10px] font-semibold text-green">
-                    {reputationLabel(p.reputation)}
+                    {reputationLabel(p.reputation, locale)}
                   </span>
                 </div>
                 <div className="truncate text-[11.5px] text-muted">
-                  {group.city}
-                  {p.district ? ` · ${p.district}` : ""}
+                  {cityLabel(group.city, locale)}
+                  {p.district ? ` · ${districtLabel(p.district, locale)}` : ""}
                   {" · "}
-                  {formatTime(p.time)}
+                  {formatTime(p.time, locale)}
                 </div>
               </div>
               {!selecting && (
@@ -195,8 +193,8 @@ function GroupBlock({ group }: { group: MatchGroup }) {
                     block(p.matchUserId, p.name);
                   }}
                   className="flex-shrink-0 rounded-full px-2 py-1 text-base text-muted"
-                  title="Заблокировать"
-                  aria-label={`Заблокировать ${p.name}`}
+                  title={t("matches.blockTitle")}
+                  aria-label={t("matches.blockAria", { name: p.name })}
                 >
                   🚫
                 </button>
@@ -215,7 +213,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
           disabled={busy}
           className="mt-3 w-full rounded-xl bg-accent py-2.5 text-sm font-semibold text-white disabled:opacity-60"
         >
-          {busy ? "Собираем…" : `Собрать команду (${selected.size})`}
+          {busy ? t("matches.gathering") : t("matches.gatherTeam", { n: selected.size })}
         </button>
       )}
     </div>

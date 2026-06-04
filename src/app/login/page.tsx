@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useI18n } from "@/lib/i18n/client";
 
 export default function LoginPage() {
+  const { t } = useI18n();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +29,7 @@ export default function LoginPage() {
     <div className="mx-auto flex min-h-screen w-full max-w-[420px] flex-col items-center justify-center bg-screen px-8 text-center">
       <div className="font-display text-4xl font-bold text-accent">DAGI</div>
       <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-muted">
-        Найди компанию под занятие, в нужное время, рядом с тобой
+        {t("login.tagline")}
       </p>
 
       <button
@@ -36,16 +38,15 @@ export default function LoginPage() {
         className="mt-10 flex w-full items-center justify-center gap-3 rounded-xl border border-line bg-white py-3.5 text-sm font-semibold text-ink shadow-sm disabled:opacity-60"
       >
         <GoogleIcon />
-        {loading ? "Открываем Google…" : "Войти через Google"}
+        {loading ? t("login.googleLoading") : t("login.googleSignIn")}
       </button>
 
       {error && (
-        <p className="mt-4 text-xs text-accent">Не удалось войти: {error}</p>
+        <p className="mt-4 text-xs text-accent">{t("login.error", { msg: error })}</p>
       )}
 
       <p className="mt-8 max-w-[280px] text-[11px] leading-relaxed text-muted">
-        Мы не собираем точный адрес — только город и район. Контакты ты передаёшь
-        сам в чате, когда захочешь.
+        {t("login.privacy")}
       </p>
     </div>
   );

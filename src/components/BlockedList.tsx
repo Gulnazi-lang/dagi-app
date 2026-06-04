@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useI18n } from "@/lib/i18n/client";
 
 export type BlockedItem = {
   userId: string;
@@ -14,6 +15,7 @@ export type BlockedItem = {
 export function BlockedList({ items }: { items: BlockedItem[] }) {
   const supabase = createClient();
   const router = useRouter();
+  const { t } = useI18n();
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
@@ -32,13 +34,12 @@ export function BlockedList({ items }: { items: BlockedItem[] }) {
   return (
     <div className="mt-6 border-t border-line pt-4">
       <h2 className="mb-2 text-[12.5px] font-semibold text-muted">
-        Заблокированные
+        {t("blocked.title")}
       </h2>
 
       {items.length === 0 ? (
         <p className="rounded-xl bg-card px-3 py-3 text-[11.5px] leading-relaxed text-muted">
-          Ты никого не блокировал. Заблокировать человека можно на вкладке
-          «Совпадения» — кнопкой 🚫.
+          {t("blocked.none")}
         </p>
       ) : (
         <div className="space-y-2">
@@ -61,7 +62,7 @@ export function BlockedList({ items }: { items: BlockedItem[] }) {
                 disabled={busy === p.userId}
                 className="flex-shrink-0 rounded-full border border-line px-3 py-1 text-[11px] font-semibold text-muted disabled:opacity-60"
               >
-                {busy === p.userId ? "…" : "Разблокировать"}
+                {busy === p.userId ? "…" : t("blocked.unblock")}
               </button>
             </div>
           ))}

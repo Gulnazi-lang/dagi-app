@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { useI18n } from "@/lib/i18n/client";
+import type { Locale } from "@/lib/i18n/locale";
 import type { Message } from "@/lib/types";
 
 export type ChatMember = {
@@ -11,10 +13,12 @@ export type ChatMember = {
   avatarUrl: string | null;
 };
 
+const BCP47: Record<Locale, string> = { ru: "ru-RU", lv: "lv-LV", en: "en-GB" };
+
 // "14:05" из ISO-таймстампа.
-function clock(iso: string): string {
+function clock(iso: string, locale: Locale): string {
   const d = new Date(iso);
-  return d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleTimeString(BCP47[locale] ?? "ru-RU", { hour: "2-digit", minute: "2-digit" });
 }
 
 export function ChatView({
@@ -29,6 +33,7 @@ export function ChatView({
   initialMessages: Message[];
 }) {
   const supabase = createClient();
+  const { t, locale } = useI18n();
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -97,7 +102,7 @@ export function ChatView({
       <div className="flex-1 space-y-2.5 overflow-y-auto pb-2">
         {messages.length === 0 && (
           <p className="mt-6 text-center text-[12px] text-muted">
-            Пока тихо. Напишите первыми — договоритесь, играем или нет.
+            {t("chat.empty")}
           </p>
         )}
         {messages.map((m) => {
@@ -128,7 +133,7 @@ export function ChatView({
               >
                 {!mine && (
                   <div className="text-[10.5px] font-semibold text-muted">
-                    {author?.name ?? "Участник"}
+                    {author?.name ?? t("chat.member")}
                   </div>
                 )}
                 <div className="whitespace-pre-wrap break-words text-[13px] leading-snug">
@@ -139,7 +144,7 @@ export function ChatView({
                     mine ? "text-white/70" : "text-muted"
                   }`}
                 >
-                  {clock(m.created_at)}
+                  {clock(m.created_at, locale)}
                 </div>
               </div>
             </div>
@@ -158,7 +163,7 @@ export function ChatView({
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Сообщение…"
+          placeholder={t("chat.placeholder")}
           maxLength={2000}
           className="min-w-0 flex-1 rounded-xl border border-line bg-white px-3 py-2.5 text-[13px] outline-none focus:border-accent"
         />

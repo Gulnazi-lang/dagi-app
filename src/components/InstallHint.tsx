@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useI18n } from "@/lib/i18n/client";
 
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -10,6 +11,7 @@ type InstallPromptEvent = Event & {
 const DISMISS_KEY = "dagi-install-dismissed";
 
 export function InstallHint() {
+  const { t } = useI18n();
   const [deferred, setDeferred] = useState<InstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
   const [hidden, setHidden] = useState(true); // по умолчанию скрыт, покажем после проверок
@@ -55,15 +57,15 @@ export function InstallHint() {
         <span className="text-lg">📲</span>
         <div className="min-w-0 flex-1">
           <p className="text-[12.5px] font-semibold text-accent">
-            Установить DAGI на телефон
+            {t("install.title")}
           </p>
           {deferred ? (
             <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
-              Будет как обычное приложение — иконка на экране, открывается на весь экран.
+              {t("install.noteAndroid")}
             </p>
           ) : (
             <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
-              На iPhone: нажми «Поделиться» внизу Safari → «На экран „Домой“».
+              {t("install.noteIOS")}
             </p>
           )}
         </div>
@@ -71,7 +73,7 @@ export function InstallHint() {
           type="button"
           onClick={dismiss}
           className="flex-shrink-0 text-[11px] font-semibold text-muted"
-          aria-label="Скрыть"
+          aria-label={t("install.hide")}
         >
           ✕
         </button>
@@ -83,7 +85,7 @@ export function InstallHint() {
           onClick={install}
           className="mt-2.5 w-full rounded-xl bg-accent py-2 text-[13px] font-semibold text-white"
         >
-          Установить
+          {t("install.install")}
         </button>
       )}
     </div>

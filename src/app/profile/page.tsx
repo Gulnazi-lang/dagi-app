@@ -4,6 +4,7 @@ import { ProfileForm } from "@/components/ProfileForm";
 import { BlockedList, type BlockedItem } from "@/components/BlockedList";
 import { InstallHint } from "@/components/InstallHint";
 import { createClient } from "@/lib/supabase/server";
+import { getT } from "@/lib/i18n/server";
 import type { Profile } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +19,7 @@ type ProfileLite = {
 
 export default async function ProfilePage() {
   const supabase = await createClient();
+  const { t } = await getT();
 
   const {
     data: { user },
@@ -45,9 +47,9 @@ export default async function ProfilePage() {
 
   if (!profile) {
     return (
-      <AppShell header={<TopBar title="Профиль" />}>
+      <AppShell header={<TopBar title={t("tab.profile")} />}>
         <p className="px-2 py-6 text-center text-sm text-muted">
-          Не удалось загрузить профиль. Проверь, что выполнен SQL-скрипт в Supabase.
+          {t("profile.loadError")}
         </p>
       </AppShell>
     );
@@ -70,13 +72,13 @@ export default async function ProfilePage() {
       .returns<ProfileLite[]>();
     blocked = (p ?? []).map((x) => ({
       userId: x.id,
-      name: x.display_name || x.username || "Без имени",
+      name: x.display_name || x.username || t("common.noName"),
       avatarUrl: x.avatar_url,
     }));
   }
 
   return (
-    <AppShell header={<TopBar title="Профиль" />}>
+    <AppShell header={<TopBar title={t("tab.profile")} />}>
       <ProfileForm profile={profile} email={user.email ?? ""} />
       <InstallHint />
       <BlockedList items={blocked} />

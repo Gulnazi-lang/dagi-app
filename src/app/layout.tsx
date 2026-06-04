@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Golos_Text, Unbounded } from "next/font/google";
 import "./globals.css";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { I18nProvider } from "@/lib/i18n/client";
+import { getLocale } from "@/lib/i18n/server";
 
 const golos = Golos_Text({
   variable: "--font-golos",
@@ -40,15 +42,16 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
-    <html lang="ru" className={`${golos.variable} ${unbounded.variable} h-full`}>
+    <html lang={locale} className={`${golos.variable} ${unbounded.variable} h-full`}>
       <body className="min-h-full">
-        {children}
+        <I18nProvider initialLocale={locale}>{children}</I18nProvider>
         <ServiceWorkerRegister />
       </body>
     </html>
