@@ -37,6 +37,10 @@ body {
   color: var(--ink);
   font-family: var(--font-golos), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  /* Общее увеличение интерфейса для читаемости (особенно на телефоне).
+     zoom меняет масштаб CSS-вьюпорта, поэтому ширина (w-full) подстраивается —
+     горизонтальной прокрутки не появляется. Подбирается одним числом. */
+  zoom: 1.18;
 }
 
 .input-field {
