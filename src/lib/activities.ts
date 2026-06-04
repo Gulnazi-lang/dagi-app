@@ -47,8 +47,22 @@ export const ACTIVITIES: ActivityCategory[] = [
       { key: "walking" },
       { key: "nordic_walking" },
       { key: "running" },
-      { key: "yoga" },
       { key: "gym" },
+    ],
+  },
+  {
+    key: "wellness",
+    icon: "🧘",
+    options: [
+      { key: "yoga" },
+      { key: "pilates" },
+      { key: "stretching" },
+      { key: "qigong" },
+      { key: "taichi" },
+      { key: "meditation" },
+      { key: "breathwork" },
+      { key: "barre" },
+      { key: "wellness_other" },
     ],
   },
   {
