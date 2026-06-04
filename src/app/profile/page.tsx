@@ -3,6 +3,7 @@ import { AppShell, TopBar } from "@/components/AppShell";
 import { ProfileForm } from "@/components/ProfileForm";
 import { BlockedList, type BlockedItem } from "@/components/BlockedList";
 import { InstallHint } from "@/components/InstallHint";
+import { FeedbackButton } from "@/components/FeedbackButton";
 import { createClient } from "@/lib/supabase/server";
 import { getT } from "@/lib/i18n/server";
 import type { Profile } from "@/lib/types";
@@ -81,6 +82,7 @@ export default async function ProfilePage() {
     <AppShell header={<TopBar title={t("tab.profile")} />}>
       <ProfileForm profile={profile} email={user.email ?? ""} />
       <InstallHint />
+      <FeedbackButton />
       <BlockedList items={blocked} />
     </AppShell>
   );

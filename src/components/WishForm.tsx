@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ACTIVITIES, resolveActivity, activityLabel } from "@/lib/activities";
 import { CITIES, districtsForCity, cityLabel, districtLabel } from "@/lib/places";
+import { formatDate } from "@/lib/datetime";
 import { useI18n } from "@/lib/i18n/client";
 import type { Wish } from "@/lib/types";
 
@@ -27,6 +28,9 @@ export function WishForm({
   const router = useRouter();
   const { t, locale } = useI18n();
   const isEdit = !!wish;
+  // Локаль для родных полей даты/времени (en → en-GB, чтобы было 24ч и ДД/ММ/ГГГГ,
+  // а не US-формат с AM/PM).
+  const inputLang = locale === "en" ? "en-GB" : locale;
 
   // Стартовые значения активности.
   const resolved = wish ? resolveActivity(wish.activity) : null;
@@ -262,11 +266,13 @@ export function WishForm({
         <Field label={t("wish.date")}>
           <input
             type="date"
+            lang={inputLang}
             value={date}
             min={todayISO()}
             onChange={(e) => setDate(e.target.value)}
             className="input-field"
           />
+          <p className="mt-1 text-[11px] text-muted">{formatDate(date, locale)}</p>
         </Field>
 
         <div>
@@ -284,6 +290,7 @@ export function WishForm({
           </div>
           <input
             type="time"
+            lang={inputLang}
             value={time}
             disabled={anyTime}
             onChange={(e) => setTime(e.target.value)}

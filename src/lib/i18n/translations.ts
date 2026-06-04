@@ -16,9 +16,24 @@ const ru: Dict = {
   "tab.wishes": "Желания",
   "tab.matches": "Совпадения",
   "tab.teams": "Команды",
+  "tab.browse": "Всё",
   "tab.profile": "Профиль",
   "title.newWish": "Новое желание",
   "title.wish": "Желание",
+
+  // browse (все желания)
+  "browse.title": "Все желания",
+  "browse.allCities": "Вся Латвия",
+  "browse.empty": "Здесь пока пусто. Создай желание — и оно появится тут.",
+  "browse.slotsEmpty": "Пока нет дат по этой активности.",
+  "browse.backAria": "Назад ко всем желаниям",
+  "browse.people": "{n} чел.",
+  "browse.hint": "Имена и точные места не показываем — только спрос.",
+
+  // feedback
+  "feedback.button": "Оставить отзыв",
+  "feedback.note": "Напиши, что улучшить или какую активность добавить.",
+  "feedback.subject": "DAGI — отзыв / предложить активность",
 
   // home
   "home.activeWishes": "Твои активные желания",
@@ -204,9 +219,22 @@ const lv: Dict = {
   "tab.wishes": "Vēlmes",
   "tab.matches": "Sakritības",
   "tab.teams": "Komandas",
+  "tab.browse": "Visi",
   "tab.profile": "Profils",
   "title.newWish": "Jauna vēlme",
   "title.wish": "Vēlme",
+
+  "browse.title": "Visas vēlmes",
+  "browse.allCities": "Visa Latvija",
+  "browse.empty": "Šeit pagaidām tukšs. Izveido vēlmi — un tā parādīsies šeit.",
+  "browse.slotsEmpty": "Pagaidām nav datumu šai aktivitātei.",
+  "browse.backAria": "Atpakaļ uz visām vēlmēm",
+  "browse.people": "{n} cilv.",
+  "browse.hint": "Vārdus un precīzas vietas nerādām — tikai pieprasījumu.",
+
+  "feedback.button": "Atstāt atsauksmi",
+  "feedback.note": "Uzraksti, ko uzlabot vai kādu aktivitāti pievienot.",
+  "feedback.subject": "DAGI — atsauksme / ieteikt aktivitāti",
 
   "home.activeWishes": "Tavas aktīvās vēlmes",
   "home.noWishesTitle": "Vēlmju pagaidām nav",
@@ -381,9 +409,22 @@ const en: Dict = {
   "tab.wishes": "Wishes",
   "tab.matches": "Matches",
   "tab.teams": "Teams",
+  "tab.browse": "All",
   "tab.profile": "Profile",
   "title.newWish": "New wish",
   "title.wish": "Wish",
+
+  "browse.title": "All wishes",
+  "browse.allCities": "All Latvia",
+  "browse.empty": "Empty here for now. Create a wish — and it'll show up here.",
+  "browse.slotsEmpty": "No dates for this activity yet.",
+  "browse.backAria": "Back to all wishes",
+  "browse.people": "{n} ppl",
+  "browse.hint": "We don't show names or exact places — only demand.",
+
+  "feedback.button": "Leave feedback",
+  "feedback.note": "Tell us what to improve or which activity to add.",
+  "feedback.subject": "DAGI — feedback / suggest activity",
 
   "home.activeWishes": "Your active wishes",
   "home.noWishesTitle": "No wishes yet",

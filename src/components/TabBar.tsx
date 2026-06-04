@@ -6,6 +6,7 @@ import { useI18n } from "@/lib/i18n/client";
 
 const tabs = [
   { href: "/", labelKey: "tab.wishes", icon: "✦" },
+  { href: "/browse", labelKey: "tab.browse", icon: "≡" },
   { href: "/matches", labelKey: "tab.matches", icon: "⚲" },
   { href: "/chats", labelKey: "tab.teams", icon: "✉" },
   { href: "/profile", labelKey: "tab.profile", icon: "☻" },

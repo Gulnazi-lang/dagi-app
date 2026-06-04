@@ -8,20 +8,15 @@ const WEEKDAYS: Record<Locale, string[]> = {
   en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
 };
 
-const MONTHS: Record<Locale, string[]> = {
-  ru: ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"],
-  lv: ["janv", "febr", "marts", "apr", "maijs", "jūn", "jūl", "aug", "sept", "okt", "nov", "dec"],
-  en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-};
-
-// "Сб, 7 июн" / "Se, 7 jūn" / "Sat, 7 Jun" из строки YYYY-MM-DD.
+// "Сб, 07.06.2026" — день недели + ДД.ММ.ГГГГ (формат, принятый в Латвии).
 export function formatDate(isoDate: string | null | undefined, locale: Locale = "ru"): string {
   if (!isoDate) return "—";
   const [y, m, d] = isoDate.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const wd = WEEKDAYS[locale] ?? WEEKDAYS.ru;
-  const mo = MONTHS[locale] ?? MONTHS.ru;
-  return `${wd[date.getDay()]}, ${d} ${mo[m - 1]}`;
+  const dd = String(d).padStart(2, "0");
+  const mm = String(m).padStart(2, "0");
+  return `${wd[date.getDay()]}, ${dd}.${mm}.${y}`;
 }
 
 // "18:00" или «время не важно» (для NULL).
