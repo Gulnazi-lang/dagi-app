@@ -33,7 +33,10 @@ const ru: Dict = {
   // feedback
   "feedback.button": "Оставить отзыв",
   "feedback.note": "Напиши, что улучшить или какую активность добавить.",
-  "feedback.subject": "DAGI — отзыв / предложить активность",
+  "feedback.placeholder": "Что улучшить? Какую активность добавить?",
+  "feedback.send": "Отправить",
+  "feedback.sending": "Отправляем…",
+  "feedback.sent": "Спасибо! Отзыв отправлен.",
 
   // home
   "home.activeWishes": "Твои активные желания",
@@ -234,7 +237,10 @@ const lv: Dict = {
 
   "feedback.button": "Atstāt atsauksmi",
   "feedback.note": "Uzraksti, ko uzlabot vai kādu aktivitāti pievienot.",
-  "feedback.subject": "DAGI — atsauksme / ieteikt aktivitāti",
+  "feedback.placeholder": "Ko uzlabot? Kādu aktivitāti pievienot?",
+  "feedback.send": "Nosūtīt",
+  "feedback.sending": "Sūtām…",
+  "feedback.sent": "Paldies! Atsauksme nosūtīta.",
 
   "home.activeWishes": "Tavas aktīvās vēlmes",
   "home.noWishesTitle": "Vēlmju pagaidām nav",
@@ -424,7 +430,10 @@ const en: Dict = {
 
   "feedback.button": "Leave feedback",
   "feedback.note": "Tell us what to improve or which activity to add.",
-  "feedback.subject": "DAGI — feedback / suggest activity",
+  "feedback.placeholder": "What to improve? Which activity to add?",
+  "feedback.send": "Send",
+  "feedback.sending": "Sending…",
+  "feedback.sent": "Thanks! Feedback sent.",
 
   "home.activeWishes": "Your active wishes",
   "home.noWishesTitle": "No wishes yet",
