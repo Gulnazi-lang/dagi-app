@@ -38,6 +38,17 @@ const ru: Dict = {
   "feedback.sending": "Отправляем…",
   "feedback.sent": "Спасибо! Отзыв отправлен.",
 
+  // onboarding (приветствие при первом входе)
+  "onb.title": "Добро пожаловать!",
+  "onb.intro": "DAGI помогает найти компанию под занятие рядом. Как это работает:",
+  "onb.step1": "✦ Создай желание — что, где и когда хочешь.",
+  "onb.step2": "⚲ В «Совпадениях» — люди рядом с таким же желанием.",
+  "onb.step3": "✉ Собери команду и договорись в чате.",
+  "onb.step4": "★ После встречи отметьте, что были, и оцените друг друга.",
+  "onb.browse": "≡ Во вкладке «Всё» видно, чего хотят люди вокруг.",
+  "onb.safety": "Точный адрес не показываем — только город и район. Любого можно заблокировать или тихо пожаловаться.",
+  "onb.start": "Поехали!",
+
   // home
   "home.activeWishes": "Твои активные желания",
   "home.noWishesTitle": "Пока нет желаний",
@@ -268,6 +279,16 @@ const lv: Dict = {
   "feedback.sending": "Sūtām…",
   "feedback.sent": "Paldies! Atsauksme nosūtīta.",
 
+  "onb.title": "Laipni lūdzam!",
+  "onb.intro": "DAGI palīdz atrast kompāniju nodarbei tuvumā. Kā tas darbojas:",
+  "onb.step1": "✦ Izveido vēlmi — ko, kur un kad vēlies.",
+  "onb.step2": "⚲ Sadaļā «Sakritības» — cilvēki tuvumā ar tādu pašu vēlmi.",
+  "onb.step3": "✉ Sapulcē komandu un vienojies čatā.",
+  "onb.step4": "★ Pēc tikšanās atzīmējiet, ka bijāt, un novērtējiet viens otru.",
+  "onb.browse": "≡ Sadaļā «Visi» redzams, ko cilvēki vēlas apkārt.",
+  "onb.safety": "Precīzu adresi nerādām — tikai pilsētu un rajonu. Jebkuru var bloķēt vai klusi sūdzēties.",
+  "onb.start": "Sākam!",
+
   "home.activeWishes": "Tavas aktīvās vēlmes",
   "home.noWishesTitle": "Vēlmju pagaidām nav",
   "home.noWishesNote": "Izveido vēlmi — un mēs atradīsim cilvēkus blakus, kuri vēlas to pašu.",
@@ -486,6 +507,16 @@ const en: Dict = {
   "feedback.send": "Send",
   "feedback.sending": "Sending…",
   "feedback.sent": "Thanks! Feedback sent.",
+
+  "onb.title": "Welcome!",
+  "onb.intro": "DAGI helps you find company for an activity nearby. How it works:",
+  "onb.step1": "✦ Create a wish — what, where and when.",
+  "onb.step2": "⚲ In Matches — people nearby with the same wish.",
+  "onb.step3": "✉ Form a team and agree in chat.",
+  "onb.step4": "★ After meeting, mark attendance and rate each other.",
+  "onb.browse": "≡ The All tab shows what people around want.",
+  "onb.safety": "We don't show your exact address — only city and district. You can block anyone or report quietly.",
+  "onb.start": "Let's go!",
 
   "home.activeWishes": "Your active wishes",
   "home.noWishesTitle": "No wishes yet",
