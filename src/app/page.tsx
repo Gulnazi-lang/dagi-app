@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { cityLabel, districtLabel } from "@/lib/places";
+import { HelpButton } from "@/components/Onboarding";
 import { getT } from "@/lib/i18n/server";
 import type { Locale } from "@/lib/i18n/locale";
 import type { Wish } from "@/lib/types";
@@ -87,6 +88,8 @@ export default async function Home() {
       >
         {t("home.newWish")}
       </Link>
+
+      <HelpButton />
     </AppShell>
   );
 }

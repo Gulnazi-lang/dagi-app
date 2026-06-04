@@ -48,6 +48,7 @@ const ru: Dict = {
   "onb.browse": "≡ Во вкладке «Всё» видно, чего хотят люди вокруг.",
   "onb.safety": "Точный адрес не показываем — только город и район. Любого можно заблокировать или тихо пожаловаться.",
   "onb.start": "Поехали!",
+  "onb.howToUse": "Как пользоваться",
 
   // home
   "home.activeWishes": "Твои активные желания",
@@ -288,6 +289,7 @@ const lv: Dict = {
   "onb.browse": "≡ Sadaļā «Visi» redzams, ko cilvēki vēlas apkārt.",
   "onb.safety": "Precīzu adresi nerādām — tikai pilsētu un rajonu. Jebkuru var bloķēt vai klusi sūdzēties.",
   "onb.start": "Sākam!",
+  "onb.howToUse": "Kā lietot",
 
   "home.activeWishes": "Tavas aktīvās vēlmes",
   "home.noWishesTitle": "Vēlmju pagaidām nav",
@@ -517,6 +519,7 @@ const en: Dict = {
   "onb.browse": "≡ The All tab shows what people around want.",
   "onb.safety": "We don't show your exact address — only city and district. You can block anyone or report quietly.",
   "onb.start": "Let's go!",
+  "onb.howToUse": "How to use",
 
   "home.activeWishes": "Your active wishes",
   "home.noWishesTitle": "No wishes yet",
