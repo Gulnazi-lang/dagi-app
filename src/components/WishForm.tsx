@@ -19,23 +19,37 @@ export function WishForm({
   wish,
   defaultCity = "",
   defaultDistrict = "",
+  initialActivity,
+  initialCity,
+  initialDate,
+  initialTime,
+  redirectTo,
 }: {
   wish?: Wish; // если передано — режим редактирования
   defaultCity?: string;
   defaultDistrict?: string;
+  // Префилл при заходе из «Все желания» (вписаться в готовый слот).
+  initialActivity?: string; // ключ-лист активности
+  initialCity?: string;
+  initialDate?: string; // YYYY-MM-DD
+  initialTime?: string | null; // "HH:MM" = время; null = любое время; undefined = по умолчанию
+  redirectTo?: string; // куда вернуться после создания (по умолчанию на главную)
 }) {
   const supabase = createClient();
   const router = useRouter();
   const { t, locale } = useI18n();
   const isEdit = !!wish;
 
-  // Стартовые значения активности.
-  const resolved = wish ? resolveActivity(wish.activity) : null;
+  // Стартовые значения активности (из редактируемого желания или из префилла слота).
+  const prefillActivity = wish?.activity ?? initialActivity;
+  const resolved = prefillActivity ? resolveActivity(prefillActivity) : null;
   const initCity = wish
     ? wish.city
-    : CITIES.includes(defaultCity)
-      ? defaultCity
-      : CITIES[0];
+    : initialCity && CITIES.includes(initialCity)
+      ? initialCity
+      : CITIES.includes(defaultCity)
+        ? defaultCity
+        : CITIES[0];
 
   const [categoryKey, setCategoryKey] = useState(
     resolved?.categoryKey ?? ACTIVITIES[0].key
@@ -47,9 +61,13 @@ export function WishForm({
   const [city, setCity] = useState(initCity);
   const [district, setDistrict] = useState(wish?.district ?? defaultDistrict);
   const [radius, setRadius] = useState(wish?.radius_km ?? 10);
-  const [date, setDate] = useState(wish?.wish_date ?? todayISO());
-  const [anyTime, setAnyTime] = useState(wish ? wish.wish_time === null : false);
-  const [time, setTime] = useState(wish?.wish_time?.slice(0, 5) ?? "18:00");
+  const [date, setDate] = useState(wish?.wish_date ?? initialDate ?? todayISO());
+  const [anyTime, setAnyTime] = useState(
+    wish ? wish.wish_time === null : initialTime === null
+  );
+  const [time, setTime] = useState(
+    wish?.wish_time?.slice(0, 5) ?? (initialTime ? initialTime.slice(0, 5) : "18:00")
+  );
 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -139,7 +157,7 @@ export function WishForm({
       return;
     }
 
-    router.push("/");
+    router.push(isEdit ? "/" : (redirectTo ?? "/"));
     router.refresh();
   }
 

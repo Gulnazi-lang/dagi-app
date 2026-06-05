@@ -63,20 +63,34 @@ export default async function BrowseActivityPage({
         <p className="mt-6 text-center text-[12px] text-muted">{t("browse.slotsEmpty")}</p>
       ) : (
         <div className="space-y-2">
-          {slots.map((s, i) => (
-            <div
-              key={`${s.wish_date}-${s.wish_time ?? "any"}-${i}`}
-              className="flex items-center gap-3 rounded-2xl border border-line bg-card p-3"
-            >
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold">{formatDate(s.wish_date, locale)}</div>
-                <div className="mt-0.5 text-[11.5px] text-muted">{formatTime(s.wish_time, locale)}</div>
-              </div>
-              <span className="flex-shrink-0 rounded-full bg-green-soft px-2.5 py-0.5 text-[11.5px] font-semibold text-green">
-                {t("browse.people", { n: s.cnt })}
-              </span>
-            </div>
-          ))}
+          {slots.map((s, i) => {
+            // Клик по слоту → форма желания, уже заполненная (активность·дата·время·город),
+            // после создания — сразу в «Совпадения».
+            const qs = new URLSearchParams({
+              activity,
+              date: s.wish_date,
+              time: s.wish_time ? s.wish_time.slice(0, 5) : "any",
+              next: "/matches",
+            });
+            if (pCity) qs.set("city", pCity);
+            return (
+              <Link
+                key={`${s.wish_date}-${s.wish_time ?? "any"}-${i}`}
+                href={`/wishes/new?${qs.toString()}`}
+                className="flex items-center gap-3 rounded-2xl border border-line bg-card p-3 transition hover:border-accent"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-semibold">{formatDate(s.wish_date, locale)}</div>
+                  <div className="mt-0.5 text-[11.5px] text-muted">{formatTime(s.wish_time, locale)}</div>
+                  <div className="mt-1 text-[11px] font-semibold text-accent">{t("browse.joinHint")}</div>
+                </div>
+                <span className="flex-shrink-0 rounded-full bg-green-soft px-2.5 py-0.5 text-[11.5px] font-semibold text-green">
+                  {t("browse.people", { n: s.cnt })}
+                </span>
+                <span className="flex-shrink-0 self-center text-muted">›</span>
+              </Link>
+            );
+          })}
         </div>
       )}
     </AppShell>

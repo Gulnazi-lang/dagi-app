@@ -29,6 +29,7 @@ const ru: Dict = {
   "browse.backAria": "Назад ко всем желаниям",
   "browse.people": "{n} чел.",
   "browse.hint": "Имена и точные места не показываем — только спрос.",
+  "browse.joinHint": "Нажмите, чтобы вписаться",
 
   // feedback
   "feedback.button": "Оставить отзыв",
@@ -272,6 +273,7 @@ const lv: Dict = {
   "browse.backAria": "Atpakaļ uz visām vēlmēm",
   "browse.people": "{n} cilv.",
   "browse.hint": "Vārdus un precīzas vietas nerādām — tikai pieprasījumu.",
+  "browse.joinHint": "Nospied, lai pievienotos",
 
   "feedback.button": "Atstāt atsauksmi",
   "feedback.note": "Uzraksti, ko uzlabot vai kādu aktivitāti pievienot.",
@@ -502,6 +504,7 @@ const en: Dict = {
   "browse.backAria": "Back to all wishes",
   "browse.people": "{n} ppl",
   "browse.hint": "We don't show names or exact places — only demand.",
+  "browse.joinHint": "Tap to join in",
 
   "feedback.button": "Leave feedback",
   "feedback.note": "Tell us what to improve or which activity to add.",

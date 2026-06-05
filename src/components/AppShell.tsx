@@ -1,5 +1,4 @@
 import { TabBar } from "@/components/TabBar";
-import { Onboarding } from "@/components/Onboarding";
 
 export function AppShell({
   children,
@@ -13,7 +12,6 @@ export function AppShell({
       {header}
       <main className="flex-1 overflow-y-auto px-4 py-3">{children}</main>
       <TabBar />
-      <Onboarding />
     </div>
   );
 }

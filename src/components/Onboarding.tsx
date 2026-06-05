@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 
-const KEY = "dagi-onboarded";
-
-// Сам гид (модалка). Используется и авто-показом, и кнопкой «Как пользоваться».
+// Сам гид (модалка). Открывается кнопкой «Как пользоваться».
 function GuideModal({ onClose }: { onClose: () => void }) {
   const { t } = useI18n();
   return (
@@ -36,23 +34,6 @@ function GuideModal({ onClose }: { onClose: () => void }) {
         </button>
       </div>
     </div>
-  );
-}
-
-// Авто-показ при первом входе (один раз, флаг в localStorage).
-export function Onboarding() {
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    if (localStorage.getItem(KEY) !== "1") setShow(true);
-  }, []);
-  if (!show) return null;
-  return (
-    <GuideModal
-      onClose={() => {
-        localStorage.setItem(KEY, "1");
-        setShow(false);
-      }}
-    />
   );
 }
 
