@@ -6,6 +6,7 @@ import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { cityLabel, districtLabel } from "@/lib/places";
 import { HelpButton } from "@/components/Onboarding";
+import { LanguageSelect } from "@/components/LanguageSelect";
 import { getT } from "@/lib/i18n/server";
 import type { Locale } from "@/lib/i18n/locale";
 import type { Wish } from "@/lib/types";
@@ -43,7 +44,10 @@ export default async function Home() {
 
   return (
     <AppShell header={<TopBar />}>
-      <p className="mb-3 mt-0.5 text-xs font-medium text-muted">{t("home.activeWishes")}</p>
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <p className="text-xs font-medium text-muted">{t("home.activeWishes")}</p>
+        <LanguageSelect />
+      </div>
 
       {list.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
