@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import type { Profile } from "@/lib/types";
 import { SignOutButton } from "@/components/SignOutButton";
 import { useI18n } from "@/lib/i18n/client";
-import { LOCALES, LOCALE_LABELS } from "@/lib/i18n/locale";
+import { LOCALES, LOCALE_LABELS, type Locale } from "@/lib/i18n/locale";
 
 export function ProfileForm({ profile, email }: { profile: Profile; email: string }) {
   const supabase = createClient();
@@ -139,22 +139,17 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
       {/* Переключатель языка */}
       <div className="mt-4">
         <span className="mb-1.5 block text-[11.5px] font-semibold text-muted">{t("profile.language")}</span>
-        <div className="flex gap-2">
+        <select
+          value={locale}
+          onChange={(e) => setLocale(e.target.value as Locale)}
+          className="input-field"
+        >
           {LOCALES.map((l) => (
-            <button
-              key={l}
-              type="button"
-              onClick={() => setLocale(l)}
-              className={`flex-1 rounded-xl border py-2 text-[12.5px] font-semibold transition ${
-                locale === l
-                  ? "border-accent bg-accent text-white"
-                  : "border-line bg-card text-muted"
-              }`}
-            >
+            <option key={l} value={l}>
               {LOCALE_LABELS[l]}
-            </button>
+            </option>
           ))}
-        </div>
+        </select>
       </div>
 
       <p className="mt-3 rounded-xl bg-green-soft px-3 py-2.5 text-[11.5px] leading-relaxed text-[#1c6b44]">

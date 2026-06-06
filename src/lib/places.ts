@@ -43,7 +43,7 @@ export function districtsForCity(city: string): string[] {
 }
 
 // Локализованные названия городов (ключ — каноническое русское имя).
-const CITY_LABELS: Record<Locale, Record<string, string>> = {
+const CITY_LABELS: Partial<Record<Locale, Record<string, string>>> = {
   ru: {},
   lv: {
     Рига: "Rīga",
@@ -91,18 +91,22 @@ const RIGA_DISTRICTS_LATIN: Record<string, string> = {
   Тораньсала: "Torņakalns",
 };
 
-const DISTRICT_LABELS: Record<Locale, Record<string, string>> = {
+const DISTRICT_LABELS: Partial<Record<Locale, Record<string, string>>> = {
   ru: {},
   lv: RIGA_DISTRICTS_LATIN,
   en: RIGA_DISTRICTS_LATIN,
 };
 
-// Локализованное имя города (фолбэк — исходное значение, в т.ч. произвольный ввод).
+// Локализованное имя города. ru — каноника (как в БД); для не-русских языков,
+// если своего перевода нет, показываем латинский (английский) вариант, а не кириллицу.
 export function cityLabel(city: string, locale: Locale = "ru"): string {
-  return CITY_LABELS[locale]?.[city] ?? city;
+  const map = locale === "ru" ? CITY_LABELS.ru : (CITY_LABELS[locale] ?? CITY_LABELS.en);
+  return map?.[city] ?? city;
 }
 
-// Локализованное имя района (фолбэк — исходное значение).
+// Локализованное имя района (для не-русских — латинский вариант).
 export function districtLabel(district: string, locale: Locale = "ru"): string {
-  return DISTRICT_LABELS[locale]?.[district] ?? district;
+  const map =
+    locale === "ru" ? DISTRICT_LABELS.ru : (DISTRICT_LABELS[locale] ?? DISTRICT_LABELS.en);
+  return map?.[district] ?? district;
 }

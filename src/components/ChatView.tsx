@@ -13,12 +13,27 @@ export type ChatMember = {
   avatarUrl: string | null;
 };
 
-const BCP47: Record<Locale, string> = { ru: "ru-RU", lv: "lv-LV", en: "en-GB" };
+const BCP47: Partial<Record<Locale, string>> = {
+  ru: "ru-RU",
+  lv: "lv-LV",
+  en: "en-GB",
+  ka: "ka-GE",
+  et: "et-EE",
+  lt: "lt-LT",
+  de: "de-DE",
+  es: "es-ES",
+  fr: "fr-FR",
+  hi: "hi-IN",
+};
 
-// "14:05" из ISO-таймстампа.
+// "14:05" из ISO-таймстампа. Везде 24-часовой формат.
 function clock(iso: string, locale: Locale): string {
   const d = new Date(iso);
-  return d.toLocaleTimeString(BCP47[locale] ?? "ru-RU", { hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleTimeString(BCP47[locale] ?? "en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 }
 
 export function ChatView({
