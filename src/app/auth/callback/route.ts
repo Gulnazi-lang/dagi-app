@@ -10,7 +10,23 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      // Новичка (или незаполненный профиль) ведём сразу в Профиль — чтобы
+      // заполнил имя/город и заодно заметил и выбрал язык. Остальных — как обычно.
+      let dest = next;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("display_name, city")
+          .eq("id", user.id)
+          .maybeSingle<{ display_name: string | null; city: string | null }>();
+        const incomplete =
+          !profile || !profile.display_name?.trim() || !profile.city?.trim();
+        if (incomplete) dest = "/profile";
+      }
+      return NextResponse.redirect(`${origin}${dest}`);
     }
   }
 
