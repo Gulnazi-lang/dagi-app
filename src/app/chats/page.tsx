@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { TeamsView, type TeamView, type RatingScore } from "@/components/TeamsView";
 import { getT } from "@/lib/i18n/server";
 import type { Team, TeamMemberStatus, Reputation } from "@/lib/types";
@@ -25,9 +25,7 @@ export default async function ChatsPage() {
   const supabase = await createClient();
   const { t: tr } = await getT();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser(supabase);
 
   if (!user) {
     redirect("/login");

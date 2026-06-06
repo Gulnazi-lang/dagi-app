@@ -4,7 +4,7 @@ import { ProfileForm } from "@/components/ProfileForm";
 import { BlockedList, type BlockedItem } from "@/components/BlockedList";
 import { InstallHint } from "@/components/InstallHint";
 import { FeedbackButton } from "@/components/FeedbackButton";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { getT } from "@/lib/i18n/server";
 import type { Profile } from "@/lib/types";
 
@@ -22,9 +22,7 @@ export default async function ProfilePage() {
   const supabase = await createClient();
   const { t } = await getT();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser(supabase);
 
   if (!user) {
     redirect("/login");

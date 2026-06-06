@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { MatchesView, type MatchGroup } from "@/components/MatchesView";
 import { reputationStars } from "@/lib/reputation";
 import { getT } from "@/lib/i18n/server";
@@ -57,9 +57,7 @@ export default async function MatchesPage() {
   const supabase = await createClient();
   const { t } = await getT();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser(supabase);
 
   if (!user) {
     redirect("/login");

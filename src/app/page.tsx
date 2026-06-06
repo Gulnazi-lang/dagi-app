@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { cityLabel, districtLabel } from "@/lib/places";
@@ -25,9 +25,7 @@ export default async function Home() {
   const supabase = await createClient();
   const { locale, t } = await getT();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser(supabase);
 
   if (!user) {
     redirect("/login");

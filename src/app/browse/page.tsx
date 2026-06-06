@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
 import { CitySelect } from "@/components/CitySelect";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { CITIES } from "@/lib/places";
 import { getT } from "@/lib/i18n/server";
@@ -19,9 +19,7 @@ export default async function BrowsePage({
   const supabase = await createClient();
   const { locale, t } = await getT();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser(supabase);
   if (!user) redirect("/login");
 
   const { city: cityParam } = await searchParams;

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { ChatView, type ChatMember } from "@/components/ChatView";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { cityLabel, districtLabel } from "@/lib/places";
@@ -28,9 +28,7 @@ export default async function TeamChatPage({
   const supabase = await createClient();
   const { locale, t } = await getT();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser(supabase);
 
   if (!user) {
     redirect("/login");

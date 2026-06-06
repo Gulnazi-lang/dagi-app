@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
 import { WishForm } from "@/components/WishForm";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { getT } from "@/lib/i18n/server";
 import type { Wish } from "@/lib/types";
 
@@ -16,9 +16,7 @@ export default async function EditWishPage({
   const supabase = await createClient();
   const { t } = await getT();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser(supabase);
 
   if (!user) {
     redirect("/login");
