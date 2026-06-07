@@ -3,7 +3,8 @@ import type { Locale } from "@/lib/i18n/locale";
 
 // Под-вид активности (лист дерева) — именно key сохраняется в wishes.activity.
 // Метка (label) больше не хранится в данных: берётся из словаря по ключу `act.<key>`.
-export type ActivityOption = { key: string };
+// icon — своя иконка вида (если нет — берётся иконка категории).
+export type ActivityOption = { key: string; icon?: string };
 
 // Категория верхнего уровня. Если есть options — пользователь выбирает под-вид.
 export type ActivityCategory = {
@@ -12,67 +13,82 @@ export type ActivityCategory = {
   options?: ActivityOption[];
 };
 
-// Стартовый набор уличных активностей (раздел 4 — Уровень 1).
+// Дерево активностей, сгруппированное по категориям (раздел 4).
 export const ACTIVITIES: ActivityCategory[] = [
-  { key: "football", icon: "⚽" },
-  { key: "volleyball", icon: "🏐" },
-  { key: "basketball", icon: "🏀" },
   {
-    key: "tennis",
-    icon: "🎾",
+    key: "ballgames",
+    icon: "⚽",
     options: [
-      { key: "tennis_court" },
-      { key: "table_tennis" },
-      { key: "badminton" },
-      { key: "soft_tennis" },
+      { key: "football", icon: "⚽" },
+      { key: "volleyball", icon: "🏐" },
+      { key: "basketball", icon: "🏀" },
+      { key: "tennis_court", icon: "🎾" },
+      { key: "table_tennis", icon: "🏓" },
+      { key: "badminton", icon: "🏸" },
+      { key: "soft_tennis", icon: "🥎" },
     ],
   },
   {
     key: "riding",
     icon: "🚴",
     options: [
-      { key: "cycling" },
-      { key: "rollers" },
-      { key: "skates" },
-      { key: "scooter" },
-      { key: "escooter" },
-      { key: "motorcycle" },
-      { key: "skiing" },
+      { key: "cycling", icon: "🚴" },
+      { key: "rollers", icon: "🛼" },
+      { key: "skates", icon: "⛸️" },
+      { key: "scooter", icon: "🛴" },
+      { key: "escooter", icon: "🛵" },
+      { key: "motorcycle", icon: "🏍️" },
+      { key: "skiing", icon: "🎿" },
+    ],
+  },
+  {
+    key: "martial",
+    icon: "🥊",
+    options: [
+      { key: "boxing", icon: "🥊" },
+      { key: "sparring", icon: "🤼" },
+      { key: "kickboxing", icon: "🦵" },
+      { key: "karate", icon: "🥋" },
+      { key: "judo", icon: "🥋" },
     ],
   },
   {
     key: "fitness",
     icon: "🏃",
     options: [
-      { key: "walking" },
-      { key: "nordic_walking" },
-      { key: "running" },
-      { key: "gym" },
+      { key: "walking", icon: "🚶" },
+      { key: "nordic_walking", icon: "🚶" },
+      { key: "running", icon: "🏃" },
+      { key: "gym", icon: "🏋️" },
     ],
   },
   {
     key: "wellness",
     icon: "🧘",
     options: [
-      { key: "yoga" },
-      { key: "pilates" },
-      { key: "stretching" },
-      { key: "qigong" },
-      { key: "taichi" },
-      { key: "meditation" },
-      { key: "breathwork" },
-      { key: "barre" },
-      { key: "wellness_other" },
+      { key: "yoga", icon: "🧘" },
+      { key: "pilates", icon: "🤸" },
+      { key: "stretching", icon: "🙆" },
+      { key: "qigong", icon: "🌬️" },
+      { key: "taichi", icon: "☯️" },
+      { key: "meditation", icon: "🪷" },
     ],
   },
   {
     key: "walk_hike",
-    icon: "🚶",
+    icon: "🌳",
     options: [
-      { key: "walk_park" },
-      { key: "walk_river" },
-      { key: "walk_sea" },
-      { key: "boat_river" },
+      { key: "walk_park", icon: "🌳" },
+      { key: "walk_river", icon: "🏞️" },
+      { key: "walk_sea", icon: "🌊" },
+      { key: "boat_river", icon: "🚣" },
+      { key: "fishing", icon: "🎣" },
+      { key: "hiking", icon: "🥾" },
+      { key: "picnic", icon: "🧺" },
+      { key: "countryside", icon: "🚗" },
+      { key: "diving", icon: "🤿" },
+      { key: "photo_walk", icon: "📷" },
+      { key: "dog_walk", icon: "🐕" },
     ],
   },
   {
@@ -123,6 +139,52 @@ export const ACTIVITIES: ActivityCategory[] = [
       { key: "dance_other" },
     ],
   },
+  {
+    key: "food",
+    icon: "🍽️",
+    options: [
+      { key: "coffee", icon: "☕" },
+      { key: "meal", icon: "🍽️" },
+      { key: "bar", icon: "🍺" },
+      { key: "brunch", icon: "🥐" },
+      { key: "streetfood", icon: "🌭" },
+      { key: "hookah", icon: "💨" },
+      { key: "tasting", icon: "🍷" },
+    ],
+  },
+  {
+    key: "going_out",
+    icon: "🎭",
+    options: [
+      { key: "cinema", icon: "🎬" },
+      { key: "bowling", icon: "🎳" },
+      { key: "billiards", icon: "🎱" },
+      { key: "karaoke", icon: "🎤" },
+      { key: "quiz", icon: "🧠" },
+      { key: "concert", icon: "🎵" },
+      { key: "museum", icon: "🏛️" },
+    ],
+  },
+  {
+    key: "creative",
+    icon: "🎨",
+    options: [
+      { key: "workshop", icon: "🎨" },
+      { key: "cooking", icon: "🍳" },
+      { key: "language_exchange", icon: "🗣️" },
+      { key: "music", icon: "🎸" },
+    ],
+  },
+  {
+    key: "company",
+    icon: "🤝",
+    options: [
+      { key: "walk_talk", icon: "💬" },
+      { key: "shopping", icon: "🛍️" },
+      { key: "event_buddy", icon: "🎟️" },
+      { key: "new_in_town", icon: "🧳" },
+    ],
+  },
 ];
 
 // Плоский индекс по ключу-листу: иконка родительской категории + ключ родителя.
@@ -132,7 +194,7 @@ const LEAF_INDEX: Record<string, LeafInfo> = {};
 for (const cat of ACTIVITIES) {
   if (cat.options && cat.options.length > 0) {
     for (const opt of cat.options) {
-      LEAF_INDEX[opt.key] = { icon: cat.icon, parentKey: cat.key };
+      LEAF_INDEX[opt.key] = { icon: opt.icon ?? cat.icon, parentKey: cat.key };
     }
   } else {
     LEAF_INDEX[cat.key] = { icon: cat.icon, parentKey: cat.key };
