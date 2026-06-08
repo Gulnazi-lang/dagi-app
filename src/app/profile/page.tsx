@@ -6,7 +6,8 @@ import { InstallHint } from "@/components/InstallHint";
 import { FeedbackButton } from "@/components/FeedbackButton";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { getT } from "@/lib/i18n/server";
-import type { Profile } from "@/lib/types";
+import { MyReputation } from "@/components/MyReputation";
+import type { Profile, Reputation } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,7 @@ type ProfileLite = {
 
 export default async function ProfilePage() {
   const supabase = await createClient();
-  const { t } = await getT();
+  const { t, locale } = await getT();
 
   const user = await getAuthUser(supabase);
 
@@ -54,6 +55,13 @@ export default async function ProfilePage() {
     );
   }
 
+  // Свой рейтинг (для блока «Ваш рейтинг» в профиле).
+  const { data: myRep } = await supabase
+    .from("user_reputation")
+    .select("*")
+    .eq("user_id", user.id)
+    .maybeSingle<Reputation>();
+
   // Заблокированные мной — с именами и аватарами.
   const { data: blockRows } = await supabase
     .from("blocks")
@@ -78,6 +86,7 @@ export default async function ProfilePage() {
 
   return (
     <AppShell header={<TopBar title={t("tab.profile")} />}>
+      <MyReputation rep={myRep ?? null} locale={locale} />
       <ProfileForm profile={profile} email={user.email ?? ""} />
       <InstallHint />
       <FeedbackButton />

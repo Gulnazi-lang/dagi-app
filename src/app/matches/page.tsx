@@ -14,6 +14,7 @@ const NEUTRAL_STARS = 3.5;
 function groupMatches(
   rows: Match[],
   repMap: Map<string, Reputation>,
+  bioMap: Map<string, string | null>,
   noName: string
 ): MatchGroup[] {
   const map = new Map<string, MatchGroup>();
@@ -39,6 +40,7 @@ function groupMatches(
       district: r.district,
       time: r.wish_time,
       reputation: repMap.get(r.match_user_id) ?? null,
+      bio: bioMap.get(r.match_user_id) ?? null,
     });
   }
   // Внутри каждого желания: по убыванию рейтинга (новички — нейтрально).
@@ -90,7 +92,19 @@ export default async function MatchesPage() {
   }
   const repMap = new Map(reputations.map((r) => [r.user_id, r]));
 
-  const groups = groupMatches(rows, repMap, t("common.noName"));
+  // «О себе» совпавших людей — показываем на карточке.
+  let bios: { id: string; bio: string | null }[] = [];
+  if (userIds.length > 0) {
+    const { data: profs } = await supabase
+      .from("profiles")
+      .select("id, bio")
+      .in("id", userIds)
+      .returns<{ id: string; bio: string | null }[]>();
+    bios = profs ?? [];
+  }
+  const bioMap = new Map(bios.map((b) => [b.id, b.bio]));
+
+  const groups = groupMatches(rows, repMap, bioMap, t("common.noName"));
 
   return (
     <AppShell header={<TopBar title={t("tab.matches")} />}>

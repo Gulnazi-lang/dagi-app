@@ -17,6 +17,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
   const [username, setUsername] = useState(profile.username ?? "");
   const [city, setCity] = useState(profile.city ?? "");
   const [district, setDistrict] = useState(profile.district ?? "");
+  const [bio, setBio] = useState(profile.bio ?? "");
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url ?? "");
 
   const [saving, setSaving] = useState(false);
@@ -59,6 +60,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
         username: username.trim() || null,
         city: city.trim() || null,
         district: district.trim() || null,
+        bio: bio.trim() || null,
         avatar_url: avatarUrl || null,
       })
       .eq("id", profile.id);
@@ -100,6 +102,22 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
         <p className="mt-2 text-[11px] text-muted">{email}</p>
       </div>
 
+      {/* Мягкие подсказки-мотиваторы: фото и «о себе» повышают шанс попасть в команду */}
+      {(!avatarUrl || !bio.trim()) && (
+        <div className="mt-3 space-y-1.5">
+          {!avatarUrl && (
+            <p className="rounded-xl bg-accent-soft px-3 py-2 text-[11.5px] font-medium text-accent">
+              📷 {t("profile.photoNudge")}
+            </p>
+          )}
+          {!bio.trim() && (
+            <p className="rounded-xl bg-accent-soft px-3 py-2 text-[11.5px] font-medium text-accent">
+              ✏️ {t("profile.bioNudge")}
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Поля */}
       <div className="mt-5 space-y-3">
         <Field label={t("profile.name")}>
@@ -133,6 +151,16 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
             placeholder={t("profile.districtPlaceholder")}
             className="input-field"
           />
+        </Field>
+        <Field label={t("profile.bio")}>
+          <textarea
+            value={bio}
+            onChange={(e) => setBio(e.target.value.slice(0, 300))}
+            placeholder={t("profile.bioPlaceholder")}
+            rows={3}
+            className="input-field resize-none"
+          />
+          <p className="mt-1 text-right text-[10.5px] text-muted">{bio.length}/300</p>
         </Field>
       </div>
 

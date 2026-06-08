@@ -21,3 +21,13 @@ export function reputationCount(r?: Reputation | null): number {
   if (!r) return 0;
   return r.up + r.ok + r.down;
 }
+
+// Подбадривающий совет для СВОЕГО рейтинга в профиле:
+// "new" — ещё нет истории; "improve" — есть 👎 или пропуски; "good" — всё чисто.
+export function reputationAdvice(r?: Reputation | null): "new" | "good" | "improve" {
+  const ratings = r ? r.up + r.ok + r.down : 0;
+  const attendance = r ? r.attended + r.missed : 0;
+  if (ratings === 0 && attendance === 0) return "new";
+  if ((r?.down ?? 0) > 0 || (r?.missed ?? 0) > 0) return "improve";
+  return "good";
+}

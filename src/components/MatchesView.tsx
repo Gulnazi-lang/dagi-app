@@ -19,6 +19,7 @@ export type MatchPerson = {
   district: string | null;
   time: string | null;
   reputation: Reputation | null;
+  bio: string | null;
 };
 
 export type MatchGroup = {
@@ -184,6 +185,11 @@ function GroupBlock({ group }: { group: MatchGroup }) {
                   {" · "}
                   {formatTime(p.time, locale)}
                 </div>
+                {p.bio && (
+                  <div className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted">
+                    {p.bio}
+                  </div>
+                )}
               </div>
               {!selecting && (
                 <button
