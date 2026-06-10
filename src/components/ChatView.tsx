@@ -109,6 +109,14 @@ export function ChatView({
       return;
     }
     if (data) addMessage(data); // показываем сразу, не дожидаясь realtime
+
+    // Пуш остальным участникам команды (не блокируем отправку).
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "message", teamId, body }),
+      keepalive: true,
+    }).catch(() => {});
   }
 
   return (

@@ -98,7 +98,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
     setBusy(true);
     setMsg(null);
 
-    const { error } = await supabase.rpc("create_team", {
+    const { data: teamId, error } = await supabase.rpc("create_team", {
       p_activity: group.activity,
       p_city: group.city,
       p_district: group.district,
@@ -112,6 +112,17 @@ function GroupBlock({ group }: { group: MatchGroup }) {
       setMsg(t("matches.errCreateTeam", { msg: error.message }));
       return;
     }
+
+    // Пуш приглашённым (не блокируем переход).
+    if (teamId) {
+      fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "invite", teamId }),
+        keepalive: true,
+      }).catch(() => {});
+    }
+
     router.push("/chats");
     router.refresh();
   }

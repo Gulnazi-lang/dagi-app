@@ -7,6 +7,7 @@ import { FeedbackButton } from "@/components/FeedbackButton";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { getT } from "@/lib/i18n/server";
 import { MyReputation } from "@/components/MyReputation";
+import { PushToggle } from "@/components/PushToggle";
 import type { Profile, Reputation } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -88,6 +89,7 @@ export default async function ProfilePage() {
     <AppShell header={<TopBar title={t("tab.profile")} />}>
       <MyReputation rep={myRep ?? null} locale={locale} />
       <ProfileForm profile={profile} email={user.email ?? ""} />
+      <PushToggle />
       <InstallHint />
       <FeedbackButton />
       <BlockedList items={blocked} />
