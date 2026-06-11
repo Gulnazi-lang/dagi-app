@@ -27,7 +27,10 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[420px] flex-col items-center justify-center bg-screen px-8 text-center">
-      <div className="font-display text-4xl font-bold text-accent">DAGI</div>
+      <div className="font-display text-4xl font-bold text-accent">DUD</div>
+      <div className="mt-1.5 font-display text-sm font-semibold tracking-wide text-accent/80">
+        Domā un Dari
+      </div>
       <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-muted">
         {t("login.tagline")}
       </p>

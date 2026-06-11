@@ -18,7 +18,7 @@ const unbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
-  title: "DAGI",
+  title: "DUD — Domā un Dari",
   description: "Поиск компании под занятие рядом с тобой",
   manifest: "/manifest.json",
   icons: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "DAGI",
+    title: "DUD",
   },
 };
 

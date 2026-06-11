@@ -22,7 +22,7 @@ export function TopBar({ title }: { title?: string }) {
       {title ? (
         <span className="text-[17px] font-bold">{title}</span>
       ) : (
-        <span className="font-display text-base font-bold text-accent">DAGI</span>
+        <span className="font-display text-base font-bold text-accent">DUD</span>
       )}
       <div className="h-[34px] w-[34px] flex-shrink-0 rounded-full bg-gradient-to-br from-[#FFB39E] to-accent" />
     </header>

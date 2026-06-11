@@ -41,7 +41,7 @@ const ru: Dict = {
 
   // onboarding (приветствие при первом входе)
   "onb.title": "Добро пожаловать!",
-  "onb.intro": "DAGI помогает найти компанию под занятие рядом. Как это работает:",
+  "onb.intro": "DUD помогает найти компанию под занятие рядом. Как это работает:",
   "onb.step1": "✦ Создай желание — что, где и когда хочешь.",
   "onb.step2": "⚲ В «Совпадениях» — люди рядом с таким же желанием.",
   "onb.step3": "✉ Собери команду и договорись в чате.",
@@ -166,7 +166,7 @@ const ru: Dict = {
   "blocked.unblock": "Разблокировать",
 
   // install
-  "install.title": "Установить DAGI на телефон",
+  "install.title": "Установить DUD на телефон",
   "install.noteAndroid":
     "Будет как обычное приложение — иконка на экране, открывается на весь экран.",
   "install.noteIOS": "На iPhone: нажми «Поделиться» внизу Safari → «На экран „Домой“».",
@@ -341,7 +341,7 @@ const lv: Dict = {
   "feedback.sent": "Paldies! Atsauksme nosūtīta.",
 
   "onb.title": "Laipni lūdzam!",
-  "onb.intro": "DAGI palīdz atrast kompāniju nodarbei tuvumā. Kā tas darbojas:",
+  "onb.intro": "DUD palīdz atrast kompāniju nodarbei tuvumā. Kā tas darbojas:",
   "onb.step1": "✦ Izveido vēlmi — ko, kur un kad vēlies.",
   "onb.step2": "⚲ Sadaļā «Sakritības» — cilvēki tuvumā ar tādu pašu vēlmi.",
   "onb.step3": "✉ Sapulcē komandu un vienojies čatā.",
@@ -458,7 +458,7 @@ const lv: Dict = {
     "Tu nevienu neesi bloķējis. Bloķēt cilvēku var sadaļā «Sakritības» — ar pogu 🚫.",
   "blocked.unblock": "Atbloķēt",
 
-  "install.title": "Instalēt DAGI telefonā",
+  "install.title": "Instalēt DUD telefonā",
   "install.noteAndroid":
     "Būs kā parasta lietotne — ikona ekrānā, atveras pilnekrānā.",
   "install.noteIOS": "iPhone: nospied «Kopīgot» Safari apakšā → «Pievienot sākuma ekrānam».",
@@ -630,7 +630,7 @@ const en: Dict = {
   "feedback.sent": "Thanks! Feedback sent.",
 
   "onb.title": "Welcome!",
-  "onb.intro": "DAGI helps you find company for an activity nearby. How it works:",
+  "onb.intro": "DUD helps you find company for an activity nearby. How it works:",
   "onb.step1": "✦ Create a wish — what, where and when.",
   "onb.step2": "⚲ In Matches — people nearby with the same wish.",
   "onb.step3": "✉ Form a team and agree in chat.",
@@ -747,7 +747,7 @@ const en: Dict = {
     "You haven't blocked anyone. You can block someone in the Matches tab — with the 🚫 button.",
   "blocked.unblock": "Unblock",
 
-  "install.title": "Install DAGI on your phone",
+  "install.title": "Install DUD on your phone",
   "install.noteAndroid":
     "It'll be like a normal app — an icon on your screen, opens full-screen.",
   "install.noteIOS": "On iPhone: tap Share at the bottom of Safari → 'Add to Home Screen'.",
@@ -919,7 +919,7 @@ const ka: Dict = {
   "feedback.sent": "მადლობა! გამოხმაურება გაიგზავნა.",
 
   "onb.title": "კეთილი იყოს შენი მობრძანება!",
-  "onb.intro": "DAGI გეხმარება იპოვო კომპანია ახლომდებარე აქტივობისთვის. როგორ მუშაობს:",
+  "onb.intro": "DUD გეხმარება იპოვო კომპანია ახლომდებარე აქტივობისთვის. როგორ მუშაობს:",
   "onb.step1": "✦ შექმენი სურვილი — რა, სად და როდის.",
   "onb.step2": "⚲ დამთხვევებში — ახლომახლო ადამიანები იმავე სურვილით.",
   "onb.step3": "✉ შექმენი გუნდი და შეთანხმდი ჩატში.",
@@ -1036,7 +1036,7 @@ const ka: Dict = {
     "შენ ვინმე არ დაგიბლოკავს. დაბლოკვა შეგიძლია დამთხვევების ჩანართში — 🚫 ღილაკით.",
   "blocked.unblock": "განბლოკვა",
 
-  "install.title": "დააინსტალირე DAGI შენს ტელეფონზე",
+  "install.title": "დააინსტალირე DUD შენს ტელეფონზე",
   "install.noteAndroid":
     "ის ჩვეულებრივი აპივით იქნება — ხატულა ეკრანზე, იხსნება სრულ ეკრანზე.",
   "install.noteIOS": "iPhone-ზე: Safari-ის ბოლოში შეეხე „გაზიარებას“ → „მთავარ ეკრანზე დამატება“.",
@@ -1208,7 +1208,7 @@ const et: Dict = {
   "feedback.sent": "Aitäh! Tagasiside saadetud.",
 
   "onb.title": "Tere tulemast!",
-  "onb.intro": "DAGI aitab leida seltsilise lähedal toimuvaks tegevuseks. Kuidas see töötab:",
+  "onb.intro": "DUD aitab leida seltsilise lähedal toimuvaks tegevuseks. Kuidas see töötab:",
   "onb.step1": "✦ Loo soov — mida, kus ja millal.",
   "onb.step2": "⚲ Sobivustes — lähedal olevad inimesed sama sooviga.",
   "onb.step3": "✉ Moodusta tiim ja lepi vestluses kokku.",
@@ -1325,7 +1325,7 @@ const et: Dict = {
     "Sa pole kedagi blokeerinud. Saad kellegi blokeerida vahekaardil Sobivused — nupuga 🚫.",
   "blocked.unblock": "Eemalda blokeering",
 
-  "install.title": "Paigalda DAGI oma telefoni",
+  "install.title": "Paigalda DUD oma telefoni",
   "install.noteAndroid":
     "See on nagu tavaline rakendus — ikoon ekraanil, avaneb täisekraanil.",
   "install.noteIOS": "iPhone'is: puuduta Safari all „Jaga“ → „Lisa avakuvale“.",
@@ -1497,7 +1497,7 @@ const lt: Dict = {
   "feedback.sent": "Ačiū! Atsiliepimas išsiųstas.",
 
   "onb.title": "Sveiki!",
-  "onb.intro": "DAGI padeda rasti kompaniją veiklai netoliese. Kaip tai veikia:",
+  "onb.intro": "DUD padeda rasti kompaniją veiklai netoliese. Kaip tai veikia:",
   "onb.step1": "✦ Sukurk norą — ką, kur ir kada.",
   "onb.step2": "⚲ Atitikmenyse — netoliese esantys žmonės su tokiu pat noru.",
   "onb.step3": "✉ Suburk komandą ir susitark pokalbyje.",
@@ -1614,7 +1614,7 @@ const lt: Dict = {
     "Nieko neužblokavai. Gali ką nors užblokuoti skirtuke Atitikmenys — mygtuku 🚫.",
   "blocked.unblock": "Atblokuoti",
 
-  "install.title": "Įdiek DAGI savo telefone",
+  "install.title": "Įdiek DUD savo telefone",
   "install.noteAndroid":
     "Bus kaip įprasta programėlė — piktograma ekrane, atsidaro per visą ekraną.",
   "install.noteIOS": "iPhone: bakstelėk „Bendrinti“ Safari apačioje → „Įtraukti į pradžios ekraną“.",
@@ -1786,7 +1786,7 @@ const de: Dict = {
   "feedback.sent": "Danke! Feedback gesendet.",
 
   "onb.title": "Willkommen!",
-  "onb.intro": "DAGI hilft dir, Gesellschaft für eine Aktivität in der Nähe zu finden. So funktioniert's:",
+  "onb.intro": "DUD hilft dir, Gesellschaft für eine Aktivität in der Nähe zu finden. So funktioniert's:",
   "onb.step1": "✦ Erstelle einen Wunsch — was, wo und wann.",
   "onb.step2": "⚲ Unter Treffer — Leute in der Nähe mit demselben Wunsch.",
   "onb.step3": "✉ Bilde ein Team und stimmt euch im Chat ab.",
@@ -1903,7 +1903,7 @@ const de: Dict = {
     "Du hast niemanden blockiert. Du kannst jemanden im Tab Treffer blockieren — mit der 🚫-Taste.",
   "blocked.unblock": "Entsperren",
 
-  "install.title": "DAGI auf deinem Handy installieren",
+  "install.title": "DUD auf deinem Handy installieren",
   "install.noteAndroid":
     "Es ist wie eine normale App — ein Symbol auf dem Bildschirm, öffnet im Vollbild.",
   "install.noteIOS": "Auf dem iPhone: Tippe unten in Safari auf „Teilen“ → „Zum Home-Bildschirm“.",
@@ -2075,7 +2075,7 @@ const es: Dict = {
   "feedback.sent": "¡Gracias! Comentario enviado.",
 
   "onb.title": "¡Bienvenido!",
-  "onb.intro": "DAGI te ayuda a encontrar compañía para una actividad cerca. Cómo funciona:",
+  "onb.intro": "DUD te ayuda a encontrar compañía para una actividad cerca. Cómo funciona:",
   "onb.step1": "✦ Crea un deseo — qué, dónde y cuándo.",
   "onb.step2": "⚲ En Coincidencias — personas cerca con el mismo deseo.",
   "onb.step3": "✉ Forma un equipo y poneos de acuerdo en el chat.",
@@ -2192,7 +2192,7 @@ const es: Dict = {
     "No has bloqueado a nadie. Puedes bloquear a alguien en la pestaña Coincidencias — con el botón 🚫.",
   "blocked.unblock": "Desbloquear",
 
-  "install.title": "Instala DAGI en tu teléfono",
+  "install.title": "Instala DUD en tu teléfono",
   "install.noteAndroid":
     "Será como una app normal — un icono en tu pantalla, se abre a pantalla completa.",
   "install.noteIOS": "En iPhone: toca Compartir en la parte inferior de Safari → «Añadir a pantalla de inicio».",
@@ -2364,7 +2364,7 @@ const fr: Dict = {
   "feedback.sent": "Merci ! Avis envoyé.",
 
   "onb.title": "Bienvenue !",
-  "onb.intro": "DAGI t'aide à trouver de la compagnie pour une activité à proximité. Comment ça marche :",
+  "onb.intro": "DUD t'aide à trouver de la compagnie pour une activité à proximité. Comment ça marche :",
   "onb.step1": "✦ Crée un souhait — quoi, où et quand.",
   "onb.step2": "⚲ Dans Correspondances — des gens à proximité avec le même souhait.",
   "onb.step3": "✉ Forme une équipe et mettez-vous d'accord dans le chat.",
@@ -2481,7 +2481,7 @@ const fr: Dict = {
     "Tu n'as bloqué personne. Tu peux bloquer quelqu'un dans l'onglet Correspondances — avec le bouton 🚫.",
   "blocked.unblock": "Débloquer",
 
-  "install.title": "Installe DAGI sur ton téléphone",
+  "install.title": "Installe DUD sur ton téléphone",
   "install.noteAndroid":
     "Ce sera comme une appli normale — une icône sur ton écran, s'ouvre en plein écran.",
   "install.noteIOS": "Sur iPhone : touche Partager en bas de Safari → « Sur l'écran d'accueil ».",
@@ -2653,7 +2653,7 @@ const hi: Dict = {
   "feedback.sent": "धन्यवाद! प्रतिक्रिया भेज दी गई।",
 
   "onb.title": "स्वागत है!",
-  "onb.intro": "DAGI आपको पास में किसी गतिविधि के लिए साथ ढूँढने में मदद करता है। यह कैसे काम करता है:",
+  "onb.intro": "DUD आपको पास में किसी गतिविधि के लिए साथ ढूँढने में मदद करता है। यह कैसे काम करता है:",
   "onb.step1": "✦ एक इच्छा बनाएँ — क्या, कहाँ और कब।",
   "onb.step2": "⚲ मेल में — पास के लोग जिनकी वही इच्छा है।",
   "onb.step3": "✉ एक टीम बनाएँ और चैट में तय करें।",
@@ -2770,7 +2770,7 @@ const hi: Dict = {
     "आपने किसी को ब्लॉक नहीं किया है। आप मेल टैब में किसी को 🚫 बटन से ब्लॉक कर सकते हैं।",
   "blocked.unblock": "अनब्लॉक करें",
 
-  "install.title": "अपने फ़ोन पर DAGI इंस्टॉल करें",
+  "install.title": "अपने फ़ोन पर DUD इंस्टॉल करें",
   "install.noteAndroid":
     "यह एक सामान्य ऐप जैसा होगा — स्क्रीन पर एक आइकन, पूरी स्क्रीन पर खुलता है।",
   "install.noteIOS": "iPhone पर: Safari के नीचे 'शेयर' पर टैप करें → 'होम स्क्रीन में जोड़ें'।",

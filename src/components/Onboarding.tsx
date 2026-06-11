@@ -9,7 +9,7 @@ function GuideModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-5">
       <div className="w-full max-w-[360px] rounded-2xl bg-screen p-5 shadow-[0_18px_40px_-12px_rgba(0,0,0,.4)]">
-        <div className="text-center font-display text-2xl font-bold text-accent">DAGI</div>
+        <div className="text-center font-display text-2xl font-bold text-accent">DUD</div>
         <h2 className="mt-2 text-center text-base font-bold">{t("onb.title")}</h2>
         <p className="mt-1 text-center text-[12.5px] leading-relaxed text-muted">{t("onb.intro")}</p>
 

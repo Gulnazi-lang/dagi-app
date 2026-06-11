@@ -81,7 +81,7 @@ export async function POST(req: Request) {
     .eq("id", me.id)
     .maybeSingle();
   const senderName =
-    meProfile?.display_name || meProfile?.username || "DAGI";
+    meProfile?.display_name || meProfile?.username || "DUD";
 
   const { data: subs } = await admin
     .from("push_subscriptions")

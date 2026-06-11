@@ -1,4 +1,4 @@
-const CACHE = "dagi-shell-v3";
+const CACHE = "dagi-shell-v4";
 const ASSETS = [
   "/",
   "/matches",
@@ -33,7 +33,7 @@ self.addEventListener("push", (event) => {
   } catch (e) {
     data = { body: event.data ? event.data.text() : "" };
   }
-  const title = data.title || "DAGI";
+  const title = data.title || "DUD";
   const options = {
     body: data.body || "",
     icon: "/icon-192.png",
