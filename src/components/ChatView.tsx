@@ -136,7 +136,7 @@ export function ChatView({
               key={m.id}
               className={`flex items-end gap-1.5 ${mine ? "flex-row-reverse" : ""}`}
             >
-              <div className="relative h-6 w-6 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#FFB39E] to-accent">
+              <div className="relative h-6 w-6 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
                 {author?.avatarUrl && (
                   <Image
                     src={author.avatarUrl}

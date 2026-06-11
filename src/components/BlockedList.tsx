@@ -48,7 +48,7 @@ export function BlockedList({ items }: { items: BlockedItem[] }) {
               key={p.userId}
               className="flex items-center gap-3 rounded-2xl border border-line bg-card p-2.5"
             >
-              <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#FFB39E] to-accent">
+              <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
                 {p.avatarUrl && (
                   <Image src={p.avatarUrl} alt="" fill sizes="36px" className="object-cover" />
                 )}

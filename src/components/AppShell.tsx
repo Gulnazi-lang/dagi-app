@@ -24,7 +24,7 @@ export function TopBar({ title }: { title?: string }) {
       ) : (
         <span className="font-display text-base font-bold text-accent">DUD</span>
       )}
-      <div className="h-[34px] w-[34px] flex-shrink-0 rounded-full bg-gradient-to-br from-[#FFB39E] to-accent" />
+      <div className="h-[34px] w-[34px] flex-shrink-0 rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent" />
     </header>
   );
 }

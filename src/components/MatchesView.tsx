@@ -178,7 +178,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
                   ✓
                 </span>
               )}
-              <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#FFB39E] to-accent">
+              <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
                 {p.avatarUrl && (
                   <Image src={p.avatarUrl} alt="" fill sizes="40px" className="object-cover" />
                 )}

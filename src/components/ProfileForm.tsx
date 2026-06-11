@@ -83,7 +83,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="relative h-[84px] w-[84px] overflow-hidden rounded-full bg-gradient-to-br from-[#FFB39E] to-accent"
+          className="relative h-[84px] w-[84px] overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent"
         >
           {avatarUrl && (
             <Image src={avatarUrl} alt="" fill sizes="84px" className="object-cover" />

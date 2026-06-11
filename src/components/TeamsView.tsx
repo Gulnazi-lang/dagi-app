@@ -252,7 +252,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           return (
             <div key={m.userId}>
               <div className="flex items-center gap-2">
-                <div className="relative h-7 w-7 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#FFB39E] to-accent">
+                <div className="relative h-7 w-7 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
                   {m.avatarUrl && (
                     <Image src={m.avatarUrl} alt="" fill sizes="28px" className="object-cover" />
                   )}
