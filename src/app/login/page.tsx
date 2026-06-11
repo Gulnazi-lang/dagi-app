@@ -12,9 +12,19 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
 
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  // По умолчанию — регистрация (кто не через Google, обычно новый пользователь).
+  const [mode, setMode] = useState<"signup" | "signin">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  // Понятные сообщения вместо технических английских из Supabase.
+  function friendly(msg: string): string {
+    if (/invalid login credentials/i.test(msg)) return t("login.errInvalid");
+    if (/already registered|already exists|user already/i.test(msg))
+      return t("login.errExists");
+    return msg;
+  }
 
   async function signInWithGoogle() {
     setLoading(true);
@@ -22,9 +32,7 @@ export default function LoginPage() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
     if (error) {
       setError(t("login.error", { msg: error.message }));
@@ -40,6 +48,17 @@ export default function LoginPage() {
       setError(t("login.errFill"));
       return;
     }
+    if (mode === "signup") {
+      if (password.length < 6) {
+        setError(t("login.errPassShort"));
+        return;
+      }
+      if (password !== password2) {
+        setError(t("login.errPassMatch"));
+        return;
+      }
+    }
+
     setLoading(true);
     const supabase = createClient();
 
@@ -50,7 +69,7 @@ export default function LoginPage() {
       });
       setLoading(false);
       if (error) {
-        setError(error.message);
+        setError(friendly(error.message));
         return;
       }
       router.push("/");
@@ -62,19 +81,19 @@ export default function LoginPage() {
       });
       setLoading(false);
       if (error) {
-        setError(error.message);
+        setError(friendly(error.message));
         return;
       }
       if (data.session) {
-        // Подтверждение email отключено — сразу в профиль (заполнить имя/город).
-        router.push("/profile");
+        router.push("/profile"); // подтверждение email выключено — сразу в профиль
         router.refresh();
       } else {
-        // Если подтверждение включат позже — покажем подсказку.
-        setInfo(t("login.checkEmail"));
+        setInfo(t("login.checkEmail")); // если подтверждение включат позже
       }
     }
   }
+
+  const isSignup = mode === "signup";
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[420px] flex-col items-center justify-center bg-screen px-8 py-10 text-center">
@@ -101,6 +120,10 @@ export default function LoginPage() {
         <span className="h-px flex-1 bg-line" />
       </div>
 
+      <p className="mb-2.5 text-[12.5px] font-semibold text-ink">
+        {isSignup ? t("login.emailRegisterTitle") : t("login.emailSignInTitle")}
+      </p>
+
       <form onSubmit={submitEmail} className="w-full space-y-2.5">
         <input
           type="email"
@@ -115,10 +138,21 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder={t("login.passwordPlaceholder")}
-          autoComplete={mode === "signin" ? "current-password" : "new-password"}
+          autoComplete={isSignup ? "new-password" : "current-password"}
           minLength={6}
           className="input-field text-left"
         />
+        {isSignup && (
+          <input
+            type="password"
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+            placeholder={t("login.passwordAgainPlaceholder")}
+            autoComplete="new-password"
+            minLength={6}
+            className="input-field text-left"
+          />
+        )}
         <button
           type="submit"
           disabled={loading}
@@ -126,22 +160,23 @@ export default function LoginPage() {
         >
           {loading
             ? t("login.working")
-            : mode === "signin"
-              ? t("login.signInEmail")
-              : t("login.signUpEmail")}
+            : isSignup
+              ? t("login.signUpEmail")
+              : t("login.signInEmail")}
         </button>
       </form>
 
       <button
         type="button"
         onClick={() => {
-          setMode((m) => (m === "signin" ? "signup" : "signin"));
+          setMode(isSignup ? "signin" : "signup");
           setError(null);
           setInfo(null);
+          setPassword2("");
         }}
         className="mt-3 text-[12px] font-semibold text-accent"
       >
-        {mode === "signin" ? t("login.toSignUp") : t("login.toSignIn")}
+        {isSignup ? t("login.toSignIn") : t("login.toSignUp")}
       </button>
 
       {info && <p className="mt-3 text-xs font-semibold text-green">{info}</p>}
