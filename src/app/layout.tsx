@@ -20,11 +20,11 @@ const unbounded = Unbounded({
 export const metadata: Metadata = {
   metadataBase: new URL("https://dud.lv"),
   title: "DUD — Domā un Dari",
-  description: "Atrodi kompāniju nodarbei tuvumā · Найди компанию под занятие рядом · Find company for an activity nearby",
+  description: "Atrodi kompāniju nodarbei tuvumā — kafija, sports, pastaigas. · Найди компанию под занятие рядом — кофе, спорт, прогулки. · Find company for an activity nearby — coffee, sport, walks.",
   manifest: "/manifest.json",
   openGraph: {
     title: "DUD — Domā un Dari",
-    description: "Atrodi kompāniju nodarbei tuvumā · Найди компанию под занятие рядом · Find company for an activity nearby",
+    description: "Atrodi kompāniju nodarbei tuvumā — kafija, sports, pastaigas. · Найди компанию под занятие рядом — кофе, спорт, прогулки. · Find company for an activity nearby — coffee, sport, walks.",
     url: "https://dud.lv",
     siteName: "DUD",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "DUD — Domā un Dari",
-    description: "Atrodi kompāniju nodarbei tuvumā · Найди компанию под занятие рядом · Find company for an activity nearby",
+    description: "Atrodi kompāniju nodarbei tuvumā — kafija, sports, pastaigas. · Найди компанию под занятие рядом — кофе, спорт, прогулки. · Find company for an activity nearby — coffee, sport, walks.",
     images: ["/og.png"],
   },
   icons: {
