@@ -18,9 +18,24 @@ const unbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://dud.lv"),
   title: "DUD — Domā un Dari",
-  description: "Поиск компании под занятие рядом с тобой",
+  description: "Найди компанию под занятие рядом — кофе, спорт, прогулки.",
   manifest: "/manifest.json",
+  openGraph: {
+    title: "DUD — Domā un Dari",
+    description: "Найди компанию под занятие рядом — кофе, спорт, прогулки.",
+    url: "https://dud.lv",
+    siteName: "DUD",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DUD — Domā un Dari",
+    description: "Найди компанию под занятие рядом — кофе, спорт, прогулки.",
+    images: ["/og.png"],
+  },
   icons: {
     icon: [
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
