@@ -31,7 +31,7 @@ export function WishForm({
   // Префилл при заходе из «Все желания» (вписаться в готовый слот).
   initialActivity?: string; // ключ-лист активности
   initialCity?: string;
-  initialDate?: string; // YYYY-MM-DD
+  initialDate?: string | null; // YYYY-MM-DD; null = «любой день»
   initialTime?: string | null; // "HH:MM" = время; null = любое время; undefined = по умолчанию
   redirectTo?: string; // куда вернуться после создания (по умолчанию на главную)
 }) {
@@ -62,6 +62,9 @@ export function WishForm({
   const [district, setDistrict] = useState(wish?.district ?? defaultDistrict);
   const [radius, setRadius] = useState(wish?.radius_km ?? 10);
   const [date, setDate] = useState(wish?.wish_date ?? initialDate ?? todayISO());
+  const [anyDate, setAnyDate] = useState(
+    wish ? wish.wish_date === null : initialDate === null
+  );
   const [anyTime, setAnyTime] = useState(
     wish ? wish.wish_time === null : initialTime === null
   );
@@ -126,7 +129,7 @@ export function WishForm({
       city: city.trim(),
       district: district.trim() || null,
       radius_km: radius,
-      wish_date: date,
+      wish_date: anyDate ? null : date,
       wish_time: anyTime ? null : `${time}:00`,
     };
 
@@ -298,12 +301,25 @@ export function WishForm({
           />
         </div>
 
-        <Field label={t("wish.date")}>
+        <div>
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="text-[11.5px] font-semibold text-muted">{t("wish.date")}</span>
+            <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] font-semibold text-muted">
+              <input
+                type="checkbox"
+                checked={anyDate}
+                onChange={(e) => setAnyDate(e.target.checked)}
+                className="accent-[var(--accent)]"
+              />
+              {t("wish.anyDay")}
+            </label>
+          </div>
           <div className="grid grid-cols-3 gap-2">
             <select
               value={dd}
+              disabled={anyDate}
               onChange={(e) => setDateParts(yy, mm, Number(e.target.value))}
-              className="input-field"
+              className="input-field disabled:opacity-50"
               aria-label="DD"
             >
               {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((d) => (
@@ -314,8 +330,9 @@ export function WishForm({
             </select>
             <select
               value={mm}
+              disabled={anyDate}
               onChange={(e) => setDateParts(yy, Number(e.target.value), dd)}
-              className="input-field"
+              className="input-field disabled:opacity-50"
               aria-label="MM"
             >
               {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
@@ -326,8 +343,9 @@ export function WishForm({
             </select>
             <select
               value={yy}
+              disabled={anyDate}
               onChange={(e) => setDateParts(Number(e.target.value), mm, dd)}
-              className="input-field"
+              className="input-field disabled:opacity-50"
               aria-label="YYYY"
             >
               {years.map((y) => (
@@ -337,8 +355,10 @@ export function WishForm({
               ))}
             </select>
           </div>
-          <p className="mt-1 text-[11px] text-muted">{formatDate(date, locale)}</p>
-        </Field>
+          <p className="mt-1 text-[11px] text-muted">
+            {anyDate ? t("wish.anyDay") : formatDate(date, locale)}
+          </p>
+        </div>
 
         <div>
           <div className="mb-1.5 flex items-center justify-between">

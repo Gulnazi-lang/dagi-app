@@ -8,7 +8,7 @@ import { getT } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
-type Slot = { wish_date: string; wish_time: string | null; cnt: number };
+type Slot = { wish_date: string | null; wish_time: string | null; cnt: number };
 
 export default async function BrowseActivityPage({
   params,
@@ -66,7 +66,7 @@ export default async function BrowseActivityPage({
             // после создания — сразу в «Совпадения».
             const qs = new URLSearchParams({
               activity,
-              date: s.wish_date,
+              date: s.wish_date ?? "any",
               time: s.wish_time ? s.wish_time.slice(0, 5) : "any",
               next: "/matches",
             });

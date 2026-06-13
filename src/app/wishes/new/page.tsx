@@ -48,7 +48,7 @@ export default async function NewWishPage({
         defaultDistrict={profile?.district ?? ""}
         initialActivity={sp.activity}
         initialCity={sp.city || undefined}
-        initialDate={sp.date}
+        initialDate={sp.date === "any" ? null : sp.date}
         initialTime={initialTime}
         redirectTo={redirectTo}
       />

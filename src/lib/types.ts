@@ -18,14 +18,14 @@ export type Match = {
   my_activity: string;
   my_city: string;
   my_district: string | null;
-  my_wish_date: string;
+  my_wish_date: string | null;
   my_wish_time: string | null;
   match_wish_id: string;
   match_user_id: string;
   activity: string;
   city: string;
   district: string | null;
-  wish_date: string;
+  wish_date: string | null;
   wish_time: string | null;
   display_name: string | null;
   username: string | null;
@@ -40,7 +40,7 @@ export type Team = {
   activity: string;
   city: string;
   district: string | null;
-  wish_date: string;
+  wish_date: string | null;
   wish_time: string | null;
   status: string;
   created_at: string;
@@ -71,7 +71,7 @@ export type Wish = {
   city: string;
   district: string | null;
   radius_km: number;
-  wish_date: string; // YYYY-MM-DD
+  wish_date: string | null; // YYYY-MM-DD или null = «любой день»
   wish_time: string | null; // HH:MM:SS или null = «время не важно»
   status: WishStatus;
   created_at: string;

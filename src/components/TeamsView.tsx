@@ -30,7 +30,7 @@ export type TeamView = {
   activity: string;
   city: string;
   district: string | null;
-  date: string;
+  date: string | null;
   time: string | null;
   status: string; // forming | done | ...
   isCreator: boolean;

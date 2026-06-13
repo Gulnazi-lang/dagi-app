@@ -27,7 +27,7 @@ export type MatchGroup = {
   activity: string;
   city: string;
   district: string | null;
-  date: string;
+  date: string | null;
   time: string | null;
   people: MatchPerson[];
 };

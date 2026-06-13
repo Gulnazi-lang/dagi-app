@@ -17,7 +17,7 @@ const WEEKDAYS: Partial<Record<Locale, string[]>> = {
 
 // "Сб, 07.06.2026" — день недели + ДД.ММ.ГГГГ (формат, принятый в Латвии).
 export function formatDate(isoDate: string | null | undefined, locale: Locale = "ru"): string {
-  if (!isoDate) return "—";
+  if (!isoDate) return translate(locale, "wish.anyDay");
   const [y, m, d] = isoDate.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const wd = WEEKDAYS[locale] ?? WEEKDAYS.en!;

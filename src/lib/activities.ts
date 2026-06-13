@@ -22,6 +22,12 @@ export const ACTIVITIES: ActivityCategory[] = [
       { key: "football", icon: "⚽" },
       { key: "volleyball", icon: "🏐" },
       { key: "basketball", icon: "🏀" },
+    ],
+  },
+  {
+    key: "tennis",
+    icon: "🎾",
+    options: [
       { key: "tennis_court", icon: "🎾" },
       { key: "table_tennis", icon: "🏓" },
       { key: "badminton", icon: "🏸" },
