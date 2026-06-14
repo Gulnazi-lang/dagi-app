@@ -78,6 +78,12 @@ export default function LoginPage() {
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
+        options: {
+          // Ссылка-подтверждение из письма ведёт через /auth/callback,
+          // который обменивает код на сессию и сразу впускает пользователя
+          // (без повторного ввода пароля и формы регистрации).
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
       setLoading(false);
       if (error) {
