@@ -40,6 +40,25 @@ export default function LoginPage() {
     }
   }
 
+  async function forgotPassword() {
+    setError(null);
+    setInfo(null);
+    if (!email.trim()) {
+      setError(t("login.forgotNeedEmail"));
+      return;
+    }
+    setLoading(true);
+    const supabase = createClient();
+    // Письмо ведёт через /auth/confirm (type=recovery) → /auth/reset, где
+    // задаётся новый пароль. redirectTo — запасной вариант для дефолтного шаблона.
+    await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/auth/reset`,
+    });
+    setLoading(false);
+    // Не раскрываем, существует ли аккаунт — всегда одно сообщение.
+    setInfo(t("login.resetSent"));
+  }
+
   async function submitEmail(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -171,6 +190,17 @@ export default function LoginPage() {
               : t("login.signInEmail")}
         </button>
       </form>
+
+      {!isSignup && (
+        <button
+          type="button"
+          onClick={forgotPassword}
+          disabled={loading}
+          className="mt-2.5 text-[12px] font-semibold text-accent/75 disabled:opacity-60"
+        >
+          {t("login.forgot")}
+        </button>
+      )}
 
       <button
         type="button"

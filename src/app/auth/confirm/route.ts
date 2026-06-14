@@ -18,11 +18,12 @@ export async function GET(request: Request) {
     if (!error) {
       // Новичка (или незаполненный профиль) ведём сразу в Профиль — чтобы
       // заполнил имя/город и заодно заметил и выбрал язык. Остальных — как обычно.
+      // Для сброса пароля (recovery) ВСЕГДА честно идём в next (/auth/reset).
       let dest = next;
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (user) {
+      if (user && type !== "recovery") {
         const { data: profile } = await supabase
           .from("profiles")
           .select("display_name, city")
