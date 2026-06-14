@@ -12,10 +12,12 @@ export const dynamic = "force-dynamic";
 // Ключ сортировки: выше ★ — выше в списке; новичок (нет оценок) — нейтрально посередине.
 const NEUTRAL_STARS = 3.5;
 
+type ProfileExtra = { bio: string | null; traits: Record<string, string[]> | null };
+
 function groupMatches(
   rows: Match[],
   repMap: Map<string, Reputation>,
-  bioMap: Map<string, string | null>,
+  profMap: Map<string, ProfileExtra>,
   noName: string
 ): MatchGroup[] {
   const map = new Map<string, MatchGroup>();
@@ -41,7 +43,8 @@ function groupMatches(
       district: r.district,
       time: r.wish_time,
       reputation: repMap.get(r.match_user_id) ?? null,
-      bio: bioMap.get(r.match_user_id) ?? null,
+      bio: profMap.get(r.match_user_id)?.bio ?? null,
+      traits: profMap.get(r.match_user_id)?.traits ?? null,
     });
   }
   // Внутри каждого желания: по убыванию рейтинга (новички — нейтрально).
@@ -93,19 +96,19 @@ export default async function MatchesPage() {
   }
   const repMap = new Map(reputations.map((r) => [r.user_id, r]));
 
-  // «О себе» совпавших людей — показываем на карточке.
-  let bios: { id: string; bio: string | null }[] = [];
+  // «О себе» + анкета совпавших людей — показываем на карточке и в профиле по тапу.
+  let profs: { id: string; bio: string | null; traits: Record<string, string[]> | null }[] = [];
   if (userIds.length > 0) {
-    const { data: profs } = await supabase
+    const { data } = await supabase
       .from("profiles")
-      .select("id, bio")
+      .select("id, bio, traits")
       .in("id", userIds)
-      .returns<{ id: string; bio: string | null }[]>();
-    bios = profs ?? [];
+      .returns<{ id: string; bio: string | null; traits: Record<string, string[]> | null }[]>();
+    profs = data ?? [];
   }
-  const bioMap = new Map(bios.map((b) => [b.id, b.bio]));
+  const profMap = new Map(profs.map((p) => [p.id, { bio: p.bio, traits: p.traits }]));
 
-  const groups = groupMatches(rows, repMap, bioMap, t("common.noName"));
+  const groups = groupMatches(rows, repMap, profMap, t("common.noName"));
 
   return (
     <AppShell header={<TopBar title={t("tab.matches")} />}>

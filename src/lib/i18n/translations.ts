@@ -55,6 +55,11 @@ const ru: Dict = {
   "browse.people": "{n} чел.",
   "browse.hint": "Имена и точные места не показываем — только спрос.",
   "browse.joinHint": "Нажмите, чтобы вписаться",
+  "browse.chooseDistrict": "В каком районе?",
+  "browse.districtUnset": "Район не указан",
+  "browse.joinHere": "Вписаться сюда",
+  "browse.joining": "Вписываемся…",
+  "browse.otherDistrict": "Другой район / не важно",
 
   // feedback
   "feedback.button": "Оставить отзыв",
@@ -148,6 +153,7 @@ const ru: Dict = {
     "Как только рядом появится человек с таким же желанием на эту дату — он покажется здесь, и можно будет собрать команду.",
   "matches.createTeam": "Создать команду",
   "matches.blockTitle": "Заблокировать",
+  "matches.profileEmpty": "Профиль пока пустой",
   "matches.blockAria": "Заблокировать {name}",
   "matches.confirmBlock":
     "Заблокировать {name}? Вы перестанете видеть друг друга в «Совпадениях», и пригласить друг друга в команду будет нельзя.",
@@ -418,6 +424,11 @@ const lv: Dict = {
   "browse.people": "{n} cilv.",
   "browse.hint": "Vārdus un precīzas vietas nerādām — tikai pieprasījumu.",
   "browse.joinHint": "Nospied, lai pievienotos",
+  "browse.chooseDistrict": "Kurā rajonā?",
+  "browse.districtUnset": "Rajons nav norādīts",
+  "browse.joinHere": "Pievienoties šeit",
+  "browse.joining": "Pievienojas…",
+  "browse.otherDistrict": "Cits rajons / nav svarīgi",
 
   "feedback.button": "Atstāt atsauksmi",
   "feedback.note": "Uzraksti, ko uzlabot vai kādu aktivitāti pievienot.",
@@ -506,6 +517,7 @@ const lv: Dict = {
     "Tiklīdz blakus parādīsies cilvēks ar tādu pašu vēlmi šajā datumā — viņš parādīsies šeit, un varēs sapulcēt komandu.",
   "matches.createTeam": "Izveidot komandu",
   "matches.blockTitle": "Bloķēt",
+  "matches.profileEmpty": "Profils pagaidām tukšs",
   "matches.blockAria": "Bloķēt {name}",
   "matches.confirmBlock":
     "Bloķēt {name}? Jūs vairs neredzēsiet viens otru sadaļā «Sakritības», un uzaicināt viens otru komandā nevarēs.",
@@ -768,6 +780,11 @@ const en: Dict = {
   "browse.people": "{n} ppl",
   "browse.hint": "We don't show names or exact places — only demand.",
   "browse.joinHint": "Tap to join in",
+  "browse.chooseDistrict": "Which district?",
+  "browse.districtUnset": "District not set",
+  "browse.joinHere": "Join here",
+  "browse.joining": "Joining…",
+  "browse.otherDistrict": "Other district / no preference",
 
   "feedback.button": "Leave feedback",
   "feedback.note": "Tell us what to improve or which activity to add.",
@@ -856,6 +873,7 @@ const en: Dict = {
     "As soon as someone nearby has the same wish for this date, they'll appear here and you can form a team.",
   "matches.createTeam": "Create team",
   "matches.blockTitle": "Block",
+  "matches.profileEmpty": "Profile is empty for now",
   "matches.blockAria": "Block {name}",
   "matches.confirmBlock":
     "Block {name}? You'll stop seeing each other in Matches, and won't be able to invite each other to a team.",
@@ -1118,6 +1136,11 @@ const ka: Dict = {
   "browse.people": "{n} ადამიანი",
   "browse.hint": "ჩვენ არ ვაჩვენებთ სახელებს ან ზუსტ ადგილებს — მხოლოდ მოთხოვნას.",
   "browse.joinHint": "შეეხე შესაერთებლად",
+  "browse.chooseDistrict": "რომელ უბანში?",
+  "browse.districtUnset": "უბანი მითითებული არ არის",
+  "browse.joinHere": "აქ შეერთება",
+  "browse.joining": "უერთდება…",
+  "browse.otherDistrict": "სხვა უბანი / არ აქვს მნიშვნელობა",
 
   "feedback.button": "დატოვე გამოხმაურება",
   "feedback.note": "გვითხარი რა გავაუმჯობესოთ ან რომელი აქტივობა დავამატოთ.",
@@ -1206,6 +1229,7 @@ const ka: Dict = {
     "როგორც კი ახლომახლო ვინმეს იგივე სურვილი ექნება ამ თარიღზე, ის აქ გამოჩნდება და გუნდს შექმნი.",
   "matches.createTeam": "გუნდის შექმნა",
   "matches.blockTitle": "დაბლოკვა",
+  "matches.profileEmpty": "პროფილი ჯერ ცარიელია",
   "matches.blockAria": "დაბლოკე {name}",
   "matches.confirmBlock":
     "დავბლოკო {name}? ერთმანეთს აღარ დაინახავთ დამთხვევებში და ვერ მოიწვევთ ერთმანეთს გუნდში.",
@@ -1468,6 +1492,11 @@ const et: Dict = {
   "browse.people": "{n} in.",
   "browse.hint": "Me ei näita nimesid ega täpseid kohti — ainult nõudlust.",
   "browse.joinHint": "Puuduta liitumiseks",
+  "browse.chooseDistrict": "Millises linnaosas?",
+  "browse.districtUnset": "Linnaosa märkimata",
+  "browse.joinHere": "Liitu siin",
+  "browse.joining": "Liitub…",
+  "browse.otherDistrict": "Muu linnaosa / pole vahet",
 
   "feedback.button": "Jäta tagasiside",
   "feedback.note": "Ütle, mida parandada või millise tegevuse lisada.",
@@ -1556,6 +1585,7 @@ const et: Dict = {
     "Niipea kui kellelgi lähedal on sama soov sellel kuupäeval, ilmub ta siia ja saad tiimi moodustada.",
   "matches.createTeam": "Loo tiim",
   "matches.blockTitle": "Blokeeri",
+  "matches.profileEmpty": "Profiil on praegu tühi",
   "matches.blockAria": "Blokeeri {name}",
   "matches.confirmBlock":
     "Blokeerida {name}? Te ei näe enam teineteist sobivustes ega saa üksteist tiimi kutsuda.",
@@ -1818,6 +1848,11 @@ const lt: Dict = {
   "browse.people": "{n} žm.",
   "browse.hint": "Nerodome vardų ar tikslių vietų — tik paklausą.",
   "browse.joinHint": "Bakstelėk, kad prisijungtum",
+  "browse.chooseDistrict": "Kuriame rajone?",
+  "browse.districtUnset": "Rajonas nenurodytas",
+  "browse.joinHere": "Prisijungti čia",
+  "browse.joining": "Jungiamasi…",
+  "browse.otherDistrict": "Kitas rajonas / nesvarbu",
 
   "feedback.button": "Palik atsiliepimą",
   "feedback.note": "Parašyk, ką pagerinti ar kokią veiklą pridėti.",
@@ -1906,6 +1941,7 @@ const lt: Dict = {
     "Kai tik kas nors netoliese turės tokį pat norą šiai datai, jis atsiras čia ir galėsi suburti komandą.",
   "matches.createTeam": "Sukurti komandą",
   "matches.blockTitle": "Blokuoti",
+  "matches.profileEmpty": "Profilis kol kas tuščias",
   "matches.blockAria": "Blokuoti {name}",
   "matches.confirmBlock":
     "Užblokuoti {name}? Nebematysite vienas kito atitikmenyse ir negalėsite pakviesti vienas kito į komandą.",
@@ -2168,6 +2204,11 @@ const de: Dict = {
   "browse.people": "{n} Pers.",
   "browse.hint": "Wir zeigen keine Namen oder genauen Orte — nur die Nachfrage.",
   "browse.joinHint": "Tippen zum Mitmachen",
+  "browse.chooseDistrict": "In welchem Stadtteil?",
+  "browse.districtUnset": "Stadtteil nicht angegeben",
+  "browse.joinHere": "Hier mitmachen",
+  "browse.joining": "Tritt bei…",
+  "browse.otherDistrict": "Anderer Stadtteil / egal",
 
   "feedback.button": "Feedback geben",
   "feedback.note": "Sag uns, was wir verbessern oder welche Aktivität wir hinzufügen sollen.",
@@ -2256,6 +2297,7 @@ const de: Dict = {
     "Sobald jemand in der Nähe denselben Wunsch für dieses Datum hat, erscheint er hier und du kannst ein Team bilden.",
   "matches.createTeam": "Team erstellen",
   "matches.blockTitle": "Blockieren",
+  "matches.profileEmpty": "Profil ist noch leer",
   "matches.blockAria": "{name} blockieren",
   "matches.confirmBlock":
     "{name} blockieren? Ihr seht euch nicht mehr unter Treffer und könnt euch nicht in ein Team einladen.",
@@ -2518,6 +2560,11 @@ const es: Dict = {
   "browse.people": "{n} pers.",
   "browse.hint": "No mostramos nombres ni lugares exactos — solo la demanda.",
   "browse.joinHint": "Toca para unirte",
+  "browse.chooseDistrict": "¿En qué barrio?",
+  "browse.districtUnset": "Barrio sin indicar",
+  "browse.joinHere": "Unirme aquí",
+  "browse.joining": "Uniéndote…",
+  "browse.otherDistrict": "Otro barrio / me da igual",
 
   "feedback.button": "Dejar comentario",
   "feedback.note": "Dinos qué mejorar o qué actividad añadir.",
@@ -2606,6 +2653,7 @@ const es: Dict = {
     "En cuanto alguien cerca tenga el mismo deseo para esta fecha, aparecerá aquí y podrás formar un equipo.",
   "matches.createTeam": "Crear equipo",
   "matches.blockTitle": "Bloquear",
+  "matches.profileEmpty": "El perfil está vacío por ahora",
   "matches.blockAria": "Bloquear a {name}",
   "matches.confirmBlock":
     "¿Bloquear a {name}? Dejaréis de veros en Coincidencias y no podréis invitaros a un equipo.",
@@ -2868,6 +2916,11 @@ const fr: Dict = {
   "browse.people": "{n} pers.",
   "browse.hint": "Nous n'affichons ni les noms ni les lieux exacts — seulement la demande.",
   "browse.joinHint": "Touche pour participer",
+  "browse.chooseDistrict": "Dans quel quartier ?",
+  "browse.districtUnset": "Quartier non indiqué",
+  "browse.joinHere": "Rejoindre ici",
+  "browse.joining": "Participation…",
+  "browse.otherDistrict": "Autre quartier / peu importe",
 
   "feedback.button": "Laisser un avis",
   "feedback.note": "Dis-nous quoi améliorer ou quelle activité ajouter.",
@@ -2956,6 +3009,7 @@ const fr: Dict = {
     "Dès que quelqu'un à proximité aura le même souhait pour cette date, il apparaîtra ici et tu pourras former une équipe.",
   "matches.createTeam": "Créer une équipe",
   "matches.blockTitle": "Bloquer",
+  "matches.profileEmpty": "Le profil est encore vide",
   "matches.blockAria": "Bloquer {name}",
   "matches.confirmBlock":
     "Bloquer {name} ? Vous ne vous verrez plus dans Correspondances et ne pourrez plus vous inviter dans une équipe.",
@@ -3218,6 +3272,11 @@ const hi: Dict = {
   "browse.people": "{n} लोग",
   "browse.hint": "हम नाम या सटीक स्थान नहीं दिखाते — केवल माँग।",
   "browse.joinHint": "शामिल होने के लिए टैप करें",
+  "browse.chooseDistrict": "किस इलाके में?",
+  "browse.districtUnset": "इलाका तय नहीं",
+  "browse.joinHere": "यहाँ शामिल हों",
+  "browse.joining": "शामिल हो रहे हैं…",
+  "browse.otherDistrict": "दूसरा इलाका / कोई फ़र्क नहीं",
 
   "feedback.button": "प्रतिक्रिया दें",
   "feedback.note": "बताएँ कि क्या सुधारें या कौन-सी गतिविधि जोड़ें।",
@@ -3306,6 +3365,7 @@ const hi: Dict = {
     "जैसे ही पास का कोई व्यक्ति इस तारीख़ के लिए वही इच्छा रखेगा, वह यहाँ दिखेगा और आप एक टीम बना सकेंगे।",
   "matches.createTeam": "टीम बनाएँ",
   "matches.blockTitle": "ब्लॉक करें",
+  "matches.profileEmpty": "प्रोफ़ाइल फ़िलहाल खाली है",
   "matches.blockAria": "{name} को ब्लॉक करें",
   "matches.confirmBlock":
     "{name} को ब्लॉक करें? आप एक-दूसरे को मेल में नहीं देखेंगे और टीम में आमंत्रित नहीं कर पाएँगे।",
