@@ -3,6 +3,7 @@ import { AppShell, TopBar } from "@/components/AppShell";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { MatchesView, type MatchGroup } from "@/components/MatchesView";
 import { reputationStars } from "@/lib/reputation";
+import { personName } from "@/lib/name";
 import { getT } from "@/lib/i18n/server";
 import type { Match, Reputation } from "@/lib/types";
 
@@ -35,7 +36,7 @@ function groupMatches(
     g.people.push({
       matchUserId: r.match_user_id,
       matchWishId: r.match_wish_id,
-      name: r.display_name || r.username || noName,
+      name: personName(r, noName),
       avatarUrl: r.avatar_url,
       district: r.district,
       time: r.wish_time,

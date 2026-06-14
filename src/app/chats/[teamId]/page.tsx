@@ -6,6 +6,7 @@ import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { cityLabel, districtLabel } from "@/lib/places";
+import { personName } from "@/lib/name";
 import { getT } from "@/lib/i18n/server";
 import type { Team, Message } from "@/lib/types";
 
@@ -70,7 +71,7 @@ export default async function TeamChatPage({
 
   const members: ChatMember[] = profiles.map((p) => ({
     userId: p.id,
-    name: p.display_name || p.username || t("common.noName"),
+    name: personName(p, t("common.noName")),
     avatarUrl: p.avatar_url,
   }));
 

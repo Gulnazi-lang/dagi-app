@@ -6,6 +6,7 @@ import { InstallHint } from "@/components/InstallHint";
 import { FeedbackButton } from "@/components/FeedbackButton";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { getT } from "@/lib/i18n/server";
+import { personName } from "@/lib/name";
 import { MyReputation } from "@/components/MyReputation";
 import { PushToggle } from "@/components/PushToggle";
 import type { Profile, Reputation } from "@/lib/types";
@@ -80,7 +81,7 @@ export default async function ProfilePage() {
       .returns<ProfileLite[]>();
     blocked = (p ?? []).map((x) => ({
       userId: x.id,
-      name: x.display_name || x.username || t("common.noName"),
+      name: personName(x, t("common.noName")),
       avatarUrl: x.avatar_url,
     }));
   }

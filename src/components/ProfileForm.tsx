@@ -7,6 +7,14 @@ import type { Profile } from "@/lib/types";
 import { SignOutButton } from "@/components/SignOutButton";
 import { useI18n } from "@/lib/i18n/client";
 import { LOCALES, LOCALE_LABELS, type Locale } from "@/lib/i18n/locale";
+import { CITIES, districtsForCity, cityLabel, districtLabel } from "@/lib/places";
+import {
+  TRAITS,
+  questionLabel,
+  optionLabel,
+  hasAnyTrait,
+  type TraitValue,
+} from "@/lib/traits";
 
 export function ProfileForm({ profile, email }: { profile: Profile; email: string }) {
   const supabase = createClient();
@@ -18,11 +26,29 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
   const [city, setCity] = useState(profile.city ?? "");
   const [district, setDistrict] = useState(profile.district ?? "");
   const [bio, setBio] = useState(profile.bio ?? "");
+  const [traits, setTraits] = useState<TraitValue>((profile.traits as TraitValue) ?? {});
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url ?? "");
 
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [status, setStatus] = useState<{ ok: boolean; msg: string } | null>(null);
+
+  const districtList = districtsForCity(city);
+  // Если у профиля сохранён город не из списка (старый свободный ввод) — добавим его.
+  const cityOptions = city && !CITIES.includes(city) ? [city, ...CITIES] : CITIES;
+
+  function toggleTrait(qKey: string, optKey: string, multi: boolean) {
+    setTraits((prev) => {
+      const cur = prev[qKey] ?? [];
+      let next: string[];
+      if (multi) {
+        next = cur.includes(optKey) ? cur.filter((x) => x !== optKey) : [...cur, optKey];
+      } else {
+        next = cur.includes(optKey) ? [] : [optKey];
+      }
+      return { ...prev, [qKey]: next };
+    });
+  }
 
   async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -53,6 +79,12 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
     setSaving(true);
     setStatus(null);
 
+    // Чистим пустые ответы анкеты, чтобы не хранить мусор.
+    const cleanTraits: TraitValue = {};
+    for (const [k, v] of Object.entries(traits)) {
+      if (Array.isArray(v) && v.length > 0) cleanTraits[k] = v;
+    }
+
     const { error } = await supabase
       .from("profiles")
       .update({
@@ -61,20 +93,21 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
         city: city.trim() || null,
         district: district.trim() || null,
         bio: bio.trim() || null,
+        traits: cleanTraits,
         avatar_url: avatarUrl || null,
       })
       .eq("id", profile.id);
 
     setSaving(false);
     if (error) {
-      const msg = error.code === "23505"
-        ? t("profile.nickTaken")
-        : error.message;
+      const msg = error.code === "23505" ? t("profile.nickTaken") : error.message;
       setStatus({ ok: false, msg });
     } else {
       setStatus({ ok: true, msg: t("profile.saved") });
     }
   }
+
+  const aboutEmpty = !bio.trim() && !hasAnyTrait(traits);
 
   return (
     <div className="pb-2">
@@ -102,15 +135,15 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
         <p className="mt-2 text-[11px] text-muted">{email}</p>
       </div>
 
-      {/* Мягкие подсказки-мотиваторы: фото и «о себе» повышают шанс попасть в команду */}
-      {(!avatarUrl || !bio.trim()) && (
+      {/* Мягкие подсказки-мотиваторы: фото и анкета повышают шанс попасть в команду */}
+      {(!avatarUrl || aboutEmpty) && (
         <div className="mt-3 space-y-1.5">
           {!avatarUrl && (
             <p className="rounded-xl bg-accent-soft px-3 py-2 text-[11.5px] font-medium text-accent">
               📷 {t("profile.photoNudge")}
             </p>
           )}
-          {!bio.trim() && (
+          {aboutEmpty && (
             <p className="rounded-xl bg-accent-soft px-3 py-2 text-[11.5px] font-medium text-accent">
               ✏️ {t("profile.bioNudge")}
             </p>
@@ -137,35 +170,95 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
           />
         </Field>
         <Field label={t("profile.city")}>
-          <input
+          <select
             value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder={t("profile.cityPlaceholder")}
+            onChange={(e) => {
+              setCity(e.target.value);
+              setDistrict("");
+            }}
             className="input-field"
-          />
+          >
+            <option value="">{t("profile.cityPlaceholder")}</option>
+            {cityOptions.map((c) => (
+              <option key={c} value={c}>
+                {cityLabel(c, locale)}
+              </option>
+            ))}
+          </select>
         </Field>
         <Field label={t("profile.district")}>
-          <input
-            value={district}
-            onChange={(e) => setDistrict(e.target.value)}
-            placeholder={t("profile.districtPlaceholder")}
-            className="input-field"
-          />
-        </Field>
-        <Field label={t("profile.bio")}>
-          <textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value.slice(0, 300))}
-            placeholder={t("profile.bioPlaceholder")}
-            rows={3}
-            className="input-field resize-none"
-          />
-          <p className="mt-1 text-right text-[10.5px] text-muted">{bio.length}/300</p>
+          {districtList.length > 0 ? (
+            <select
+              value={district}
+              onChange={(e) => setDistrict(e.target.value)}
+              className="input-field"
+            >
+              <option value="">{t("profile.districtPlaceholder")}</option>
+              {districtList.map((d) => (
+                <option key={d} value={d}>
+                  {districtLabel(d, locale)}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              value={district}
+              onChange={(e) => setDistrict(e.target.value)}
+              placeholder={t("profile.districtPlaceholder")}
+              className="input-field"
+            />
+          )}
         </Field>
       </div>
 
+      {/* О себе: опциональная строчка + анкета (переводимая на все языки) */}
+      <div className="mt-6">
+        <h2 className="mb-2 text-sm font-semibold text-ink">{t("profile.aboutTitle")}</h2>
+
+        <textarea
+          value={bio}
+          onChange={(e) => setBio(e.target.value.slice(0, 300))}
+          placeholder={t("profile.bioPlaceholder")}
+          rows={2}
+          className="input-field resize-none"
+        />
+        <div className="mt-1 flex items-start justify-between gap-2">
+          <p className="text-[10.5px] leading-snug text-muted">{t("profile.bioHint")}</p>
+          <span className="flex-shrink-0 text-[10.5px] text-muted">{bio.length}/300</span>
+        </div>
+
+        <div className="mt-4 space-y-4">
+          {TRAITS.map((q) => (
+            <div key={q.key}>
+              <p className="mb-1.5 text-[11.5px] font-semibold text-muted">
+                {questionLabel(q, t)}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {q.options.map((opt) => {
+                  const selected = (traits[q.key] ?? []).includes(opt);
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => toggleTrait(q.key, opt, q.multi)}
+                      className={`rounded-full border px-3 py-1.5 text-[11.5px] font-semibold transition ${
+                        selected
+                          ? "border-accent bg-accent text-white"
+                          : "border-line bg-card text-muted"
+                      }`}
+                    >
+                      {optionLabel(q, opt, t)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Переключатель языка */}
-      <div className="mt-4">
+      <div className="mt-6">
         <span className="mb-1.5 block text-[11.5px] font-semibold text-muted">{t("profile.language")}</span>
         <select
           value={locale}

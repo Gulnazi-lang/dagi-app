@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { TeamsView, type TeamView, type RatingScore } from "@/components/TeamsView";
+import { personName } from "@/lib/name";
 import { getT } from "@/lib/i18n/server";
 import type { Team, TeamMemberStatus, Reputation } from "@/lib/types";
 
@@ -105,7 +106,7 @@ export default async function ChatsPage() {
         const prof = profileMap.get(m.user_id);
         return {
           userId: m.user_id,
-          name: prof?.display_name || prof?.username || tr("common.noName"),
+          name: personName(prof ?? {}, tr("common.noName")),
           avatarUrl: prof?.avatar_url ?? null,
           status: m.status,
           isCreator: m.user_id === t.creator_id,

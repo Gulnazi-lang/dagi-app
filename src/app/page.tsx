@@ -8,6 +8,7 @@ import { cityLabel, districtLabel } from "@/lib/places";
 import { HelpButton } from "@/components/Onboarding";
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { getT } from "@/lib/i18n/server";
+import { hasAnyTrait } from "@/lib/traits";
 import type { Locale } from "@/lib/i18n/locale";
 import type { Wish } from "@/lib/types";
 
@@ -43,13 +44,14 @@ export default async function Home() {
   const list = wishes ?? [];
 
   // Подсказка «заполни профиль» показывается только пока профиль неполный
-  // (нет фото или пустое «о себе»), и ведёт в Профиль.
+  // (нет фото, либо не заполнены ни анкета, ни «пара слов о себе»).
   const { data: profile } = await supabase
     .from("profiles")
-    .select("avatar_url, bio")
+    .select("avatar_url, bio, traits")
     .eq("id", user.id)
     .maybeSingle();
-  const profileIncomplete = !profile?.avatar_url || !profile?.bio?.trim();
+  const profileIncomplete =
+    !profile?.avatar_url || (!hasAnyTrait(profile?.traits) && !profile?.bio?.trim());
 
   return (
     <AppShell header={<TopBar />}>

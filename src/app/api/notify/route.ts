@@ -4,6 +4,7 @@ import webpush from "web-push";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { translate } from "@/lib/i18n/translations";
 import { activityFullLabel } from "@/lib/activities";
+import { personName } from "@/lib/name";
 import { isLocale, type Locale } from "@/lib/i18n/locale";
 
 export const runtime = "nodejs";
@@ -81,7 +82,7 @@ export async function POST(req: Request) {
     .eq("id", me.id)
     .maybeSingle();
   const senderName =
-    meProfile?.display_name || meProfile?.username || "DUD";
+    personName(meProfile ?? {}, "DUD");
 
   const { data: subs } = await admin
     .from("push_subscriptions")
