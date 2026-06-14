@@ -42,6 +42,15 @@ export default async function Home() {
 
   const list = wishes ?? [];
 
+  // Подсказка «заполни профиль» показывается только пока профиль неполный
+  // (нет фото или пустое «о себе»), и ведёт в Профиль.
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("avatar_url, bio")
+    .eq("id", user.id)
+    .maybeSingle();
+  const profileIncomplete = !profile?.avatar_url || !profile?.bio?.trim();
+
   return (
     <AppShell header={<TopBar />}>
       <div className="mb-3 flex items-center justify-between gap-2">
@@ -90,6 +99,16 @@ export default async function Home() {
       >
         {t("home.newWish")}
       </Link>
+
+      {profileIncomplete && (
+        <Link
+          href="/profile"
+          className="mt-3 flex items-center gap-2 rounded-xl bg-accent-soft px-4 py-3 text-left text-[12.5px] font-medium leading-snug text-accent transition hover:brightness-95"
+        >
+          <span className="text-base">👤</span>
+          <span>{t("home.profileNudge")}</span>
+        </Link>
+      )}
 
       <HelpButton />
     </AppShell>

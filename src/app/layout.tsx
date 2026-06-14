@@ -20,11 +20,11 @@ const unbounded = Unbounded({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.dud.lv"),
   title: "DUD — Domā un Dari",
-  description: "Atrodi kompāniju nodarbei tuvumā — kafija, sports, pastaigas. · Найди компанию под занятие рядом — кофе, спорт, прогулки. · Find company for an activity nearby — coffee, sport, walks.",
+  description: "Atrodi, ar ko pavadīt laiku tuvumā — kafija, sports, pastaigas. · Найди, с кем провести время рядом — кофе, спорт, прогулки. · Find people to spend time with nearby — coffee, sport, walks.",
   manifest: "/manifest.json",
   openGraph: {
     title: "DUD — Domā un Dari",
-    description: "Atrodi kompāniju nodarbei tuvumā — kafija, sports, pastaigas. · Найди компанию под занятие рядом — кофе, спорт, прогулки. · Find company for an activity nearby — coffee, sport, walks.",
+    description: "Atrodi, ar ko pavadīt laiku tuvumā — kafija, sports, pastaigas. · Найди, с кем провести время рядом — кофе, спорт, прогулки. · Find people to spend time with nearby — coffee, sport, walks.",
     url: "https://www.dud.lv",
     siteName: "DUD",
     images: [{ url: "/og2.png", width: 1200, height: 630 }],
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "DUD — Domā un Dari",
-    description: "Atrodi kompāniju nodarbei tuvumā — kafija, sports, pastaigas. · Найди компанию под занятие рядом — кофе, спорт, прогулки. · Find company for an activity nearby — coffee, sport, walks.",
+    description: "Atrodi, ar ko pavadīt laiku tuvumā — kafija, sports, pastaigas. · Найди, с кем провести время рядом — кофе, спорт, прогулки. · Find people to spend time with nearby — coffee, sport, walks.",
     images: ["/og2.png"],
   },
   icons: {

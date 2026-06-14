@@ -5,7 +5,7 @@ type Dict = Record<string, string>;
 // ── Русский (исходный) ──────────────────────────────────────────────
 const ru: Dict = {
   // login
-  "login.tagline": "Найди компанию под занятие, в нужное время, рядом с тобой",
+  "login.tagline": "Найди, с кем поиграть и провести время рядом",
   "login.googleLoading": "Открываем Google…",
   "login.googleSignIn": "Войти через Google",
   "login.or": "или",
@@ -78,6 +78,7 @@ const ru: Dict = {
 
   // home
   "home.activeWishes": "Твои активные желания",
+  "home.profileNudge": "Заполни профиль до конца — так быстрее найдёшь единомышленников",
   "home.noWishesTitle": "Пока нет желаний",
   "home.noWishesNote": "Создай желание — и мы найдём людей рядом, кто хочет того же.",
   "home.newWish": "+ Новое желание",
@@ -341,7 +342,7 @@ const ru: Dict = {
 
 // ── Latviešu ────────────────────────────────────────────────────────
 const lv: Dict = {
-  "login.tagline": "Atrodi kompāniju nodarbei, īstajā laikā, tev blakus",
+  "login.tagline": "Atrodi, ar ko pavadīt laiku un izklaidēties tuvumā",
   "login.googleLoading": "Atveram Google…",
   "login.googleSignIn": "Ienākt ar Google",
   "login.or": "vai",
@@ -409,6 +410,7 @@ const lv: Dict = {
   "onb.howToUse": "Kā lietot",
 
   "home.activeWishes": "Tavas aktīvās vēlmes",
+  "home.profileNudge": "Aizpildi profilu līdz galam — tā ātrāk atradīsi domubiedrus",
   "home.noWishesTitle": "Vēlmju pagaidām nav",
   "home.noWishesNote": "Izveido vēlmi — un mēs atradīsim cilvēkus blakus, kuri vēlas to pašu.",
   "home.newWish": "+ Jauna vēlme",
@@ -662,7 +664,7 @@ const lv: Dict = {
 
 // ── English ─────────────────────────────────────────────────────────
 const en: Dict = {
-  "login.tagline": "Find company for an activity, at the right time, near you",
+  "login.tagline": "Find people to play and hang out with nearby",
   "login.googleLoading": "Opening Google…",
   "login.googleSignIn": "Sign in with Google",
   "login.or": "or",
@@ -730,6 +732,7 @@ const en: Dict = {
   "onb.howToUse": "How to use",
 
   "home.activeWishes": "Your active wishes",
+  "home.profileNudge": "Complete your profile — you'll find like-minded people faster",
   "home.noWishesTitle": "No wishes yet",
   "home.noWishesNote": "Create a wish — and we'll find people nearby who want the same.",
   "home.newWish": "+ New wish",
@@ -983,7 +986,7 @@ const en: Dict = {
 
 // ── ქართული (Georgian) ──────────────────────────────────────────────
 const ka: Dict = {
-  "login.tagline": "იპოვე კომპანია აქტივობისთვის, საჭირო დროს, ახლოს",
+  "login.tagline": "იპოვე, ვისთან ერთად ითამაშო და დრო გაატარო ახლოს",
   "login.googleLoading": "Google იხსნება…",
   "login.googleSignIn": "შესვლა Google-ით",
   "login.or": "ან",
@@ -1051,6 +1054,7 @@ const ka: Dict = {
   "onb.howToUse": "როგორ გამოვიყენო",
 
   "home.activeWishes": "შენი აქტიური სურვილები",
+  "home.profileNudge": "შეავსე პროფილი ბოლომდე — უფრო სწრაფად იპოვი თანამოაზრეებს",
   "home.noWishesTitle": "ჯერ სურვილები არ არის",
   "home.noWishesNote": "შექმენი სურვილი — და ჩვენ ვიპოვით ახლომახლო ადამიანებს, ვისაც იგივე სურს.",
   "home.newWish": "+ ახალი სურვილი",
@@ -1304,7 +1308,7 @@ const ka: Dict = {
 
 // ── Eesti (Estonian) ────────────────────────────────────────────────
 const et: Dict = {
-  "login.tagline": "Leia seltsiline tegevuseks, õigel ajal, sinu lähedal",
+  "login.tagline": "Leia, kellega koos mängida ja aega veeta sinu lähedal",
   "login.googleLoading": "Google avaneb…",
   "login.googleSignIn": "Logi sisse Google'iga",
   "login.or": "või",
@@ -1372,6 +1376,7 @@ const et: Dict = {
   "onb.howToUse": "Kuidas kasutada",
 
   "home.activeWishes": "Sinu aktiivsed soovid",
+  "home.profileNudge": "Täida profiil lõpuni — leiad kiiremini mõttekaaslasi",
   "home.noWishesTitle": "Soove veel pole",
   "home.noWishesNote": "Loo soov — ja leiame lähedalt inimesed, kes soovivad sama.",
   "home.newWish": "+ Uus soov",
@@ -1625,7 +1630,7 @@ const et: Dict = {
 
 // ── Lietuvių (Lithuanian) ───────────────────────────────────────────
 const lt: Dict = {
-  "login.tagline": "Rask kompaniją veiklai, tinkamu laiku, netoliese",
+  "login.tagline": "Rask, su kuo žaisti ir praleisti laiką netoliese",
   "login.googleLoading": "Atveriama Google…",
   "login.googleSignIn": "Prisijungti su Google",
   "login.or": "arba",
@@ -1693,6 +1698,7 @@ const lt: Dict = {
   "onb.howToUse": "Kaip naudotis",
 
   "home.activeWishes": "Tavo aktyvūs norai",
+  "home.profileNudge": "Užpildyk profilį iki galo — greičiau rasi bendraminčių",
   "home.noWishesTitle": "Norų dar nėra",
   "home.noWishesNote": "Sukurk norą — ir rasime netoliese žmonių, norinčių to paties.",
   "home.newWish": "+ Naujas noras",
@@ -1946,7 +1952,7 @@ const lt: Dict = {
 
 // ── Deutsch (German) ────────────────────────────────────────────────
 const de: Dict = {
-  "login.tagline": "Finde Gesellschaft für eine Aktivität, zur richtigen Zeit, in deiner Nähe",
+  "login.tagline": "Finde Leute zum Spielen und Zeitvertreib in deiner Nähe",
   "login.googleLoading": "Google wird geöffnet…",
   "login.googleSignIn": "Mit Google anmelden",
   "login.or": "oder",
@@ -2014,6 +2020,7 @@ const de: Dict = {
   "onb.howToUse": "Anleitung",
 
   "home.activeWishes": "Deine aktiven Wünsche",
+  "home.profileNudge": "Fülle dein Profil aus — so findest du schneller Gleichgesinnte",
   "home.noWishesTitle": "Noch keine Wünsche",
   "home.noWishesNote": "Erstelle einen Wunsch — und wir finden Leute in der Nähe, die dasselbe möchten.",
   "home.newWish": "+ Neuer Wunsch",
@@ -2267,7 +2274,7 @@ const de: Dict = {
 
 // ── Español (Spanish) ───────────────────────────────────────────────
 const es: Dict = {
-  "login.tagline": "Encuentra compañía para una actividad, en el momento justo, cerca de ti",
+  "login.tagline": "Encuentra con quién jugar y pasar el rato cerca de ti",
   "login.googleLoading": "Abriendo Google…",
   "login.googleSignIn": "Iniciar sesión con Google",
   "login.or": "o",
@@ -2335,6 +2342,7 @@ const es: Dict = {
   "onb.howToUse": "Cómo usar",
 
   "home.activeWishes": "Tus deseos activos",
+  "home.profileNudge": "Completa tu perfil — encontrarás antes a personas afines",
   "home.noWishesTitle": "Aún no hay deseos",
   "home.noWishesNote": "Crea un deseo — y encontraremos personas cerca que quieran lo mismo.",
   "home.newWish": "+ Nuevo deseo",
@@ -2588,7 +2596,7 @@ const es: Dict = {
 
 // ── Français (French) ───────────────────────────────────────────────
 const fr: Dict = {
-  "login.tagline": "Trouve de la compagnie pour une activité, au bon moment, près de chez toi",
+  "login.tagline": "Trouve avec qui jouer et passer du temps près de chez toi",
   "login.googleLoading": "Ouverture de Google…",
   "login.googleSignIn": "Se connecter avec Google",
   "login.or": "ou",
@@ -2656,6 +2664,7 @@ const fr: Dict = {
   "onb.howToUse": "Comment utiliser",
 
   "home.activeWishes": "Tes souhaits actifs",
+  "home.profileNudge": "Complète ton profil — tu trouveras plus vite des personnes qui te ressemblent",
   "home.noWishesTitle": "Pas encore de souhaits",
   "home.noWishesNote": "Crée un souhait — et nous trouverons des gens à proximité qui veulent la même chose.",
   "home.newWish": "+ Nouveau souhait",
@@ -2909,7 +2918,7 @@ const fr: Dict = {
 
 // ── हिन्दी (Hindi) ──────────────────────────────────────────────────
 const hi: Dict = {
-  "login.tagline": "गतिविधि के लिए साथ ढूँढें, सही समय पर, अपने पास",
+  "login.tagline": "अपने आस-पास साथ खेलने और घूमने के लिए लोग खोजें",
   "login.googleLoading": "Google खुल रहा है…",
   "login.googleSignIn": "Google से साइन इन करें",
   "login.or": "या",
@@ -2977,6 +2986,7 @@ const hi: Dict = {
   "onb.howToUse": "कैसे उपयोग करें",
 
   "home.activeWishes": "आपकी सक्रिय इच्छाएँ",
+  "home.profileNudge": "अपनी प्रोफ़ाइल पूरी करें — आपको समान विचार वाले लोग जल्दी मिलेंगे",
   "home.noWishesTitle": "अभी कोई इच्छा नहीं",
   "home.noWishesNote": "एक इच्छा बनाएँ — और हम पास के ऐसे लोग ढूँढेंगे जो वही चाहते हैं।",
   "home.newWish": "+ नई इच्छा",
