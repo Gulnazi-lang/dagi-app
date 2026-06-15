@@ -1,8 +1,8 @@
 {
   "name": "DUD — Domā un Dari",
   "short_name": "DUD",
-  "description": "Найди, с кем поиграть и провести время рядом",
-  "lang": "ru",
+  "description": "Find people to play and hang out with nearby",
+  "lang": "en",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
