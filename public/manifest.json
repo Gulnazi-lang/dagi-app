@@ -6,6 +6,10 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
+  "id": "/",
+  "dir": "ltr",
+  "categories": ["social", "lifestyle"],
   "background_color": "#fbf6ef",
   "theme_color": "#fbf6ef",
   "icons": [
@@ -26,12 +30,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
     }
   ]
 }
