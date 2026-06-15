@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Golos_Text, Unbounded } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { I18nProvider } from "@/lib/i18n/client";
 import { getLocale } from "@/lib/i18n/server";
@@ -68,6 +69,7 @@ export default async function RootLayout({
       <body className="min-h-full">
         <I18nProvider initialLocale={locale}>{children}</I18nProvider>
         <ServiceWorkerRegister />
+        <Analytics />
       </body>
     </html>
   );
