@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "lv.dud.app",
+      "sha256_cert_fingerprints": [
+        "19:04:C2:2B:2E:FC:82:92:FC:77:01:E5:D7:3F:0F:C0:26:48:7F:33:09:6C:97:F8:49:04:56:77:96:CC:56:C3"
+      ]
+    }
+  }
+]

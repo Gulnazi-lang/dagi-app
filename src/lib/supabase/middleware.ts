@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 // Маршруты, доступные без входа. /api — серверные маршруты, которые сами
 // проверяют доступ (notify — сессию, forward — секретный заголовок вебхука),
 // поэтому их НЕ редиректим на /login (иначе server-to-server вызовы ломаются).
-const PUBLIC_PATHS = ["/login", "/auth", "/api", "/privacy"];
+const PUBLIC_PATHS = ["/login", "/auth", "/api", "/privacy", "/.well-known"];
 
 function isConfigured() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
