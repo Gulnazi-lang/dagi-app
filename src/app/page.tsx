@@ -33,11 +33,14 @@ export default async function Home() {
     redirect("/login");
   }
 
+  const today = new Date().toISOString().split("T")[0];
+
   const { data: wishes } = await supabase
     .from("wishes")
     .select("*")
     .eq("user_id", user.id)
     .eq("status", "active")
+    .or(`wish_date.is.null,wish_date.gte.${today}`)
     .order("wish_date", { ascending: true })
     .returns<Wish[]>();
 
