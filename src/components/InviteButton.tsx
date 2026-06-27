@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
+import { track } from "@vercel/analytics";
 
 export function InviteButton({ city }: { city?: string | null }) {
   const { t } = useI18n();
@@ -16,6 +17,7 @@ export function InviteButton({ city }: { city?: string | null }) {
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share({ title: "DUD", text, url });
+        track("invite_shared", { method: "share", city: city ?? "unknown" });
         return;
       } catch {
         // пользователь отменил — fallback на копирование
@@ -24,6 +26,7 @@ export function InviteButton({ city }: { city?: string | null }) {
 
     try {
       await navigator.clipboard.writeText(`${text} ${url}`);
+      track("invite_shared", { method: "clipboard", city: city ?? "unknown" });
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {

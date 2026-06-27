@@ -9,6 +9,7 @@ import { formatDate, formatTime } from "@/lib/datetime";
 import { reputationLabel } from "@/lib/reputation";
 import { cityLabel, districtLabel } from "@/lib/places";
 import { InviteButton } from "@/components/InviteButton";
+import { track } from "@vercel/analytics";
 import { ProfilePeek } from "@/components/ProfilePeek";
 import { useI18n } from "@/lib/i18n/client";
 import type { TraitValue } from "@/lib/traits";
@@ -39,6 +40,7 @@ export type MatchGroup = {
 export function MatchesView({ groups, userCity }: { groups: MatchGroup[]; userCity?: string | null }) {
   const { t } = useI18n();
   if (groups.length === 0) {
+    track("zero_matches", { city: userCity ?? "unknown" });
     return (
       <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
         <div className="text-3xl">⚲</div>
@@ -134,6 +136,8 @@ function GroupBlock({ group }: { group: MatchGroup }) {
       setMsg(t("matches.errCreateTeam", { msg: error.message }));
       return;
     }
+
+    track("team_formed", { activity: group.activity, city: group.city, members: selected.size });
 
     // Пуш приглашённым (не блокируем переход).
     if (teamId) {

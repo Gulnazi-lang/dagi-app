@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { ACTIVITIES, resolveActivity, activityLabel } from "@/lib/activities";
 import { CITIES, districtsForCity, cityLabel, districtLabel, detectLocation, normalizeCityName } from "@/lib/places";
 import { InviteButton } from "@/components/InviteButton";
+import { track } from "@vercel/analytics";
 import { formatDate } from "@/lib/datetime";
 import { useI18n } from "@/lib/i18n/client";
 import type { Wish } from "@/lib/types";
@@ -121,8 +122,10 @@ export function WishForm({
     setGeoLoading(false);
     if (!result) {
       setGeoError(t("wish.gpsDenied"));
+      track("geolocation_denied");
       return;
     }
+    track("geolocation_allowed", { city: result.city });
     setGeoLat(result.lat);
     setGeoLng(result.lng);
     setCity(result.city);
@@ -199,6 +202,7 @@ export function WishForm({
       router.push("/");
       router.refresh();
     } else {
+      track("wish_created", { city: city.trim(), hasGeo: !!(geoLat && geoLng) });
       setSaved(true);
       router.refresh();
     }
