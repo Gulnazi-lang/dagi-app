@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ACTIVITIES, resolveActivity, activityLabel } from "@/lib/activities";
 import { CITIES, districtsForCity, cityLabel, districtLabel, detectLocation, normalizeCityName } from "@/lib/places";
+import { InviteButton } from "@/components/InviteButton";
 import { formatDate } from "@/lib/datetime";
 import { useI18n } from "@/lib/i18n/client";
 import type { Wish } from "@/lib/types";
@@ -82,6 +83,7 @@ export function WishForm({
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
 
   const category = ACTIVITIES.find((c) => c.key === categoryKey)!;
   const hasOptions = !!category.options && category.options.length > 0;
@@ -193,8 +195,13 @@ export function WishForm({
       return;
     }
 
-    router.push(isEdit ? "/" : (redirectTo ?? "/"));
-    router.refresh();
+    if (isEdit) {
+      router.push("/");
+      router.refresh();
+    } else {
+      setSaved(true);
+      router.refresh();
+    }
   }
 
   async function handleDelete() {
@@ -222,6 +229,23 @@ export function WishForm({
 
     router.push("/");
     router.refresh();
+  }
+
+  if (saved) {
+    return (
+      <div className="flex flex-col items-center px-4 py-12 text-center">
+        <div className="text-5xl">🎉</div>
+        <p className="mt-3 text-base font-bold">{t("wish.successTitle")}</p>
+        <p className="mt-1 text-[12px] leading-relaxed text-muted">{t("wish.successNote")}</p>
+        <InviteButton city={geoLat !== null ? city : null} />
+        <button
+          onClick={() => { router.push(redirectTo ?? "/matches"); }}
+          className="mt-3 w-full rounded-xl border border-line bg-card py-2.5 text-sm font-semibold text-muted"
+        >
+          {t("wish.successCta")}
+        </button>
+      </div>
+    );
   }
 
   return (

@@ -4,6 +4,7 @@ import { ProfileForm } from "@/components/ProfileForm";
 import { BlockedList, type BlockedItem } from "@/components/BlockedList";
 import { InstallHint } from "@/components/InstallHint";
 import { FeedbackButton } from "@/components/FeedbackButton";
+import { ShareAppButton } from "@/components/ShareAppButton";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { getT } from "@/lib/i18n/server";
 import { personName } from "@/lib/name";
@@ -92,6 +93,7 @@ export default async function ProfilePage() {
       <ProfileForm profile={profile} email={user.email ?? ""} />
       <PushToggle />
       <InstallHint />
+      <ShareAppButton />
       <FeedbackButton />
       <BlockedList items={blocked} />
     </AppShell>
