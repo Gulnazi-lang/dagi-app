@@ -25,26 +25,45 @@ export default async function BrowsePage({
 
   const { city: cityParam } = await searchParams;
 
-  // Город по умолчанию: из параметра → из профиля (если известный) → Рига.
+  // Профиль: город + координаты (для nearby-режима).
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("city, lat, lng")
+    .eq("id", user.id)
+    .single<{ city: string | null; lat: number | null; lng: number | null }>();
+
+  const hasGeo = !!(profile?.lat && profile?.lng);
+
+  // Город по умолчанию: из параметра → nearby (если есть гео) → из профиля (если в CITIES) → "all".
   let selected = cityParam;
   if (!selected) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("city")
-      .eq("id", user.id)
-      .single<{ city: string | null }>();
-    selected =
-      profile?.city && CITIES.includes(profile.city) ? profile.city : CITIES[0];
+    if (hasGeo && profile?.city && !CITIES.includes(profile.city)) {
+      selected = "nearby";
+    } else if (profile?.city && CITIES.includes(profile.city)) {
+      selected = profile.city;
+    } else {
+      selected = "all";
+    }
   }
 
-  const pCity = selected === "all" ? null : selected;
-  const { data } = await supabase.rpc("browse_activity_counts", { p_city: pCity });
+  // RPC-параметры зависят от режима.
+  const NEARBY_RADIUS_KM = 30;
+  let browseParams: Record<string, unknown>;
+  if (selected === "nearby" && hasGeo) {
+    browseParams = { p_city: null, p_lat: profile!.lat, p_lng: profile!.lng, p_radius_km: NEARBY_RADIUS_KM };
+  } else {
+    browseParams = { p_city: selected === "all" ? null : selected };
+  }
+
+  const { data } = await supabase.rpc("browse_activity_counts", browseParams);
   const rows = (data ?? []) as ActivityCount[];
+
+  const pCity = selected === "all" || selected === "nearby" ? null : selected;
 
   return (
     <AppShell header={<TopBar title={t("browse.title")} />}>
       <div className="mb-2">
-        <CitySelect value={selected} />
+        <CitySelect value={selected} hasGeo={hasGeo} />
       </div>
       <p className="mb-3 text-[11px] leading-relaxed text-muted">{t("browse.hint")}</p>
 

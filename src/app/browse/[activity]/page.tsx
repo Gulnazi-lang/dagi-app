@@ -27,7 +27,21 @@ export default async function BrowseActivityPage({
   const { activity } = await params;
   const { city: cityParam, date: dateParam, time: timeParam } = await searchParams;
   const selected = cityParam ?? "all";
-  const pCity = selected === "all" ? null : selected;
+  const isNearby = selected === "nearby";
+  const pCity = selected === "all" || isNearby ? null : selected;
+
+  // Для nearby-режима берём координаты из профиля.
+  let geoParams: { p_lat?: number; p_lng?: number; p_radius_km?: number } = {};
+  if (isNearby) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("lat, lng")
+      .eq("id", user.id)
+      .single<{ lat: number | null; lng: number | null }>();
+    if (profile?.lat && profile?.lng) {
+      geoParams = { p_lat: profile.lat, p_lng: profile.lng, p_radius_km: 30 };
+    }
+  }
 
   // Режим «группы районов»: слот выбран (есть date) и город конкретный.
   // Районы привязаны к городу, поэтому для «всей Латвии» этот режим не включаем.
@@ -97,10 +111,11 @@ export default async function BrowseActivityPage({
     );
   }
 
-  // Режим «слоты» (дата + время) — как было.
+  // Режим «слоты» (дата + время) — как было, плюс nearby через координаты.
   const { data } = await supabase.rpc("browse_activity_slots", {
     p_city: pCity,
     p_activity: activity,
+    ...geoParams,
   });
   const slots = (data ?? []) as Slot[];
 

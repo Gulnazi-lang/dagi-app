@@ -49,6 +49,7 @@ const ru: Dict = {
   // browse (все желания)
   "browse.title": "Все желания",
   "browse.allCities": "Вся Латвия",
+  "browse.nearby": "📍 Рядом со мной",
   "browse.empty": "Здесь пока пусто. Создай желание — и оно появится тут.",
   "browse.slotsEmpty": "Пока нет дат по этой активности.",
   "browse.backAria": "Назад ко всем желаниям",
@@ -427,6 +428,7 @@ const lv: Dict = {
 
   "browse.title": "Visas vēlmes",
   "browse.allCities": "Visa Latvija",
+  "browse.nearby": "📍 Blakus man",
   "browse.empty": "Šeit pagaidām tukšs. Izveido vēlmi — un tā parādīsies šeit.",
   "browse.slotsEmpty": "Pagaidām nav datumu šai aktivitātei.",
   "browse.backAria": "Atpakaļ uz visām vēlmēm",
@@ -792,6 +794,7 @@ const en: Dict = {
 
   "browse.title": "All wishes",
   "browse.allCities": "All Latvia",
+  "browse.nearby": "📍 Near me",
   "browse.empty": "Empty here for now. Create a wish — and it'll show up here.",
   "browse.slotsEmpty": "No dates for this activity yet.",
   "browse.backAria": "Back to all wishes",
@@ -1157,6 +1160,7 @@ const ka: Dict = {
 
   "browse.title": "ყველა სურვილი",
   "browse.allCities": "მთელი ლატვია",
+  "browse.nearby": "📍 ჩემს გვერდით",
   "browse.empty": "აქ ჯერ ცარიელია. შექმენი სურვილი — და ის აქ გამოჩნდება.",
   "browse.slotsEmpty": "ამ აქტივობისთვის ჯერ თარიღები არ არის.",
   "browse.backAria": "უკან ყველა სურვილთან",
@@ -1522,6 +1526,7 @@ const et: Dict = {
 
   "browse.title": "Kõik soovid",
   "browse.allCities": "Kogu Läti",
+  "browse.nearby": "📍 Minu lähedal",
   "browse.empty": "Siin on praegu tühi. Loo soov — ja see ilmub siia.",
   "browse.slotsEmpty": "Selle tegevuse jaoks pole veel kuupäevi.",
   "browse.backAria": "Tagasi kõigi soovide juurde",
@@ -1887,6 +1892,7 @@ const lt: Dict = {
 
   "browse.title": "Visi norai",
   "browse.allCities": "Visa Latvija",
+  "browse.nearby": "📍 Šalia manés",
   "browse.empty": "Kol kas čia tuščia. Sukurk norą — ir jis atsiras čia.",
   "browse.slotsEmpty": "Šiai veiklai kol kas nėra datų.",
   "browse.backAria": "Atgal į visus norus",
@@ -2252,6 +2258,7 @@ const de: Dict = {
 
   "browse.title": "Alle Wünsche",
   "browse.allCities": "Ganz Lettland",
+  "browse.nearby": "📍 In meiner Nähe",
   "browse.empty": "Hier ist noch nichts. Erstelle einen Wunsch — und er erscheint hier.",
   "browse.slotsEmpty": "Noch keine Termine für diese Aktivität.",
   "browse.backAria": "Zurück zu allen Wünschen",
@@ -2617,6 +2624,7 @@ const es: Dict = {
 
   "browse.title": "Todos los deseos",
   "browse.allCities": "Toda Letonia",
+  "browse.nearby": "📍 Cerca de mí",
   "browse.empty": "Aquí está vacío por ahora. Crea un deseo — y aparecerá aquí.",
   "browse.slotsEmpty": "Aún no hay fechas para esta actividad.",
   "browse.backAria": "Volver a todos los deseos",
@@ -2982,6 +2990,7 @@ const fr: Dict = {
 
   "browse.title": "Tous les souhaits",
   "browse.allCities": "Toute la Lettonie",
+  "browse.nearby": "📍 Près de moi",
   "browse.empty": "C'est vide pour l'instant. Crée un souhait — et il apparaîtra ici.",
   "browse.slotsEmpty": "Pas encore de dates pour cette activité.",
   "browse.backAria": "Retour à tous les souhaits",
@@ -3347,6 +3356,7 @@ const hi: Dict = {
 
   "browse.title": "सभी इच्छाएँ",
   "browse.allCities": "पूरा लातविया",
+  "browse.nearby": "📍 मेरे पास",
   "browse.empty": "यहाँ अभी कुछ नहीं है। एक इच्छा बनाएँ — और वह यहाँ दिखेगी।",
   "browse.slotsEmpty": "इस गतिविधि के लिए अभी कोई तारीख़ नहीं।",
   "browse.backAria": "सभी इच्छाओं पर वापस",
