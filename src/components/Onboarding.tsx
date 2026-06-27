@@ -3,41 +3,88 @@
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 
-// Сам гид (модалка). Открывается кнопкой «Как пользоваться».
+const SLIDES = [
+  { emoji: "✦", key: "onb.s1" },
+  { emoji: "⚲", key: "onb.s2" },
+  { emoji: "✉", key: "onb.s3" },
+  { emoji: "★", key: "onb.s4" },
+] as const;
+
 function GuideModal({ onClose }: { onClose: () => void }) {
   const { t } = useI18n();
+  const [idx, setIdx] = useState(0);
+  const slide = SLIDES[idx];
+  const isLast = idx === SLIDES.length - 1;
+
+  function next() {
+    if (isLast) onClose();
+    else setIdx((i) => i + 1);
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-5">
-      <div className="w-full max-w-[360px] rounded-2xl bg-screen p-5 shadow-[0_18px_40px_-12px_rgba(0,0,0,.4)]">
-        <div className="text-center font-display text-2xl font-bold text-accent">DUD</div>
-        <h2 className="mt-2 text-center text-base font-bold">{t("onb.title")}</h2>
-        <p className="mt-1 text-center text-[12.5px] leading-relaxed text-muted">{t("onb.intro")}</p>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40">
+      <div className="w-full max-w-[440px] rounded-t-3xl bg-screen px-6 pb-10 pt-6 shadow-[0_-12px_40px_-8px_rgba(0,0,0,.3)]">
 
-        <ol className="mt-4 space-y-2.5">
-          {["onb.step1", "onb.step2", "onb.step3", "onb.step4", "onb.browse"].map((k) => (
-            <li key={k} className="text-[12.5px] leading-snug">
-              {t(k)}
-            </li>
+        {/* Drag handle */}
+        <div className="mx-auto mb-6 h-1 w-10 rounded-full bg-line" />
+
+        {/* Slide */}
+        <div className="flex min-h-[220px] flex-col items-center text-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-accent-soft text-4xl">
+            {slide.emoji}
+          </div>
+          <p className="mt-5 text-lg font-bold leading-snug">
+            {t(`${slide.key}.title` as Parameters<typeof t>[0])}
+          </p>
+          <p className="mt-2 text-[13px] leading-relaxed text-muted">
+            {t(`${slide.key}.body` as Parameters<typeof t>[0])}
+          </p>
+        </div>
+
+        {/* Dots */}
+        <div className="mt-6 flex justify-center gap-1.5">
+          {SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              className={`h-1.5 rounded-full transition-all ${
+                i === idx ? "w-5 bg-accent" : "w-1.5 bg-line"
+              }`}
+            />
           ))}
-        </ol>
+        </div>
 
-        <p className="mt-4 rounded-xl bg-green-soft px-3 py-2.5 text-[11.5px] leading-relaxed text-[#1c6b44]">
-          {t("onb.safety")}
-        </p>
+        {/* Safety note — only on last slide */}
+        {isLast && (
+          <p className="mt-4 rounded-xl bg-green-soft px-3 py-2.5 text-[11.5px] leading-relaxed text-[#1c6b44]">
+            {t("onb.safety")}
+          </p>
+        )}
 
+        {/* CTA */}
         <button
           type="button"
-          onClick={onClose}
+          onClick={next}
           className="mt-4 w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white"
         >
-          {t("onb.start")}
+          {isLast ? t("onb.start") : t("onb.next")}
         </button>
+
+        {/* Skip */}
+        {!isLast && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="mt-2 w-full py-2 text-[12px] text-muted"
+          >
+            {t("onb.skip")}
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
-// Постоянная кнопка «Как пользоваться» — открывает гид в любой момент.
 export function HelpButton() {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
