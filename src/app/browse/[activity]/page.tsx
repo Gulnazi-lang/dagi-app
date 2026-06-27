@@ -16,7 +16,7 @@ export default async function BrowseActivityPage({
   searchParams,
 }: {
   params: Promise<{ activity: string }>;
-  searchParams: Promise<{ city?: string; date?: string; time?: string }>;
+  searchParams: Promise<{ city?: string; date?: string; time?: string; lat?: string; lng?: string }>;
 }) {
   const supabase = await createClient();
   const { locale, t } = await getT();
@@ -25,21 +25,27 @@ export default async function BrowseActivityPage({
   if (!user) redirect("/login");
 
   const { activity } = await params;
-  const { city: cityParam, date: dateParam, time: timeParam } = await searchParams;
+  const { city: cityParam, date: dateParam, time: timeParam, lat: latParam, lng: lngParam } = await searchParams;
   const selected = cityParam ?? "all";
   const isNearby = selected === "nearby";
   const pCity = selected === "all" || isNearby ? null : selected;
 
-  // Для nearby-режима берём координаты из профиля.
+  // Для nearby-режима: координаты из URL (переданы из browse) или из профиля.
   let geoParams: { p_lat?: number; p_lng?: number; p_radius_km?: number } = {};
   if (isNearby) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("lat, lng")
-      .eq("id", user.id)
-      .single<{ lat: number | null; lng: number | null }>();
-    if (profile?.lat && profile?.lng) {
-      geoParams = { p_lat: profile.lat, p_lng: profile.lng, p_radius_km: 30 };
+    const urlLat = latParam ? parseFloat(latParam) : null;
+    const urlLng = lngParam ? parseFloat(lngParam) : null;
+    if (urlLat && urlLng) {
+      geoParams = { p_lat: urlLat, p_lng: urlLng, p_radius_km: 30 };
+    } else {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("lat, lng")
+        .eq("id", user.id)
+        .single<{ lat: number | null; lng: number | null }>();
+      if (profile?.lat && profile?.lng) {
+        geoParams = { p_lat: profile.lat, p_lng: profile.lng, p_radius_km: 30 };
+      }
     }
   }
 

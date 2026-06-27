@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
 import { InviteButton } from "@/components/InviteButton";
+import { NearbySetup } from "@/components/NearbySetup";
 import { CitySelect } from "@/components/CitySelect";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
@@ -15,7 +16,7 @@ type ActivityCount = { activity: string; cnt: number };
 export default async function BrowsePage({
   searchParams,
 }: {
-  searchParams: Promise<{ city?: string }>;
+  searchParams: Promise<{ city?: string; lat?: string; lng?: string }>;
 }) {
   const supabase = await createClient();
   const { locale, t } = await getT();
@@ -23,34 +24,59 @@ export default async function BrowsePage({
   const user = await getAuthUser(supabase);
   if (!user) redirect("/login");
 
-  const { city: cityParam } = await searchParams;
+  const { city: cityParam, lat: latParam, lng: lngParam } = await searchParams;
 
-  // Профиль: город + координаты (для nearby-режима).
+  // Профиль: город + координаты.
   const { data: profile } = await supabase
     .from("profiles")
     .select("city, lat, lng")
     .eq("id", user.id)
     .single<{ city: string | null; lat: number | null; lng: number | null }>();
 
-  const hasGeo = !!(profile?.lat && profile?.lng);
+  const profileHasGeo = !!(profile?.lat && profile?.lng);
 
-  // Город по умолчанию: из параметра → nearby (если есть гео) → из профиля (если в CITIES) → "all".
+  // Координаты: из URL (GPS только что определён на клиенте) или из профиля.
+  const urlLat = latParam ? parseFloat(latParam) : null;
+  const urlLng = lngParam ? parseFloat(lngParam) : null;
+  const geoLat = urlLat ?? profile?.lat ?? null;
+  const geoLng = urlLng ?? profile?.lng ?? null;
+  const hasGeo = !!(geoLat && geoLng);
+
+  // Выбор режима:
+  // 1. Есть city-параметр в URL → использовать его
+  // 2. Есть GPS (профиль или URL) + город не из Латвии → nearby
+  // 3. Город из Латвии → показать этот город
+  // 4. Нет GPS и нет известного города → показать NearbySetup (выбор локации)
   let selected = cityParam;
+  let needsLocationSetup = false;
+
   if (!selected) {
-    if (hasGeo && profile?.city && !CITIES.includes(profile.city)) {
+    const cityKnown = profile?.city && CITIES.includes(profile.city);
+    if (hasGeo && !cityKnown) {
       selected = "nearby";
-    } else if (profile?.city && CITIES.includes(profile.city)) {
-      selected = profile.city;
+    } else if (cityKnown) {
+      selected = profile!.city!;
     } else {
+      // Нет геолокации и нет известного города — просим указать
+      needsLocationSetup = true;
       selected = "all";
     }
+  }
+
+  // Если режим "nearby" с координатами из URL — сохраняем в профиль фоново.
+  if (urlLat && urlLng) {
+    supabase
+      .from("profiles")
+      .update({ lat: urlLat, lng: urlLng })
+      .eq("id", user.id)
+      .then(() => {});
   }
 
   // RPC-параметры зависят от режима.
   const NEARBY_RADIUS_KM = 30;
   let browseParams: Record<string, unknown>;
   if (selected === "nearby" && hasGeo) {
-    browseParams = { p_city: null, p_lat: profile!.lat, p_lng: profile!.lng, p_radius_km: NEARBY_RADIUS_KM };
+    browseParams = { p_city: null, p_lat: geoLat, p_lng: geoLng, p_radius_km: NEARBY_RADIUS_KM };
   } else {
     browseParams = { p_city: selected === "all" ? null : selected };
   }
@@ -62,12 +88,16 @@ export default async function BrowsePage({
 
   return (
     <AppShell header={<TopBar title={t("browse.title")} />}>
-      <div className="mb-2">
-        <CitySelect value={selected} hasGeo={hasGeo} />
-      </div>
+      {!needsLocationSetup && (
+        <div className="mb-2">
+          <CitySelect value={selected} hasGeo={hasGeo || profileHasGeo} />
+        </div>
+      )}
       <p className="mb-3 text-[11px] leading-relaxed text-muted">{t("browse.hint")}</p>
 
-      {rows.length === 0 ? (
+      {needsLocationSetup ? (
+        <NearbySetup />
+      ) : rows.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
           <div className="text-3xl">🌍</div>
           <p className="mt-2 text-sm font-semibold">{t("empty.firstTitle")}</p>
@@ -79,7 +109,7 @@ export default async function BrowsePage({
           {rows.map((r) => (
             <Link
               key={r.activity}
-              href={`/browse/${encodeURIComponent(r.activity)}?city=${encodeURIComponent(selected)}`}
+              href={`/browse/${encodeURIComponent(r.activity)}?city=${encodeURIComponent(selected)}${geoLat && selected === "nearby" ? `&lat=${geoLat}&lng=${geoLng}` : ""}`}
               className="flex items-center gap-3 rounded-2xl border border-line bg-card p-3 transition hover:border-accent"
             >
               <span className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-xl bg-accent-soft text-lg">
