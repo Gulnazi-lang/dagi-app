@@ -76,7 +76,13 @@ export default async function BrowsePage({
   const NEARBY_RADIUS_KM = 30;
   let browseParams: Record<string, unknown>;
   if (selected === "nearby" && hasGeo) {
-    browseParams = { p_city: null, p_lat: geoLat, p_lng: geoLng, p_radius_km: NEARBY_RADIUS_KM };
+    browseParams = {
+      p_city: null,
+      p_lat: geoLat,
+      p_lng: geoLng,
+      p_radius_km: NEARBY_RADIUS_KM,
+      p_city_hint: profile?.city ?? null,
+    };
   } else {
     browseParams = { p_city: selected === "all" ? null : selected };
   }

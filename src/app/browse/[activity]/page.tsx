@@ -31,20 +31,28 @@ export default async function BrowseActivityPage({
   const pCity = selected === "all" || isNearby ? null : selected;
 
   // Для nearby-режима: координаты из URL (переданы из browse) или из профиля.
-  let geoParams: { p_lat?: number; p_lng?: number; p_radius_km?: number } = {};
+  let geoParams: { p_lat?: number; p_lng?: number; p_radius_km?: number; p_city_hint?: string } = {};
   if (isNearby) {
     const urlLat = latParam ? parseFloat(latParam) : null;
     const urlLng = lngParam ? parseFloat(lngParam) : null;
     if (urlLat && urlLng) {
       geoParams = { p_lat: urlLat, p_lng: urlLng, p_radius_km: 30 };
+      // Подтягиваем city из профиля для фолбэка на желания без GPS
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("city")
+        .eq("id", user.id)
+        .single<{ city: string | null }>();
+      if (profile?.city) geoParams.p_city_hint = profile.city;
     } else {
       const { data: profile } = await supabase
         .from("profiles")
-        .select("lat, lng")
+        .select("lat, lng, city")
         .eq("id", user.id)
-        .single<{ lat: number | null; lng: number | null }>();
+        .single<{ lat: number | null; lng: number | null; city: string | null }>();
       if (profile?.lat && profile?.lng) {
         geoParams = { p_lat: profile.lat, p_lng: profile.lng, p_radius_km: 30 };
+        if (profile.city) geoParams.p_city_hint = profile.city;
       }
     }
   }
