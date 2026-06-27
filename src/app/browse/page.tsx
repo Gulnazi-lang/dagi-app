@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
+import { InviteButton } from "@/components/InviteButton";
 import { CitySelect } from "@/components/CitySelect";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
@@ -49,8 +50,10 @@ export default async function BrowsePage({
 
       {rows.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
-          <div className="text-3xl">≡</div>
-          <p className="mt-2 text-[11.5px] leading-relaxed text-muted">{t("browse.empty")}</p>
+          <div className="text-3xl">🌍</div>
+          <p className="mt-2 text-sm font-semibold">{t("empty.firstTitle")}</p>
+          <p className="mt-1 text-[11.5px] leading-relaxed text-muted">{t("empty.firstNote")}</p>
+          <InviteButton city={pCity} />
         </div>
       ) : (
         <div className="space-y-2">

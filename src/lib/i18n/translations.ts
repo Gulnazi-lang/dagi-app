@@ -154,6 +154,12 @@ const ru: Dict = {
   "matches.noTitle": "Пока совпадений нет",
   "matches.noNote":
     "Как только рядом появится человек с таким же желанием на эту дату — он покажется здесь, и можно будет собрать команду.",
+  "empty.firstTitle": "Ты первый в своём городе!",
+  "empty.firstNote": "Пригласи друзей — как только кто-то создаст желание рядом, вы совпадёте.",
+  "empty.invite": "Пригласить друзей",
+  "empty.copied": "Ссылка скопирована!",
+  "empty.shareText": "Ищу компанию для активностей рядом через DUD. Присоединяйся!",
+  "empty.shareTextCity": "Ищу компанию для активностей в {city} через DUD. Присоединяйся!",
   "matches.createTeam": "Создать команду",
   "matches.blockTitle": "Заблокировать",
   "matches.profileEmpty": "Профиль пока пустой",
@@ -517,6 +523,12 @@ const lv: Dict = {
   "wish.detectGps": "Noteikt pēc GPS",
   "wish.detecting": "Nosakām…",
   "wish.gpsDenied": "GPS nav pieejams",
+  "empty.firstTitle": "Tu esi pirmais savā pilsētā!",
+  "empty.firstNote": "Uzaicini draugus — tiklīdz kāds izveidos vēlmi tuvumā, jūs sakritīsit.",
+  "empty.invite": "Uzaicināt draugus",
+  "empty.copied": "Saite nokopēta!",
+  "empty.shareText": "Meklēju kompāniju aktivitātēm tuvumā, izmantojot DUD. Pievienojies!",
+  "empty.shareTextCity": "Meklēju kompāniju aktivitātēm {city} caur DUD. Pievienojies!",
 
   "matches.noTitle": "Sakritību pagaidām nav",
   "matches.noNote":
@@ -876,6 +888,12 @@ const en: Dict = {
   "wish.detectGps": "Detect by GPS",
   "wish.detecting": "Detecting…",
   "wish.gpsDenied": "GPS unavailable",
+  "empty.firstTitle": "You're the first in your city!",
+  "empty.firstNote": "Invite friends — as soon as someone creates a wish nearby, you'll match.",
+  "empty.invite": "Invite friends",
+  "empty.copied": "Link copied!",
+  "empty.shareText": "I'm looking for activity partners nearby with DUD. Join me!",
+  "empty.shareTextCity": "I'm looking for activity partners in {city} with DUD. Join me!",
 
   "matches.noTitle": "No matches yet",
   "matches.noNote":
@@ -1235,6 +1253,12 @@ const ka: Dict = {
   "wish.detectGps": "GPS-ით გამოვლენა",
   "wish.detecting": "ვსაზღვრავთ…",
   "wish.gpsDenied": "GPS მიუწვდომელია",
+  "empty.firstTitle": "შენ პირველი ხარ შენს ქალაქში!",
+  "empty.firstNote": "მოიწვიე მეგობრები — როგორც კი ვინმე შექმნის სურვილს, დაემთხვევით.",
+  "empty.invite": "მეგობრების მოწვევა",
+  "empty.copied": "ბმული დაკოპირდა!",
+  "empty.shareText": "ვეძებ კომპანიას აქტივობებისთვის DUD-ით. შემოგვიერთდი!",
+  "empty.shareTextCity": "ვეძებ კომპანიას {city}-ში DUD-ით. შემოგვიერთდი!",
 
   "matches.noTitle": "ჯერ დამთხვევები არ არის",
   "matches.noNote":
@@ -1594,6 +1618,12 @@ const et: Dict = {
   "wish.detectGps": "Tuvasta GPS-iga",
   "wish.detecting": "Tuvastame…",
   "wish.gpsDenied": "GPS pole saadaval",
+  "empty.firstTitle": "Sa oled oma linnas esimene!",
+  "empty.firstNote": "Kutsu sõpru — niipea kui keegi loob soovi lähedal, te kattute.",
+  "empty.invite": "Kutsu sõpru",
+  "empty.copied": "Link kopeeritud!",
+  "empty.shareText": "Otsin tegevuskaaslasi DUD-iga. Liitu!",
+  "empty.shareTextCity": "Otsin tegevuskaaslasi {city} DUD-iga. Liitu!",
 
   "matches.noTitle": "Sobivusi veel pole",
   "matches.noNote":
@@ -1953,6 +1983,12 @@ const lt: Dict = {
   "wish.detectGps": "Nustatyti pagal GPS",
   "wish.detecting": "Nustatome…",
   "wish.gpsDenied": "GPS nepasiekiamas",
+  "empty.firstTitle": "Tu pirmasis savo mieste!",
+  "empty.firstNote": "Pakvieskite draugus — kai tik kas nors sukurs norą šalia, sutapsite.",
+  "empty.invite": "Pakviesti draugus",
+  "empty.copied": "Nuoroda nukopijuota!",
+  "empty.shareText": "Ieškau veiklos partnerių šalia per DUD. Prisijunk!",
+  "empty.shareTextCity": "Ieškau veiklos partnerių {city} per DUD. Prisijunk!",
 
   "matches.noTitle": "Atitikmenų dar nėra",
   "matches.noNote":
@@ -2312,6 +2348,12 @@ const de: Dict = {
   "wish.detectGps": "Per GPS ermitteln",
   "wish.detecting": "Ermitteln…",
   "wish.gpsDenied": "GPS nicht verfügbar",
+  "empty.firstTitle": "Du bist der Erste in deiner Stadt!",
+  "empty.firstNote": "Lade Freunde ein — sobald jemand in der Nähe einen Wunsch erstellt, matcht ihr.",
+  "empty.invite": "Freunde einladen",
+  "empty.copied": "Link kopiert!",
+  "empty.shareText": "Ich suche Aktivitätspartner in meiner Nähe mit DUD. Mach mit!",
+  "empty.shareTextCity": "Ich suche Aktivitätspartner in {city} mit DUD. Mach mit!",
 
   "matches.noTitle": "Noch keine Treffer",
   "matches.noNote":
@@ -2671,6 +2713,12 @@ const es: Dict = {
   "wish.detectGps": "Detectar por GPS",
   "wish.detecting": "Detectando…",
   "wish.gpsDenied": "GPS no disponible",
+  "empty.firstTitle": "¡Eres el primero en tu ciudad!",
+  "empty.firstNote": "Invita amigos — en cuanto alguien cree un deseo cerca, haréis match.",
+  "empty.invite": "Invitar amigos",
+  "empty.copied": "¡Enlace copiado!",
+  "empty.shareText": "Busco compañeros de actividades cerca con DUD. ¡Únete!",
+  "empty.shareTextCity": "Busco compañeros de actividades en {city} con DUD. ¡Únete!",
 
   "matches.noTitle": "Aún no hay coincidencias",
   "matches.noNote":
@@ -3030,6 +3078,12 @@ const fr: Dict = {
   "wish.detectGps": "Détecter par GPS",
   "wish.detecting": "Détection…",
   "wish.gpsDenied": "GPS indisponible",
+  "empty.firstTitle": "Tu es le premier dans ta ville !",
+  "empty.firstNote": "Invite des amis — dès que quelqu'un crée un vœu près de toi, vous matcherez.",
+  "empty.invite": "Inviter des amis",
+  "empty.copied": "Lien copié !",
+  "empty.shareText": "Je cherche des partenaires d'activités près de chez moi avec DUD. Rejoins-moi !",
+  "empty.shareTextCity": "Je cherche des partenaires d'activités à {city} avec DUD. Rejoins-moi !",
 
   "matches.noTitle": "Pas encore de correspondances",
   "matches.noNote":
@@ -3389,6 +3443,12 @@ const hi: Dict = {
   "wish.detectGps": "GPS से पता लगाएं",
   "wish.detecting": "पता लगा रहे हैं…",
   "wish.gpsDenied": "GPS उपलब्ध नहीं",
+  "empty.firstTitle": "आप अपने शहर में पहले हैं!",
+  "empty.firstNote": "दोस्तों को आमंत्रित करें — जैसे ही कोई पास में इच्छा बनाएगा, आप मिलेंगे।",
+  "empty.invite": "दोस्तों को आमंत्रित करें",
+  "empty.copied": "लिंक कॉपी हो गया!",
+  "empty.shareText": "मैं DUD से पास में गतिविधि साथी ढूंढ रहा हूँ। जुड़ो!",
+  "empty.shareTextCity": "मैं DUD से {city} में गतिविधि साथी ढूंढ रहा हूँ। जुड़ो!",
 
   "matches.noTitle": "अभी कोई मेल नहीं",
   "matches.noNote":

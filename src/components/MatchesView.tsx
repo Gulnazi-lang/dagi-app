@@ -8,6 +8,7 @@ import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { reputationLabel } from "@/lib/reputation";
 import { cityLabel, districtLabel } from "@/lib/places";
+import { InviteButton } from "@/components/InviteButton";
 import { ProfilePeek } from "@/components/ProfilePeek";
 import { useI18n } from "@/lib/i18n/client";
 import type { TraitValue } from "@/lib/traits";
@@ -35,7 +36,7 @@ export type MatchGroup = {
   people: MatchPerson[];
 };
 
-export function MatchesView({ groups }: { groups: MatchGroup[] }) {
+export function MatchesView({ groups, userCity }: { groups: MatchGroup[]; userCity?: string | null }) {
   const { t } = useI18n();
   if (groups.length === 0) {
     return (
@@ -45,6 +46,11 @@ export function MatchesView({ groups }: { groups: MatchGroup[] }) {
         <p className="mt-1 text-[11.5px] leading-relaxed text-muted">
           {t("matches.noNote")}
         </p>
+        <div className="mt-5 border-t border-line pt-5">
+          <p className="text-sm font-semibold">{t("empty.firstTitle")}</p>
+          <p className="mt-1 text-[11.5px] leading-relaxed text-muted">{t("empty.firstNote")}</p>
+          <InviteButton city={userCity} />
+        </div>
       </div>
     );
   }

@@ -69,7 +69,11 @@ export default async function MatchesPage() {
     redirect("/login");
   }
 
-  const { data, error } = await supabase.rpc("find_matches");
+  const [{ data, error }, { data: profileData }] = await Promise.all([
+    supabase.rpc("find_matches"),
+    supabase.from("profiles").select("city").eq("id", user.id).single<{ city: string | null }>(),
+  ]);
+  const userCity = profileData?.city ?? null;
 
   if (error) {
     return (
@@ -112,7 +116,7 @@ export default async function MatchesPage() {
 
   return (
     <AppShell header={<TopBar title={t("tab.matches")} />}>
-      <MatchesView groups={groups} />
+      <MatchesView groups={groups} userCity={userCity} />
     </AppShell>
   );
 }

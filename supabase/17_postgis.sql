@@ -17,13 +17,6 @@ alter table public.profiles
   add column if not exists lat double precision,
   add column if not exists lng double precision;
 
--- Индекс для ST_DWithin (работает только по строкам с координатами)
-create index if not exists wishes_geo_idx
-  on public.wishes using gist (
-    st_point(lng, lat)::geography
-  )
-  where lat is not null and lng is not null;
-
 -- =========================================================
 -- 3. find_matches — ST_DWithin если оба с координатами,
 --    иначе старый матч по городу (обратная совместимость).
