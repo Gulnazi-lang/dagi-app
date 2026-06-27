@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ACTIVITIES, resolveActivity, activityLabel } from "@/lib/activities";
-import { CITIES, districtsForCity, cityLabel, districtLabel, detectLocation } from "@/lib/places";
+import { CITIES, districtsForCity, cityLabel, districtLabel, detectLocation, normalizeCityName } from "@/lib/places";
 import { formatDate } from "@/lib/datetime";
 import { useI18n } from "@/lib/i18n/client";
 import type { Wish } from "@/lib/types";
@@ -45,8 +45,8 @@ export function WishForm({
   const resolved = prefillActivity ? resolveActivity(prefillActivity) : null;
   const initCity = wish
     ? wish.city
-    : initialCity && CITIES.includes(initialCity)
-      ? initialCity
+    : initialCity
+      ? (CITIES.includes(initialCity) ? initialCity : initialCity)
       : CITIES.includes(defaultCity)
         ? defaultCity
         : CITIES[0];
@@ -76,6 +76,8 @@ export function WishForm({
   const [geoLng, setGeoLng] = useState<number | null>(wish?.lng ?? null);
   const [geoLoading, setGeoLoading] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
+  // manual = ввод города вручную (после отказа GPS или для нелатвийских пользователей)
+  const [manualCity, setManualCity] = useState(!CITIES.includes(initCity));
 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -131,6 +133,7 @@ export function WishForm({
     setCity(CITIES[0]);
     setDistrict("");
     setGeoError(null);
+    setManualCity(false);
   }
 
   async function handleSave() {
@@ -289,33 +292,64 @@ export function WishForm({
                 ✕
               </button>
             </div>
+          ) : manualCity ? (
+            <div className="space-y-2">
+              <input
+                value={city}
+                onChange={(e) => setCity(normalizeCityName(e.target.value) || e.target.value)}
+                placeholder={t("wish.cityPlaceholder")}
+                className="input-field"
+                autoCapitalize="words"
+              />
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={handleDetectGeo}
+                  disabled={geoLoading}
+                  className="flex-1 rounded-xl border border-line bg-card py-2 text-[12px] font-semibold text-muted disabled:opacity-50"
+                >
+                  {geoLoading ? t("wish.detecting") : `📍 ${t("wish.detectGps")}`}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setManualCity(false); setCity(CITIES[0]); setDistrict(""); }}
+                  className="rounded-xl border border-line bg-card px-3 py-2 text-[12px] text-muted"
+                >
+                  🇱🇻
+                </button>
+              </div>
+              {geoError && <p className="text-[11px] text-accent">{geoError}</p>}
+            </div>
           ) : (
             <div className="space-y-2">
               <select
                 value={CITIES.includes(city) ? city : CITIES[0]}
-                onChange={(e) => {
-                  setCity(e.target.value);
-                  setDistrict("");
-                }}
+                onChange={(e) => { setCity(e.target.value); setDistrict(""); }}
                 className="input-field"
               >
                 {CITIES.map((c) => (
-                  <option key={c} value={c}>
-                    {cityLabel(c, locale)}
-                  </option>
+                  <option key={c} value={c}>{cityLabel(c, locale)}</option>
                 ))}
               </select>
-              <button
-                type="button"
-                onClick={handleDetectGeo}
-                disabled={geoLoading}
-                className="w-full rounded-xl border border-line bg-card py-2 text-[12px] font-semibold text-muted disabled:opacity-50"
-              >
-                {geoLoading ? t("wish.detecting") : `📍 ${t("wish.detectGps")}`}
-              </button>
-              {geoError && (
-                <p className="text-[11px] text-accent">{geoError}</p>
-              )}
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={handleDetectGeo}
+                  disabled={geoLoading}
+                  className="flex-1 rounded-xl border border-line bg-card py-2 text-[12px] font-semibold text-muted disabled:opacity-50"
+                >
+                  {geoLoading ? t("wish.detecting") : `📍 ${t("wish.detectGps")}`}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setManualCity(true); setCity(""); }}
+                  className="rounded-xl border border-line bg-card px-3 py-2 text-[12px] text-muted"
+                  title={t("wish.cityPlaceholder")}
+                >
+                  🌍
+                </button>
+              </div>
+              {geoError && <p className="text-[11px] text-accent">{geoError}</p>}
             </div>
           )}
         </Field>
