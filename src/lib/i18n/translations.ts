@@ -146,6 +146,9 @@ const ru: Dict = {
   "wish.confirmDelete": "Удалить это желание?",
   "wish.errDelete": "Ошибка удаления: {msg}",
   "wish.errDeleteNoRights": "Не удалось удалить (нет прав или сессия истекла).",
+  "wish.detectGps": "Определить по GPS",
+  "wish.detecting": "Определяем…",
+  "wish.gpsDenied": "Геолокация недоступна",
 
   // matches
   "matches.noTitle": "Пока совпадений нет",
@@ -511,6 +514,9 @@ const lv: Dict = {
   "wish.confirmDelete": "Dzēst šo vēlmi?",
   "wish.errDelete": "Dzēšanas kļūda: {msg}",
   "wish.errDeleteNoRights": "Neizdevās izdzēst (nav tiesību vai sesija beigusies).",
+  "wish.detectGps": "Noteikt pēc GPS",
+  "wish.detecting": "Nosakām…",
+  "wish.gpsDenied": "GPS nav pieejams",
 
   "matches.noTitle": "Sakritību pagaidām nav",
   "matches.noNote":
@@ -867,6 +873,9 @@ const en: Dict = {
   "wish.confirmDelete": "Delete this wish?",
   "wish.errDelete": "Delete error: {msg}",
   "wish.errDeleteNoRights": "Couldn't delete (no rights or session expired).",
+  "wish.detectGps": "Detect by GPS",
+  "wish.detecting": "Detecting…",
+  "wish.gpsDenied": "GPS unavailable",
 
   "matches.noTitle": "No matches yet",
   "matches.noNote":
@@ -1223,6 +1232,9 @@ const ka: Dict = {
   "wish.confirmDelete": "წავშალო ეს სურვილი?",
   "wish.errDelete": "წაშლის შეცდომა: {msg}",
   "wish.errDeleteNoRights": "ვერ წაიშალა (უფლება არ არის ან სესია ამოიწურა).",
+  "wish.detectGps": "GPS-ით გამოვლენა",
+  "wish.detecting": "ვსაზღვრავთ…",
+  "wish.gpsDenied": "GPS მიუწვდომელია",
 
   "matches.noTitle": "ჯერ დამთხვევები არ არის",
   "matches.noNote":
@@ -1579,6 +1591,9 @@ const et: Dict = {
   "wish.confirmDelete": "Kustutada see soov?",
   "wish.errDelete": "Kustutamise viga: {msg}",
   "wish.errDeleteNoRights": "Ei õnnestunud kustutada (pole õigusi või sessioon aegus).",
+  "wish.detectGps": "Tuvasta GPS-iga",
+  "wish.detecting": "Tuvastame…",
+  "wish.gpsDenied": "GPS pole saadaval",
 
   "matches.noTitle": "Sobivusi veel pole",
   "matches.noNote":
@@ -1935,6 +1950,9 @@ const lt: Dict = {
   "wish.confirmDelete": "Ištrinti šį norą?",
   "wish.errDelete": "Trynimo klaida: {msg}",
   "wish.errDeleteNoRights": "Nepavyko ištrinti (nėra teisių arba baigėsi sesija).",
+  "wish.detectGps": "Nustatyti pagal GPS",
+  "wish.detecting": "Nustatome…",
+  "wish.gpsDenied": "GPS nepasiekiamas",
 
   "matches.noTitle": "Atitikmenų dar nėra",
   "matches.noNote":
@@ -2291,6 +2309,9 @@ const de: Dict = {
   "wish.confirmDelete": "Diesen Wunsch löschen?",
   "wish.errDelete": "Löschfehler: {msg}",
   "wish.errDeleteNoRights": "Konnte nicht gelöscht werden (keine Rechte oder Sitzung abgelaufen).",
+  "wish.detectGps": "Per GPS ermitteln",
+  "wish.detecting": "Ermitteln…",
+  "wish.gpsDenied": "GPS nicht verfügbar",
 
   "matches.noTitle": "Noch keine Treffer",
   "matches.noNote":
@@ -2647,6 +2668,9 @@ const es: Dict = {
   "wish.confirmDelete": "¿Eliminar este deseo?",
   "wish.errDelete": "Error al eliminar: {msg}",
   "wish.errDeleteNoRights": "No se pudo eliminar (sin permisos o la sesión expiró).",
+  "wish.detectGps": "Detectar por GPS",
+  "wish.detecting": "Detectando…",
+  "wish.gpsDenied": "GPS no disponible",
 
   "matches.noTitle": "Aún no hay coincidencias",
   "matches.noNote":
@@ -3003,6 +3027,9 @@ const fr: Dict = {
   "wish.confirmDelete": "Supprimer ce souhait ?",
   "wish.errDelete": "Erreur de suppression : {msg}",
   "wish.errDeleteNoRights": "Suppression impossible (pas de droits ou session expirée).",
+  "wish.detectGps": "Détecter par GPS",
+  "wish.detecting": "Détection…",
+  "wish.gpsDenied": "GPS indisponible",
 
   "matches.noTitle": "Pas encore de correspondances",
   "matches.noNote":
@@ -3359,6 +3386,9 @@ const hi: Dict = {
   "wish.confirmDelete": "यह इच्छा हटाएँ?",
   "wish.errDelete": "हटाने में त्रुटि: {msg}",
   "wish.errDeleteNoRights": "हटाया नहीं जा सका (अधिकार नहीं या सत्र समाप्त)।",
+  "wish.detectGps": "GPS से पता लगाएं",
+  "wish.detecting": "पता लगा रहे हैं…",
+  "wish.gpsDenied": "GPS उपलब्ध नहीं",
 
   "matches.noTitle": "अभी कोई मेल नहीं",
   "matches.noNote":

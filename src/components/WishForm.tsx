@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ACTIVITIES, resolveActivity, activityLabel } from "@/lib/activities";
-import { CITIES, districtsForCity, cityLabel, districtLabel } from "@/lib/places";
+import { CITIES, districtsForCity, cityLabel, districtLabel, detectLocation } from "@/lib/places";
 import { formatDate } from "@/lib/datetime";
 import { useI18n } from "@/lib/i18n/client";
 import type { Wish } from "@/lib/types";
@@ -72,6 +72,11 @@ export function WishForm({
     wish?.wish_time?.slice(0, 5) ?? (initialTime ? initialTime.slice(0, 5) : "18:00")
   );
 
+  const [geoLat, setGeoLat] = useState<number | null>(wish?.lat ?? null);
+  const [geoLng, setGeoLng] = useState<number | null>(wish?.lng ?? null);
+  const [geoLoading, setGeoLoading] = useState(false);
+  const [geoError, setGeoError] = useState<string | null>(null);
+
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -105,6 +110,29 @@ export function WishForm({
     setOptionKey(null);
   }
 
+  async function handleDetectGeo() {
+    setGeoLoading(true);
+    setGeoError(null);
+    const result = await detectLocation();
+    setGeoLoading(false);
+    if (!result) {
+      setGeoError(t("wish.gpsDenied"));
+      return;
+    }
+    setGeoLat(result.lat);
+    setGeoLng(result.lng);
+    setCity(result.city);
+    setDistrict("");
+  }
+
+  function clearGeo() {
+    setGeoLat(null);
+    setGeoLng(null);
+    setCity(CITIES[0]);
+    setDistrict("");
+    setGeoError(null);
+  }
+
   async function handleSave() {
     setError(null);
 
@@ -124,13 +152,15 @@ export function WishForm({
     const activityKey = hasOptions ? optionKey! : categoryKey;
     setSaving(true);
 
-    const payload = {
+    const payload: Record<string, unknown> = {
       activity: activityKey,
       city: city.trim(),
       district: district.trim() || null,
       radius_km: radius,
       wish_date: anyDate ? null : date,
       wish_time: anyTime ? null : `${time}:00`,
+      lat: geoLat ?? null,
+      lng: geoLng ?? null,
     };
 
     let resultError;
@@ -246,20 +276,48 @@ export function WishForm({
 
       <div className="mt-5 space-y-3">
         <Field label={t("wish.city")}>
-          <select
-            value={city}
-            onChange={(e) => {
-              setCity(e.target.value);
-              setDistrict("");
-            }}
-            className="input-field"
-          >
-            {CITIES.map((c) => (
-              <option key={c} value={c}>
-                {cityLabel(c, locale)}
-              </option>
-            ))}
-          </select>
+          {geoLat !== null ? (
+            <div className="flex items-center gap-2">
+              <span className="flex-1 rounded-xl border border-accent bg-accent-soft px-3 py-2 text-sm font-semibold text-accent">
+                📍 {city}
+              </span>
+              <button
+                type="button"
+                onClick={clearGeo}
+                className="rounded-xl border border-line bg-card px-3 py-2 text-sm text-muted"
+              >
+                ✕
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <select
+                value={CITIES.includes(city) ? city : CITIES[0]}
+                onChange={(e) => {
+                  setCity(e.target.value);
+                  setDistrict("");
+                }}
+                className="input-field"
+              >
+                {CITIES.map((c) => (
+                  <option key={c} value={c}>
+                    {cityLabel(c, locale)}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={handleDetectGeo}
+                disabled={geoLoading}
+                className="w-full rounded-xl border border-line bg-card py-2 text-[12px] font-semibold text-muted disabled:opacity-50"
+              >
+                {geoLoading ? t("wish.detecting") : `📍 ${t("wish.detectGps")}`}
+              </button>
+              {geoError && (
+                <p className="text-[11px] text-accent">{geoError}</p>
+              )}
+            </div>
+          )}
         </Field>
 
         <Field label={t("wish.district")}>

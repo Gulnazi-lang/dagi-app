@@ -110,3 +110,63 @@ export function districtLabel(district: string, locale: Locale = "ru"): string {
     locale === "ru" ? DISTRICT_LABELS.ru : (DISTRICT_LABELS[locale] ?? DISTRICT_LABELS.en);
   return map?.[district] ?? district;
 }
+
+// Карта нормализации: любое написание → каноническое русское имя (как в БД).
+const CITY_NORMALIZE_MAP: Record<string, string> = {
+  // Русские формы
+  "рига": "Рига", "юрмала": "Юрмала", "даугавпилс": "Даугавпилс",
+  "лиепая": "Лиепая", "елгава": "Елгава", "вентспилс": "Вентспилс",
+  "резекне": "Резекне", "огре": "Огре", "валмиера": "Валмиера", "екабпилс": "Екабпилс",
+  // Латышские / английские формы
+  "riga": "Рига", "rīga": "Рига",
+  "jurmala": "Юрмала", "jūrmala": "Юрмала",
+  "daugavpils": "Даугавпилс",
+  "liepaja": "Лиепая", "liepāja": "Лиепая",
+  "jelgava": "Елгава",
+  "ventspils": "Вентспилс",
+  "rezekne": "Резекне", "rēzekne": "Резекне",
+  "ogre": "Огре",
+  "valmiera": "Валмиера",
+  "jekabpils": "Екабпилс", "jēkabpils": "Екабпилс",
+};
+
+// Приводит название города (из Nominatim или ввода пользователя) к каноническому виду.
+// Для латвийских городов — русское каноническое имя; для остальных — как есть.
+export function normalizeCityName(raw: string): string {
+  return CITY_NORMALIZE_MAP[raw.toLowerCase()] ?? raw;
+}
+
+// Определяет город пользователя через браузерный GPS + Nominatim reverse geocode.
+// Возвращает { lat, lng, city } или null при отказе/ошибке.
+export async function detectLocation(): Promise<{ lat: number; lng: number; city: string } | null> {
+  if (typeof navigator === "undefined" || !navigator.geolocation) return null;
+
+  const position = await new Promise<GeolocationPosition | null>((resolve) => {
+    navigator.geolocation.getCurrentPosition(
+      resolve,
+      () => resolve(null),
+      { timeout: 10000, maximumAge: 60000 }
+    );
+  });
+  if (!position) return null;
+
+  const { latitude: lat, longitude: lng } = position.coords;
+
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=ru`,
+      { headers: { "User-Agent": "DUD App/1.0 (contact@dud.lv)" } }
+    );
+    const data = await res.json();
+    const raw: string =
+      data.address?.city ??
+      data.address?.town ??
+      data.address?.village ??
+      data.address?.municipality ??
+      "";
+    if (!raw) return null;
+    return { lat, lng, city: normalizeCityName(raw) };
+  } catch {
+    return null;
+  }
+}

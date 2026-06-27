@@ -76,4 +76,6 @@ export type Wish = {
   wish_time: string | null; // HH:MM:SS или null = «время не важно»
   status: WishStatus;
   created_at: string;
+  lat?: number | null;
+  lng?: number | null;
 };
