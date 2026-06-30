@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AppShell, TopBar } from "@/components/AppShell";
 import { InviteButton } from "@/components/InviteButton";
-import { NearbySetup } from "@/components/NearbySetup";
 import { CitySelect } from "@/components/CitySelect";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
@@ -48,17 +47,18 @@ export default async function BrowsePage({
   // 3. Город из Латвии → показать этот город
   // 4. Нет GPS и нет известного города → показать NearbySetup (выбор локации)
   let selected = cityParam;
-  let needsLocationSetup = false;
 
   if (!selected) {
     const cityKnown = profile?.city && CITIES.includes(profile.city);
-    if (hasGeo && !cityKnown) {
-      selected = "nearby";
-    } else if (cityKnown) {
+    if (cityKnown) {
       selected = profile!.city!;
+    } else if (hasGeo) {
+      // GPS есть, город не латвийский → nearby
+      selected = "nearby";
     } else {
-      // Нет геолокации и нет известного города — просим указать
-      needsLocationSetup = true;
+      // Нет GPS и нет известного города → показываем всю Латвию по умолчанию.
+      // NearbySetup больше не блокирует — латвийские юзеры без profile.city
+      // не должны видеть экран "Где ты?".
       selected = "all";
     }
   }
@@ -94,16 +94,12 @@ export default async function BrowsePage({
 
   return (
     <AppShell header={<TopBar title={t("browse.title")} />}>
-      {!needsLocationSetup && (
-        <div className="mb-2">
-          <CitySelect value={selected} hasGeo={hasGeo || profileHasGeo} />
-        </div>
-      )}
+      <div className="mb-2">
+        <CitySelect value={selected} hasGeo={hasGeo || profileHasGeo} />
+      </div>
       <p className="mb-3 text-[11px] leading-relaxed text-muted">{t("browse.hint")}</p>
 
-      {needsLocationSetup ? (
-        <NearbySetup />
-      ) : rows.length === 0 ? (
+      {rows.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
           <div className="text-3xl">🌍</div>
           <p className="mt-2 text-sm font-semibold">{t("empty.firstTitle")}</p>
