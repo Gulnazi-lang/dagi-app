@@ -5,6 +5,7 @@ import { BlockedList, type BlockedItem } from "@/components/BlockedList";
 import { InstallHint } from "@/components/InstallHint";
 import { FeedbackButton } from "@/components/FeedbackButton";
 import { ShareAppButton } from "@/components/ShareAppButton";
+import { LocationGate } from "@/components/LocationGate";
 import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { getT } from "@/lib/i18n/server";
 import { personName } from "@/lib/name";
@@ -87,8 +88,11 @@ export default async function ProfilePage() {
     }));
   }
 
+  const needsLocation = !profile.lat && !profile.lng && !profile.city;
+
   return (
     <AppShell header={<TopBar title={t("tab.profile")} />}>
+      {needsLocation && <LocationGate />}
       <MyReputation rep={myRep ?? null} locale={locale} />
       <ProfileForm profile={profile} email={user.email ?? ""} />
       <PushToggle />

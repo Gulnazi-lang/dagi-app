@@ -6,7 +6,9 @@ export type Profile = {
   district: string | null;
   avatar_url: string | null;
   bio: string | null;
-  traits: Record<string, string[]> | null; // анкета «о себе» (см. lib/traits.ts)
+  traits: Record<string, string[]> | null;
+  lat: number | null;
+  lng: number | null;
   created_at: string;
   updated_at: string;
 };
