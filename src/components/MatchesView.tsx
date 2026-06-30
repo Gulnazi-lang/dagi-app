@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { formatDate, formatTime } from "@/lib/datetime";
 import { reputationLabel } from "@/lib/reputation";
-import { cityLabel, districtLabel } from "@/lib/places";
+import { cityLabel } from "@/lib/places";
 import { InviteButton } from "@/components/InviteButton";
 import { track } from "@vercel/analytics";
 import { ProfilePeek } from "@/components/ProfilePeek";
@@ -64,18 +64,6 @@ export function MatchesView({ groups, userCity }: { groups: MatchGroup[]; userCi
       ))}
     </div>
   );
-}
-
-// Группировка совпавших людей по районам (внутри одного моего желания).
-function clusterByDistrict(people: MatchPerson[]): [string, MatchPerson[]][] {
-  const map = new Map<string, MatchPerson[]>();
-  for (const p of people) {
-    const key = p.district ?? "";
-    if (!map.has(key)) map.set(key, []);
-    map.get(key)!.push(p);
-  }
-  // Районы с бóльшим числом людей — выше.
-  return [...map.entries()].sort((a, b) => b[1].length - a[1].length);
 }
 
 function GroupBlock({ group }: { group: MatchGroup }) {
@@ -139,7 +127,6 @@ function GroupBlock({ group }: { group: MatchGroup }) {
 
     track("team_formed", { activity: group.activity, city: group.city, members: selected.size });
 
-    // Пуш приглашённым (не блокируем переход).
     if (teamId) {
       fetch("/api/notify", {
         method: "POST",
@@ -152,8 +139,6 @@ function GroupBlock({ group }: { group: MatchGroup }) {
     router.push("/chats");
     router.refresh();
   }
-
-  const clusters = clusterByDistrict(group.people);
 
   return (
     <div>
@@ -183,84 +168,70 @@ function GroupBlock({ group }: { group: MatchGroup }) {
         )}
       </div>
 
-      {/* Совпавшие люди, сгруппированные по районам */}
-      <div className="space-y-4">
-        {clusters.map(([dKey, people]) => (
-          <div key={dKey || "__none__"}>
-            <div className="mb-1.5 flex items-center gap-2">
-              <span className="text-[12px] font-bold text-ink">
-                {dKey ? districtLabel(dKey, locale) : t("browse.districtUnset")}
-              </span>
-              <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[10.5px] font-semibold text-accent">
-                {t("browse.people", { n: people.length })}
-              </span>
-            </div>
-
-            <div className="space-y-2">
-              {people.map((p) => {
-                const checked = selected.has(p.matchUserId);
-                return (
-                  <div
-                    key={p.matchWishId}
-                    onClick={selecting ? () => toggle(p.matchUserId) : () => setPeek(p)}
-                    className={`flex cursor-pointer items-center gap-3 rounded-2xl border bg-card p-2.5 transition ${
-                      checked ? "border-accent" : "border-line"
-                    }`}
-                  >
-                    {selecting && (
-                      <span
-                        className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border text-[11px] font-bold ${
-                          checked
-                            ? "border-accent bg-accent text-white"
-                            : "border-line text-transparent"
-                        }`}
-                      >
-                        ✓
-                      </span>
-                    )}
-                    <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
-                      {p.avatarUrl && (
-                        <Image src={p.avatarUrl} alt="" fill sizes="40px" className="object-cover" />
-                      )}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <span className="truncate text-sm font-semibold">{p.name}</span>
-                        <span className="flex-shrink-0 rounded-full bg-green-soft px-1.5 py-0.5 text-[10px] font-semibold text-green">
-                          {reputationLabel(p.reputation, locale)}
-                        </span>
-                      </div>
-                      <div className="truncate text-[11.5px] text-muted">
-                        {cityLabel(group.city, locale)}
-                        {" · "}
-                        {formatTime(p.time, locale)}
-                      </div>
-                      {p.bio && (
-                        <div className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted">
-                          {p.bio}
-                        </div>
-                      )}
-                    </div>
-                    {!selecting && (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          block(p.matchUserId, p.name);
-                        }}
-                        className="flex-shrink-0 rounded-full px-2 py-1 text-base text-muted"
-                        title={t("matches.blockTitle")}
-                        aria-label={t("matches.blockAria", { name: p.name })}
-                      >
-                        🚫
-                      </button>
-                    )}
+      {/* Плоский список совпавших людей */}
+      <div className="space-y-2">
+        {group.people.map((p) => {
+          const checked = selected.has(p.matchUserId);
+          return (
+            <div
+              key={p.matchWishId}
+              onClick={selecting ? () => toggle(p.matchUserId) : () => setPeek(p)}
+              className={`flex cursor-pointer items-center gap-3 rounded-2xl border bg-card p-2.5 transition ${
+                checked ? "border-accent" : "border-line"
+              }`}
+            >
+              {selecting && (
+                <span
+                  className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border text-[11px] font-bold ${
+                    checked
+                      ? "border-accent bg-accent text-white"
+                      : "border-line text-transparent"
+                  }`}
+                >
+                  ✓
+                </span>
+              )}
+              <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
+                {p.avatarUrl && (
+                  <Image src={p.avatarUrl} alt="" fill sizes="40px" className="object-cover" />
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="truncate text-sm font-semibold">{p.name}</span>
+                  <span className="flex-shrink-0 rounded-full bg-green-soft px-1.5 py-0.5 text-[10px] font-semibold text-green">
+                    {reputationLabel(p.reputation, locale)}
+                  </span>
+                </div>
+                <div className="truncate text-[11.5px] text-muted">
+                  {cityLabel(group.city, locale)}
+                  {p.district ? ` · ${p.district}` : ""}
+                  {" · "}
+                  {formatTime(p.time, locale)}
+                </div>
+                {p.bio && (
+                  <div className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted">
+                    {p.bio}
                   </div>
-                );
-              })}
+                )}
+              </div>
+              {!selecting && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    block(p.matchUserId, p.name);
+                  }}
+                  className="flex-shrink-0 rounded-full px-2 py-1 text-base text-muted"
+                  title={t("matches.blockTitle")}
+                  aria-label={t("matches.blockAria", { name: p.name })}
+                >
+                  🚫
+                </button>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {msg && <p className="mt-2 text-center text-xs font-semibold text-accent">{msg}</p>}
