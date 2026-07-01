@@ -1,20 +1,20 @@
 // Поддерживаемые языки. en — первый в списке (язык интерфейса по умолчанию для новых рынков).
 export const LOCALES = [
   "en",
-  "ru",
-  "lv",
-  "ka",
-  "et",
-  "lt",
   "de",
   "es",
+  "et",
   "fr",
-  "hi",
-  "tr",
-  "ar",
-  "pl",
   "it",
+  "lt",
+  "lv",
+  "pl",
+  "tr",
+  "ru",
+  "ar",
   "el",
+  "hi",
+  "ka",
 ] as const;
 export type Locale = (typeof LOCALES)[number];
 
