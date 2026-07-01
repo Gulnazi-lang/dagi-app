@@ -1,8 +1,8 @@
-// Поддерживаемые языки. ru — исходный, далее переводы.
+// Поддерживаемые языки. en — первый в списке (язык интерфейса по умолчанию для новых рынков).
 export const LOCALES = [
+  "en",
   "ru",
   "lv",
-  "en",
   "ka",
   "et",
   "lt",
@@ -10,6 +10,11 @@ export const LOCALES = [
   "es",
   "fr",
   "hi",
+  "tr",
+  "ar",
+  "pl",
+  "it",
+  "el",
 ] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -30,9 +35,9 @@ export function detectLocale(lang: string | undefined | null): Locale {
 
 // Метки для переключателя языка — на родном написании (как в Facebook).
 export const LOCALE_LABELS: Record<Locale, string> = {
+  en: "English",
   ru: "Русский",
   lv: "Latviešu",
-  en: "English",
   ka: "ქართული",
   et: "Eesti",
   lt: "Lietuvių",
@@ -40,4 +45,9 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   es: "Español",
   fr: "Français",
   hi: "हिन्दी",
+  tr: "Türkçe",
+  ar: "العربية",
+  pl: "Polski",
+  it: "Italiano",
+  el: "Ελληνικά",
 };
