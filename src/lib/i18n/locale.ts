@@ -1,20 +1,20 @@
-// Поддерживаемые языки. en — первый в списке (язык интерфейса по умолчанию для новых рынков).
+// Поддерживаемые языки. en — первый, остальные по алфавиту английского названия.
 export const LOCALES = [
-  "en",
-  "ar",
-  "de",
-  "et",
-  "el",
-  "es",
-  "fr",
-  "hi",
-  "it",
-  "ka",
-  "lv",
-  "lt",
-  "pl",
-  "ru",
-  "tr",
+  "en",  // English
+  "ar",  // Arabic
+  "et",  // Estonian
+  "fr",  // French
+  "ka",  // Georgian
+  "de",  // German
+  "el",  // Greek
+  "hi",  // Hindi
+  "it",  // Italian
+  "lv",  // Latvian
+  "lt",  // Lithuanian
+  "pl",  // Polish
+  "ru",  // Russian
+  "es",  // Spanish
+  "tr",  // Turkish
 ] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -33,21 +33,21 @@ export function detectLocale(lang: string | undefined | null): Locale {
   return isLocale(pref) ? pref : "en";
 }
 
-// Метки для переключателя языка — нативное название латиницей, по алфавиту.
+// Метки для переключателя языка — по-английски, по алфавиту.
 export const LOCALE_LABELS: Record<Locale, string> = {
   en: "English",
-  ar: "Arabiyya",
-  de: "Deutsch",
-  et: "Eesti",
-  el: "Ellinika",
-  es: "Español",
-  fr: "Français",
+  ar: "Arabic",
+  et: "Estonian",
+  fr: "French",
+  ka: "Georgian",
+  de: "German",
+  el: "Greek",
   hi: "Hindi",
-  it: "Italiano",
-  ka: "Kartuli",
-  lv: "Latviešu",
-  lt: "Lietuvių",
-  pl: "Polski",
-  ru: "Russkiy",
-  tr: "Türkçe",
+  it: "Italian",
+  lv: "Latvian",
+  lt: "Lithuanian",
+  pl: "Polish",
+  ru: "Russian",
+  es: "Spanish",
+  tr: "Turkish",
 };
