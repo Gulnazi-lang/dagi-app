@@ -1,20 +1,20 @@
 // Поддерживаемые языки. en — первый в списке (язык интерфейса по умолчанию для новых рынков).
 export const LOCALES = [
   "en",
-  "de",
-  "es",
-  "et",
-  "fr",
-  "it",
-  "lt",
-  "lv",
-  "pl",
-  "tr",
-  "ru",
   "ar",
+  "de",
+  "et",
   "el",
+  "es",
+  "fr",
   "hi",
+  "it",
   "ka",
+  "lv",
+  "lt",
+  "pl",
+  "ru",
+  "tr",
 ] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -33,21 +33,21 @@ export function detectLocale(lang: string | undefined | null): Locale {
   return isLocale(pref) ? pref : "en";
 }
 
-// Метки для переключателя языка — на родном написании (как в Facebook).
+// Метки для переключателя языка — нативное название латиницей, по алфавиту.
 export const LOCALE_LABELS: Record<Locale, string> = {
   en: "English",
-  ru: "Русский",
-  lv: "Latviešu",
-  ka: "ქართული",
-  et: "Eesti",
-  lt: "Lietuvių",
+  ar: "Arabiyya",
   de: "Deutsch",
+  et: "Eesti",
+  el: "Ellinika",
   es: "Español",
   fr: "Français",
-  hi: "हिन्दी",
-  tr: "Türkçe",
-  ar: "العربية",
-  pl: "Polski",
+  hi: "Hindi",
   it: "Italiano",
-  el: "Ελληνικά",
+  ka: "Kartuli",
+  lv: "Latviešu",
+  lt: "Lietuvių",
+  pl: "Polski",
+  ru: "Russkiy",
+  tr: "Türkçe",
 };
