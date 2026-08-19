@@ -6,9 +6,9 @@ export const runtime = "nodejs";
 
 // Пересылка новых отзывов (feedback) и тихих жалоб (reports) на почту админа.
 // Вызывается Supabase Database Webhook при INSERT (server-to-server, защищён
-// секретным заголовком). Письмо уходит через Resend API на ADMIN_EMAIL.
+// секретным заголовком). Письмо уходит через Brevo API на ADMIN_EMAIL.
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY ?? "";
+const BREVO_API_KEY = process.env.BREVO_API_KEY ?? "";
 const FORWARD_SECRET = process.env.FORWARD_SECRET ?? "";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "toliashvili@gmail.com";
 const FROM = process.env.FORWARD_FROM ?? "DUD <no-reply@dud.lv>";
@@ -29,7 +29,7 @@ type WebhookBody = {
 };
 
 export async function POST(req: Request) {
-  if (!RESEND_API_KEY || !SERVICE_ROLE) {
+  if (!BREVO_API_KEY || !SERVICE_ROLE) {
     return NextResponse.json({ ok: false, error: "not configured" });
   }
   // Защита: секрет передаётся в заголовке вебхука.
@@ -98,13 +98,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  const res = await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "api-key": BREVO_API_KEY,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ from: FROM, to: [ADMIN_EMAIL], subject, html }),
+    body: JSON.stringify({
+      sender: { name: "DUD", email: FROM.match(/<([^>]+)>/)?.[1] ?? FROM },
+      to: [{ email: ADMIN_EMAIL }],
+      subject,
+      htmlContent: html,
+    }),
   });
 
   if (!res.ok) {

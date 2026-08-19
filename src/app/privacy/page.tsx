@@ -56,7 +56,7 @@ export default function PrivacyPage() {
           Your profile is visible to other signed-in users you match with (same activity, place and
           time). We do <b>not</b> sell your data and do <b>not</b> share it with advertisers. Data is
           stored and processed using <b>Supabase</b> (hosted in the EU) and emails are sent via{" "}
-          <b>Resend</b>. These providers process data on our behalf.
+          <b>Brevo</b>. These providers process data on our behalf.
         </p>
       </Section>
 
