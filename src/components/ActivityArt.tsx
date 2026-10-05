@@ -16,7 +16,7 @@ export function ActivityArt({ activity, className = "wish-card-art" }: { activit
           <circle cx="68" cy="27" r="28" fill="#FFDFC2" />
           <ellipse cx="200" cy="114" rx="53" ry="7" fill="#C6ACDF" />
           <rect x="160" y="18" width="80" height="88" rx="25" fill="#FFFAF2" transform="rotate(-6 200 62)" />
-          <text x="200" y="81" textAnchor="middle" fontSize="53">{activityIcon(activity)}</text>
+          <text x="200" y="81" textAnchor="middle" fontSize="53" fill="#6F48A7" fontFamily="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif">{activityIcon(activity)}</text>
           <path d="M104 54V70M96 62H112M294 63V75M288 69H300" stroke="#A487C3" strokeWidth="3" strokeLinecap="round" />
           <path d="M30 130V96C43 90 54 98 55 110C53 121 42 127 30 130M30 116C10 110 10 92 15 87C30 91 36 103 30 116" fill="#9EA58D" />
         </>
