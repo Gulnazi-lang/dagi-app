@@ -15,6 +15,12 @@ function isConfigured() {
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
+  // Only the local presentation gallery skips auth in development.
+  // Real application routes retain their existing authentication checks.
+  if (process.env.NODE_ENV === "development" && request.nextUrl.pathname === "/design-preview") {
+    return supabaseResponse;
+  }
+
   // Пока ключи Supabase не вставлены — пропускаем без проверки входа.
   if (!isConfigured()) {
     return supabaseResponse;

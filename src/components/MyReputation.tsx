@@ -25,14 +25,14 @@ export function MyReputation({
   return (
     <div className="mb-4 rounded-2xl border border-line bg-card p-3">
       <div className="flex items-center justify-between">
-        <span className="text-[11.5px] font-semibold text-muted">
+        <span className="text-[13px] font-semibold text-muted">
           {translate(locale, "profile.yourRating")}
         </span>
         <span className="text-base font-bold text-accent">{label}</span>
       </div>
 
       {hasHistory && (
-        <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[11.5px] text-muted">
+        <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[13px] text-muted">
           <span>👍 {up}</span>
           <span>👌 {ok}</span>
           <span>👎 {down}</span>
@@ -46,7 +46,7 @@ export function MyReputation({
       )}
 
       <p
-        className={`mt-2 rounded-xl px-3 py-2 text-[11.5px] font-medium leading-relaxed ${
+        className={`mt-2 rounded-xl px-3 py-2 text-[13px] font-medium leading-relaxed ${
           advice === "improve"
             ? "bg-accent-soft text-accent"
             : "bg-green-soft text-[#1c6b44]"

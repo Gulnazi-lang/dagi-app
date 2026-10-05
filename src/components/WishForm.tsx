@@ -26,6 +26,7 @@ export function WishForm({
   initialDate,
   initialTime,
   redirectTo,
+  preview = false,
 }: {
   wish?: Wish; // если передано — режим редактирования
   defaultCity?: string;
@@ -36,6 +37,7 @@ export function WishForm({
   initialDate?: string | null; // YYYY-MM-DD; null = «любой день»
   initialTime?: string | null; // "HH:MM" = время; null = любое время; undefined = по умолчанию
   redirectTo?: string; // куда вернуться после создания (по умолчанию на главную)
+  preview?: boolean; // local design review: no location requests or data writes
 }) {
   const supabase = createClient();
   const router = useRouter();
@@ -116,6 +118,7 @@ export function WishForm({
   }
 
   async function handleDetectGeo() {
+    if (preview) return;
     setGeoLoading(true);
     setGeoError(null);
     const result = await detectLocation();
@@ -142,6 +145,7 @@ export function WishForm({
   }
 
   async function handleSave() {
+    if (preview) return;
     setError(null);
 
     if (hasOptions && !optionKey) {
@@ -209,6 +213,7 @@ export function WishForm({
   }
 
   async function handleDelete() {
+    if (preview) return;
     if (!wish) return;
     if (!confirm(t("wish.confirmDelete"))) return;
     setError(null);
@@ -240,7 +245,7 @@ export function WishForm({
       <div className="flex flex-col items-center px-4 py-12 text-center">
         <div className="text-5xl">🎉</div>
         <p className="mt-3 text-base font-bold">{t("wish.successTitle")}</p>
-        <p className="mt-1 text-[12px] leading-relaxed text-muted">{t("wish.successNote")}</p>
+        <p className="mt-1 text-[14px] leading-relaxed text-muted">{t("wish.successNote")}</p>
         <InviteButton city={geoLat !== null ? city : null} />
         <button
           onClick={() => { router.push(redirectTo ?? "/matches"); }}
@@ -254,58 +259,62 @@ export function WishForm({
 
   return (
     <div className="pb-2">
-      {/* Категория активности */}
-      <p className="mb-1.5 block text-[11.5px] font-semibold text-muted">{t("wish.whatToDo")}</p>
-      <div className="grid grid-cols-4 gap-2">
-        {ACTIVITIES.map((a) => {
-          const selected = a.key === categoryKey;
-          return (
-            <button
-              key={a.key}
-              type="button"
-              onClick={() => selectCategory(a.key)}
-              className={`flex flex-col items-center gap-1 rounded-xl border py-2.5 text-[10.5px] font-semibold leading-tight transition ${
-                selected
-                  ? "border-accent bg-accent-soft text-accent"
-                  : "border-line bg-card text-muted"
-              }`}
-            >
-              <span className="text-xl">{a.icon}</span>
-              {activityLabel(a.key, locale)}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Под-вид */}
-      {hasOptions && (
-        <div className="mt-3">
-          <p className="mb-1.5 block text-[11.5px] font-semibold text-muted">
-            {t("wish.kind", { category: activityLabel(categoryKey, locale) })}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {category.options!.map((opt) => {
-              const selected = opt.key === optionKey;
-              return (
-                <button
-                  key={opt.key}
-                  type="button"
-                  onClick={() => setOptionKey(opt.key)}
-                  className={`rounded-full border px-3 py-1.5 text-[11.5px] font-semibold transition ${
-                    selected
-                      ? "border-accent bg-accent text-white"
-                      : "border-line bg-card text-muted"
-                  }`}
-                >
-                  {activityLabel(opt.key, locale)}
-                </button>
-              );
-            })}
-          </div>
+      <section className="form-panel">
+        {/* Категория активности */}
+        <h2 className="form-label">{t("wish.whatToDo")}</h2>
+        <div className="activity-grid">
+          {ACTIVITIES.map((a) => {
+            const selected = a.key === categoryKey;
+            return (
+              <button
+                key={a.key}
+                type="button"
+                onClick={() => selectCategory(a.key)}
+                aria-pressed={selected}
+                className={`activity-choice flex flex-col items-center justify-center gap-2 border font-semibold transition ${
+                  selected
+                    ? "border-accent bg-accent-soft text-accent"
+                    : "border-line bg-card text-muted"
+                }`}
+              >
+                <span className="text-xl">{a.icon}</span>
+                {activityLabel(a.key, locale)}
+              </button>
+            );
+          })}
         </div>
-      )}
 
-      <div className="mt-5 space-y-3">
+        {/* Под-вид */}
+        {hasOptions && (
+          <div className="mt-3">
+            <p className="mb-1.5 block text-[13px] font-semibold text-muted">
+              {t("wish.kind", { category: activityLabel(categoryKey, locale) })}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {category.options!.map((opt) => {
+                const selected = opt.key === optionKey;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    onClick={() => setOptionKey(opt.key)}
+                    aria-pressed={selected}
+                    className={`choice-pill rounded-full border font-semibold transition ${
+                      selected
+                        ? "border-accent bg-accent text-white"
+                        : "border-line bg-card text-muted"
+                    }`}
+                  >
+                    {activityLabel(opt.key, locale)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+      </section>
+      <section className="form-panel mt-4 space-y-4">
         <Field label={t("wish.city")}>
           {geoLat !== null ? (
             <div className="flex items-center gap-2">
@@ -333,20 +342,20 @@ export function WishForm({
                 <button
                   type="button"
                   onClick={handleDetectGeo}
-                  disabled={geoLoading}
-                  className="flex-1 rounded-xl border border-line bg-card py-2 text-[12px] font-semibold text-muted disabled:opacity-50"
+                  disabled={geoLoading || preview}
+                  className="flex-1 rounded-xl border border-line bg-card py-2 text-[14px] font-semibold text-muted disabled:opacity-50"
                 >
                   {geoLoading ? t("wish.detecting") : `📍 ${t("wish.detectGps")}`}
                 </button>
                 <button
                   type="button"
                   onClick={() => { setManualCity(false); setCity(CITIES[0]); setDistrict(""); }}
-                  className="rounded-xl border border-line bg-card px-3 py-2 text-[12px] text-muted"
+                  className="rounded-xl border border-line bg-card px-3 py-2 text-[14px] text-muted"
                 >
                   🇱🇻
                 </button>
               </div>
-              {geoError && <p className="text-[11px] text-accent">{geoError}</p>}
+              {geoError && <p className="text-[13px] text-accent">{geoError}</p>}
             </div>
           ) : (
             <div className="space-y-2">
@@ -363,21 +372,21 @@ export function WishForm({
                 <button
                   type="button"
                   onClick={handleDetectGeo}
-                  disabled={geoLoading}
-                  className="flex-1 rounded-xl border border-line bg-card py-2 text-[12px] font-semibold text-muted disabled:opacity-50"
+                  disabled={geoLoading || preview}
+                  className="flex-1 rounded-xl border border-line bg-card py-2 text-[14px] font-semibold text-muted disabled:opacity-50"
                 >
                   {geoLoading ? t("wish.detecting") : `📍 ${t("wish.detectGps")}`}
                 </button>
                 <button
                   type="button"
                   onClick={() => { setManualCity(true); setCity(""); }}
-                  className="rounded-xl border border-line bg-card px-3 py-2 text-[12px] text-muted"
+                  className="rounded-xl border border-line bg-card px-3 py-2 text-[14px] text-muted"
                   title={t("wish.cityPlaceholder")}
                 >
                   🌍
                 </button>
               </div>
-              {geoError && <p className="text-[11px] text-accent">{geoError}</p>}
+              {geoError && <p className="text-[13px] text-accent">{geoError}</p>}
             </div>
           )}
         </Field>
@@ -408,8 +417,8 @@ export function WishForm({
 
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <span className="text-[11.5px] font-semibold text-muted">{t("wish.searchRadius")}</span>
-            <span className="text-[11.5px] font-semibold text-accent">{t("common.km", { n: radius })}</span>
+            <span className="text-[13px] font-semibold text-muted">{t("wish.searchRadius")}</span>
+            <span className="text-[13px] font-semibold text-accent">{t("common.km", { n: radius })}</span>
           </div>
           <input
             type="range"
@@ -423,8 +432,8 @@ export function WishForm({
 
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <span className="text-[11.5px] font-semibold text-muted">{t("wish.date")}</span>
-            <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] font-semibold text-muted">
+            <span className="text-[13px] font-semibold text-muted">{t("wish.date")}</span>
+            <label className="flex cursor-pointer items-center gap-1.5 text-[13px] font-semibold text-muted">
               <input
                 type="checkbox"
                 checked={anyDate}
@@ -475,15 +484,15 @@ export function WishForm({
               ))}
             </select>
           </div>
-          <p className="mt-1 text-[11px] text-muted">
+          <p className="mt-1 text-[13px] text-muted">
             {anyDate ? t("wish.anyDay") : formatDate(date, locale)}
           </p>
         </div>
 
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <span className="text-[11.5px] font-semibold text-muted">{t("wish.time")}</span>
-            <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] font-semibold text-muted">
+            <span className="text-[13px] font-semibold text-muted">{t("wish.time")}</span>
+            <label className="flex cursor-pointer items-center gap-1.5 text-[13px] font-semibold text-muted">
               <input
                 type="checkbox"
                 checked={anyTime}
@@ -506,20 +515,20 @@ export function WishForm({
             ))}
           </select>
         </div>
-      </div>
+      </section>
 
-      <p className="mt-3 rounded-xl bg-green-soft px-3 py-2.5 text-[11.5px] leading-relaxed text-[#1c6b44]">
+      <p className="note-peach mt-4">
         {t("wish.privacyInline")}
       </p>
 
       {error && (
-        <p className="mt-3 text-center text-xs font-semibold text-accent">{error}</p>
+        <p role="alert" className="mt-3 text-center text-xs font-semibold text-accent">{error}</p>
       )}
 
       <button
         onClick={handleSave}
-        disabled={saving || deleting}
-        className="mt-4 w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white disabled:opacity-60"
+        disabled={saving || deleting || preview}
+        className="primary-button mt-4 w-full"
       >
         {saving ? t("wish.saving") : isEdit ? t("wish.saveChanges") : t("wish.create")}
       </button>
@@ -527,8 +536,8 @@ export function WishForm({
       {isEdit && (
         <button
           onClick={handleDelete}
-          disabled={saving || deleting}
-          className="mt-2 w-full rounded-xl border border-line py-3 text-sm font-semibold text-accent disabled:opacity-60"
+          disabled={saving || deleting || preview}
+          className="mt-2 min-h-12 w-full rounded-2xl border border-line py-3 text-sm font-semibold text-peach-ink disabled:opacity-60"
         >
           {deleting ? t("wish.deleting") : t("wish.delete")}
         </button>
@@ -540,7 +549,7 @@ export function WishForm({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-[11.5px] font-semibold text-muted">{label}</span>
+      <span className="form-label">{label}</span>
       {children}
     </label>
   );

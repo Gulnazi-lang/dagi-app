@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useI18n } from "@/lib/i18n/client";
+import { BrandLogo, FriendsArt } from "@/components/Brand";
+import { LanguageSelect } from "@/components/LanguageSelect";
 
 export default function LoginPage() {
   const { t } = useI18n();
@@ -121,107 +123,113 @@ export default function LoginPage() {
   const isSignup = mode === "signup";
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-[420px] flex-col items-center justify-center bg-screen px-8 py-10 text-center">
-      <div className="font-display text-4xl font-bold text-accent">DUD</div>
-      <div className="mt-1.5 font-display text-sm font-semibold tracking-wide text-accent/80">
-        Domā un Dari
+    <main className="login-shell">
+      <div className="flex justify-end"><LanguageSelect /></div>
+      <div className="login-heading">
+        <h1><BrandLogo large /></h1>
+        <p className="mt-1 text-[14px] font-medium tracking-wide text-accent">Domā un Dari</p>
+        <FriendsArt className="login-art" />
+        <p className="mx-auto mt-1 max-w-[310px] text-[17px] font-semibold leading-snug text-ink">
+          {t("login.tagline")}
+        </p>
       </div>
-      <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-muted">
-        {t("login.tagline")}
-      </p>
+      <div className="login-panel">
+        <button
+          onClick={signInWithGoogle}
+          disabled={loading}
+          className="login-google flex w-full items-center justify-center gap-3 border border-line bg-white py-3 text-sm font-semibold text-ink disabled:opacity-60"
+        >
+          <GoogleIcon />
+          {loading ? t("login.googleLoading") : t("login.googleSignIn")}
+        </button>
 
-      <button
-        onClick={signInWithGoogle}
-        disabled={loading}
-        className="mt-8 flex w-full items-center justify-center gap-3 rounded-xl border border-line bg-white py-3.5 text-sm font-semibold text-ink shadow-sm disabled:opacity-60"
-      >
-        <GoogleIcon />
-        {loading ? t("login.googleLoading") : t("login.googleSignIn")}
-      </button>
+        <div className="my-4 flex w-full items-center gap-3">
+          <span className="h-px flex-1 bg-line" />
+          <span className="text-[11px] uppercase tracking-wide text-muted">{t("login.or")}</span>
+          <span className="h-px flex-1 bg-line" />
+        </div>
 
-      <div className="my-5 flex w-full items-center gap-3">
-        <span className="h-px flex-1 bg-line" />
-        <span className="text-[11px] uppercase tracking-wide text-muted">{t("login.or")}</span>
-        <span className="h-px flex-1 bg-line" />
-      </div>
+        <h2 className="mb-3 text-[16px] font-semibold text-ink">
+          {isSignup ? t("login.emailRegisterTitle") : t("login.emailSignInTitle")}
+        </h2>
 
-      <p className="mb-2.5 text-[12.5px] font-semibold text-ink">
-        {isSignup ? t("login.emailRegisterTitle") : t("login.emailSignInTitle")}
-      </p>
-
-      <form onSubmit={submitEmail} className="w-full space-y-2.5">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={t("login.emailPlaceholder")}
-          autoComplete="email"
-          className="input-field text-left"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder={t("login.passwordPlaceholder")}
-          autoComplete={isSignup ? "new-password" : "current-password"}
-          minLength={6}
-          className="input-field text-left"
-        />
-        {isSignup && (
+        <form onSubmit={submitEmail} className="w-full space-y-2.5">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={t("login.emailPlaceholder")}
+            aria-label={t("login.emailPlaceholder")}
+            autoComplete="email"
+            className="input-field text-left"
+          />
           <input
             type="password"
-            value={password2}
-            onChange={(e) => setPassword2(e.target.value)}
-            placeholder={t("login.passwordAgainPlaceholder")}
-            autoComplete="new-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder={t("login.passwordPlaceholder")}
+            aria-label={t("login.passwordPlaceholder")}
+            autoComplete={isSignup ? "new-password" : "current-password"}
             minLength={6}
             className="input-field text-left"
           />
-        )}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white disabled:opacity-60"
-        >
-          {loading
-            ? t("login.working")
-            : isSignup
-              ? t("login.signUpEmail")
-              : t("login.signInEmail")}
-        </button>
-      </form>
+          {isSignup && (
+            <input
+              type="password"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
+              placeholder={t("login.passwordAgainPlaceholder")}
+              aria-label={t("login.passwordAgainPlaceholder")}
+              autoComplete="new-password"
+              minLength={6}
+              className="input-field text-left"
+            />
+          )}
+          <button
+            type="submit"
+            disabled={loading}
+            className="primary-button w-full"
+          >
+            {loading
+              ? t("login.working")
+              : isSignup
+                ? t("login.signUpEmail")
+                : t("login.signInEmail")}
+          </button>
+        </form>
 
-      {!isSignup && (
+        {!isSignup && (
+          <button
+            type="button"
+            onClick={forgotPassword}
+            disabled={loading}
+            className="mt-2 min-h-11 text-[14px] font-semibold text-accent disabled:opacity-60"
+          >
+            {t("login.forgot")}
+          </button>
+        )}
+
         <button
           type="button"
-          onClick={forgotPassword}
-          disabled={loading}
-          className="mt-2.5 text-[12px] font-semibold text-accent/75 disabled:opacity-60"
+          onClick={() => {
+            setMode(isSignup ? "signin" : "signup");
+            setError(null);
+            setInfo(null);
+            setPassword2("");
+          }}
+          className="mt-2 min-h-11 text-[14px] font-semibold text-accent"
         >
-          {t("login.forgot")}
+          {isSignup ? t("login.toSignIn") : t("login.toSignUp")}
         </button>
-      )}
 
-      <button
-        type="button"
-        onClick={() => {
-          setMode(isSignup ? "signin" : "signup");
-          setError(null);
-          setInfo(null);
-          setPassword2("");
-        }}
-        className="mt-3 text-[12px] font-semibold text-accent"
-      >
-        {isSignup ? t("login.toSignIn") : t("login.toSignUp")}
-      </button>
+        {info && <p role="status" className="mt-3 text-xs font-semibold text-green">{info}</p>}
+        {error && <p role="alert" className="mt-3 text-xs text-accent">{error}</p>}
 
-      {info && <p className="mt-3 text-xs font-semibold text-green">{info}</p>}
-      {error && <p className="mt-3 text-xs text-accent">{error}</p>}
-
-      <p className="mt-8 max-w-[280px] text-[11px] leading-relaxed text-muted">
+      </div>
+      <p className="mx-auto mt-4 max-w-[320px] text-center text-[12px] leading-relaxed text-muted">
         {t("login.privacy")}
       </p>
-    </div>
+    </main>
   );
 }
 

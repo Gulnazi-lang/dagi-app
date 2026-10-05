@@ -5,6 +5,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import type { Profile } from "@/lib/types";
 import { SignOutButton } from "@/components/SignOutButton";
+import { Icon } from "@/components/Icon";
 import { useI18n } from "@/lib/i18n/client";
 import { LOCALES, LOCALE_LABELS, type Locale } from "@/lib/i18n/locale";
 import { CITIES, districtsForCity, cityLabel, districtLabel } from "@/lib/places";
@@ -16,7 +17,7 @@ import {
   type TraitValue,
 } from "@/lib/traits";
 
-export function ProfileForm({ profile, email }: { profile: Profile; email: string }) {
+export function ProfileForm({ profile, email, preview = false }: { profile: Profile; email: string; preview?: boolean }) {
   const supabase = createClient();
   const { t, locale, setLocale } = useI18n();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -51,6 +52,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
   }
 
   async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (preview) return;
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
@@ -76,6 +78,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
   }
 
   async function handleSave() {
+    if (preview) return;
     setSaving(true);
     setStatus(null);
 
@@ -112,16 +115,19 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
   return (
     <div className="pb-2">
       {/* Фото */}
-      <div className="flex flex-col items-center pt-1">
+      <div className="form-panel flex flex-col items-center">
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="relative h-[84px] w-[84px] overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent"
+          disabled={preview}
+          aria-label={t("profile.change")}
+          className="avatar-placeholder relative flex h-[88px] w-[88px] items-center justify-center overflow-hidden rounded-full"
         >
           {avatarUrl && (
             <Image src={avatarUrl} alt="" fill sizes="84px" className="object-cover" />
           )}
-          <span className="absolute inset-x-0 bottom-0 bg-black/40 py-0.5 text-[10px] font-semibold text-white">
+          {!avatarUrl && <Icon name="profile" className="h-9 w-9" />}
+          <span className="absolute inset-x-0 bottom-0 bg-black/40 py-0.5 text-[11px] font-semibold text-white">
             {uploading ? "…" : t("profile.change")}
           </span>
         </button>
@@ -130,21 +136,22 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
           type="file"
           accept="image/*"
           onChange={handleAvatarChange}
+          disabled={preview}
           className="hidden"
         />
-        <p className="mt-2 text-[11px] text-muted">{email}</p>
+        <p className="mt-2 text-[13px] text-muted">{email}</p>
       </div>
 
       {/* Мягкие подсказки-мотиваторы: фото и анкета повышают шанс попасть в команду */}
       {(!avatarUrl || aboutEmpty) && (
         <div className="mt-3 space-y-1.5">
           {!avatarUrl && (
-            <p className="rounded-xl bg-accent-soft px-3 py-2 text-[11.5px] font-medium text-accent">
+            <p className="rounded-xl bg-accent-soft px-3 py-2 text-[13px] font-medium text-accent">
               📷 {t("profile.photoNudge")}
             </p>
           )}
           {aboutEmpty && (
-            <p className="rounded-xl bg-accent-soft px-3 py-2 text-[11.5px] font-medium text-accent">
+            <p className="rounded-xl bg-accent-soft px-3 py-2 text-[13px] font-medium text-accent">
               ✏️ {t("profile.bioNudge")}
             </p>
           )}
@@ -152,7 +159,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
       )}
 
       {/* Поля */}
-      <div className="mt-5 space-y-3">
+      <div className="form-panel mt-4 space-y-4">
         <Field label={t("profile.name")}>
           <input
             value={displayName}
@@ -212,7 +219,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
       </div>
 
       {/* О себе: опциональная строчка + анкета (переводимая на все языки) */}
-      <div className="mt-6">
+      <div className="form-panel mt-4">
         <h2 className="mb-2 text-sm font-semibold text-ink">{t("profile.aboutTitle")}</h2>
 
         <textarea
@@ -223,14 +230,14 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
           className="input-field resize-none"
         />
         <div className="mt-1 flex items-start justify-between gap-2">
-          <p className="text-[10.5px] leading-snug text-muted">{t("profile.bioHint")}</p>
-          <span className="flex-shrink-0 text-[10.5px] text-muted">{bio.length}/300</span>
+          <p className="text-[12px] leading-snug text-muted">{t("profile.bioHint")}</p>
+          <span className="flex-shrink-0 text-[12px] text-muted">{bio.length}/300</span>
         </div>
 
         <div className="mt-4 space-y-4">
           {TRAITS.map((q) => (
             <div key={q.key}>
-              <p className="mb-1.5 text-[11.5px] font-semibold text-muted">
+              <p className="mb-1.5 text-[13px] font-semibold text-muted">
                 {questionLabel(q, t)}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -241,7 +248,8 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
                       key={opt}
                       type="button"
                       onClick={() => toggleTrait(q.key, opt, q.multi)}
-                      className={`rounded-full border px-3 py-1.5 text-[11.5px] font-semibold transition ${
+                      aria-pressed={selected}
+                      className={`choice-pill rounded-full border font-semibold transition ${
                         selected
                           ? "border-accent bg-accent text-white"
                           : "border-line bg-card text-muted"
@@ -258,8 +266,8 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
       </div>
 
       {/* Переключатель языка */}
-      <div className="mt-6">
-        <span className="mb-1.5 block text-[11.5px] font-semibold text-muted">{t("profile.language")}</span>
+      <div className="form-panel mt-4">
+        <span className="mb-1.5 block text-[13px] font-semibold text-muted">{t("profile.language")}</span>
         <select
           value={locale}
           onChange={(e) => setLocale(e.target.value as Locale)}
@@ -273,7 +281,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
         </select>
       </div>
 
-      <p className="mt-3 rounded-xl bg-green-soft px-3 py-2.5 text-[11.5px] leading-relaxed text-[#1c6b44]">
+      <p className="note-peach mt-4">
         {t("profile.privacy")}
       </p>
 
@@ -289,13 +297,13 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
 
       <button
         onClick={handleSave}
-        disabled={saving}
-        className="mt-4 w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white disabled:opacity-60"
+        disabled={saving || preview}
+        className="primary-button mt-4 w-full"
       >
         {saving ? t("profile.saving") : t("profile.save")}
       </button>
 
-      <SignOutButton />
+      {!preview && <SignOutButton />}
     </div>
   );
 }
@@ -303,7 +311,7 @@ export function ProfileForm({ profile, email }: { profile: Profile; email: strin
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-[11.5px] font-semibold text-muted">{label}</span>
+      <span className="form-label">{label}</span>
       {children}
     </label>
   );

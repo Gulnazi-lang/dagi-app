@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 
 // Экран ошибки для маршрутов (error boundary). Ловит сбои рендера/данных
 // и даёт «Попробовать снова» вместо белого экрана.
@@ -28,7 +29,7 @@ export default function Error({
       >
         Try again
       </button>
-      <a href="/" className="mt-3 text-[12px] font-semibold text-accent">← Home</a>
+      <Link href="/" className="mt-3 text-[12px] font-semibold text-accent">← Home</Link>
     </div>
   );
 }

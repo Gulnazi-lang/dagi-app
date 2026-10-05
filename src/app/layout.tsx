@@ -9,7 +9,7 @@ import { getLocale } from "@/lib/i18n/server";
 const golos = Golos_Text({
   variable: "--font-golos",
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const unbounded = Unbounded({
@@ -52,10 +52,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fbf6ef",
+  themeColor: "#fffaf3",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
 export default async function RootLayout({

@@ -31,6 +31,7 @@ export function PushToggle() {
       "Notification" in window &&
       !!VAPID;
     if (!supported) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- detects browser push support and current subscription state, not derivable at render
       setState("unsupported");
       return;
     }

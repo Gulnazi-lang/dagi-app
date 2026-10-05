@@ -7,6 +7,7 @@ import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { activityIcon, activityFullLabel } from "@/lib/activities";
 import { CITIES } from "@/lib/places";
 import { getT } from "@/lib/i18n/server";
+import { EmptyState } from "@/components/EmptyState";
 
 export const dynamic = "force-dynamic";
 
@@ -97,15 +98,12 @@ export default async function BrowsePage({
       <div className="mb-2">
         <CitySelect value={selected} hasGeo={hasGeo || profileHasGeo} />
       </div>
-      <p className="mb-3 text-[11px] leading-relaxed text-muted">{t("browse.hint")}</p>
+      <p className="mb-3 text-[13px] leading-relaxed text-muted">{t("browse.hint")}</p>
 
       {rows.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
-          <div className="text-3xl">🌍</div>
-          <p className="mt-2 text-sm font-semibold">{t("empty.firstTitle")}</p>
-          <p className="mt-1 text-[11.5px] leading-relaxed text-muted">{t("empty.firstNote")}</p>
+        <EmptyState title={t("home.noWishesTitle")} icon="search">
           <InviteButton city={pCity} />
-        </div>
+        </EmptyState>
       ) : (
         <div className="space-y-2">
           {rows.map((r) => (
@@ -120,7 +118,7 @@ export default async function BrowsePage({
               <span className="min-w-0 flex-1 truncate text-sm font-semibold">
                 {activityFullLabel(r.activity, locale)}
               </span>
-              <span className="flex-shrink-0 rounded-full bg-accent px-2.5 py-0.5 text-[12px] font-bold text-white">
+              <span className="flex-shrink-0 rounded-full bg-accent px-2.5 py-0.5 text-[14px] font-bold text-white">
                 {r.cnt}
               </span>
               <span className="flex-shrink-0 text-muted">›</span>

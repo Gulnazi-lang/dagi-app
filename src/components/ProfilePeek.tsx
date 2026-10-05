@@ -33,14 +33,14 @@ export function ProfilePeek({ person, onClose }: { person: PeekPerson; onClose: 
       >
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
+            <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-full avatar-placeholder">
               {person.avatarUrl && (
                 <Image src={person.avatarUrl} alt="" fill sizes="56px" className="object-cover" />
               )}
             </div>
             <div className="min-w-0">
               <div className="text-base font-bold">{person.name}</div>
-              <span className="mt-0.5 inline-block rounded-full bg-green-soft px-2 py-0.5 text-[11px] font-semibold text-green">
+              <span className="mt-0.5 inline-block rounded-full bg-green-soft px-2 py-0.5 text-[13px] font-semibold text-green">
                 {reputationLabel(person.reputation, locale)}
               </span>
             </div>
@@ -56,19 +56,19 @@ export function ProfilePeek({ person, onClose }: { person: PeekPerson; onClose: 
         </div>
 
         {person.bio && (
-          <p className="mt-4 text-[13px] leading-relaxed text-ink">{person.bio}</p>
+          <p className="mt-4 text-[15px] leading-relaxed text-ink">{person.bio}</p>
         )}
 
         {answered.length > 0 && (
           <div className="mt-4 space-y-3">
             {answered.map((q) => (
               <div key={q.key}>
-                <p className="mb-1 text-[11px] font-semibold text-muted">{questionLabel(q, t)}</p>
+                <p className="mb-1 text-[13px] font-semibold text-muted">{questionLabel(q, t)}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {(traits[q.key] ?? []).map((opt) => (
                     <span
                       key={opt}
-                      className="rounded-full border border-line bg-card px-2.5 py-1 text-[11.5px] font-semibold text-ink"
+                      className="rounded-full border border-line bg-card px-2.5 py-1 text-[13px] font-semibold text-ink"
                     >
                       {optionLabel(q, opt, t)}
                     </span>
@@ -80,7 +80,7 @@ export function ProfilePeek({ person, onClose }: { person: PeekPerson; onClose: 
         )}
 
         {!person.bio && answered.length === 0 && (
-          <p className="mt-4 text-center text-[12px] text-muted">{t("matches.profileEmpty")}</p>
+          <p className="mt-4 text-center text-[14px] text-muted">{t("matches.profileEmpty")}</p>
         )}
       </div>
     </div>

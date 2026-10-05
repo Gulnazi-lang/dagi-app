@@ -12,6 +12,7 @@ import { InviteButton } from "@/components/InviteButton";
 import { track } from "@vercel/analytics";
 import { ProfilePeek } from "@/components/ProfilePeek";
 import { useI18n } from "@/lib/i18n/client";
+import { EmptyState } from "@/components/EmptyState";
 import type { TraitValue } from "@/lib/traits";
 import type { Reputation } from "@/lib/types";
 
@@ -37,23 +38,14 @@ export type MatchGroup = {
   people: MatchPerson[];
 };
 
-export function MatchesView({ groups, userCity }: { groups: MatchGroup[]; userCity?: string | null }) {
+export function MatchesView({ groups, userCity, preview = false }: { groups: MatchGroup[]; userCity?: string | null; preview?: boolean }) {
   const { t } = useI18n();
   if (groups.length === 0) {
-    track("zero_matches", { city: userCity ?? "unknown" });
+    if (!preview) track("zero_matches", { city: userCity ?? "unknown" });
     return (
-      <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
-        <div className="text-3xl">⚲</div>
-        <p className="mt-2 text-sm font-semibold">{t("matches.noTitle")}</p>
-        <p className="mt-1 text-[11.5px] leading-relaxed text-muted">
-          {t("matches.noNote")}
-        </p>
-        <div className="mt-5 border-t border-line pt-5">
-          <p className="text-sm font-semibold">{t("empty.firstTitle")}</p>
-          <p className="mt-1 text-[11.5px] leading-relaxed text-muted">{t("empty.firstNote")}</p>
-          <InviteButton city={userCity} />
-        </div>
-      </div>
+      <EmptyState title={t("matches.noTitle")} description={t("matches.noNote")} icon="matches">
+        <InviteButton city={userCity} />
+      </EmptyState>
     );
   }
 
@@ -80,7 +72,8 @@ function GroupBlock({ group }: { group: MatchGroup }) {
   function toggle(userId: string) {
     setSelected((prev) => {
       const next = new Set(prev);
-      next.has(userId) ? next.delete(userId) : next.add(userId);
+      if (next.has(userId)) next.delete(userId);
+      else next.add(userId);
       return next;
     });
   }
@@ -143,17 +136,17 @@ function GroupBlock({ group }: { group: MatchGroup }) {
   return (
     <div>
       {/* Заголовок: моё желание + кнопка создания команды */}
-      <div className="mb-2 flex items-center gap-2">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
         <span className="text-base">{activityIcon(group.activity)}</span>
         <span className="text-sm font-semibold">{activityFullLabel(group.activity, locale)}</span>
-        <span className="flex-1 text-[11.5px] text-muted">
+        <span className="flex-1 text-[13px] text-muted">
           · {formatDate(group.date, locale)} · {formatTime(group.time, locale)}
         </span>
         {!selecting ? (
           <button
             type="button"
             onClick={() => setSelecting(true)}
-            className="flex-shrink-0 rounded-full bg-accent px-3 py-1 text-[11px] font-semibold text-white"
+            className="min-h-10 flex-shrink-0 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-white"
           >
             {t("matches.createTeam")}
           </button>
@@ -161,7 +154,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
           <button
             type="button"
             onClick={cancel}
-            className="flex-shrink-0 rounded-full border border-line px-3 py-1 text-[11px] font-semibold text-muted"
+            className="min-h-10 flex-shrink-0 rounded-full border border-line px-4 py-2 text-[13px] font-semibold text-muted"
           >
             {t("common.cancel")}
           </button>
@@ -182,7 +175,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
             >
               {selecting && (
                 <span
-                  className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border text-[11px] font-bold ${
+                  className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border text-[13px] font-bold ${
                     checked
                       ? "border-accent bg-accent text-white"
                       : "border-line text-transparent"
@@ -191,7 +184,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
                   ✓
                 </span>
               )}
-              <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
+              <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full avatar-placeholder">
                 {p.avatarUrl && (
                   <Image src={p.avatarUrl} alt="" fill sizes="40px" className="object-cover" />
                 )}
@@ -199,18 +192,18 @@ function GroupBlock({ group }: { group: MatchGroup }) {
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1.5">
                   <span className="truncate text-sm font-semibold">{p.name}</span>
-                  <span className="flex-shrink-0 rounded-full bg-green-soft px-1.5 py-0.5 text-[10px] font-semibold text-green">
+                  <span className="flex-shrink-0 rounded-full bg-green-soft px-1.5 py-0.5 text-[11px] font-semibold text-green">
                     {reputationLabel(p.reputation, locale)}
                   </span>
                 </div>
-                <div className="truncate text-[11.5px] text-muted">
+                <div className="truncate text-[13px] text-muted">
                   {cityLabel(group.city, locale)}
                   {p.district ? ` · ${p.district}` : ""}
                   {" · "}
                   {formatTime(p.time, locale)}
                 </div>
                 {p.bio && (
-                  <div className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted">
+                  <div className="mt-0.5 line-clamp-2 text-[13px] leading-snug text-muted">
                     {p.bio}
                   </div>
                 )}
@@ -241,7 +234,7 @@ function GroupBlock({ group }: { group: MatchGroup }) {
           type="button"
           onClick={createTeam}
           disabled={busy}
-          className="mt-3 w-full rounded-xl bg-accent py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+          className="primary-button mt-3 w-full"
         >
           {busy ? t("matches.gathering") : t("matches.gatherTeam", { n: selected.size })}
         </button>

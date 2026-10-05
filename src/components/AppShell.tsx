@@ -1,30 +1,50 @@
 import { TabBar } from "@/components/TabBar";
+import { BrandLogo, FriendsArt } from "@/components/Brand";
+import { CityHeader, type CityHeaderProps } from "@/components/CityHeader";
 
 export function AppShell({
   children,
   header,
+  activePath,
+  preview = false,
 }: {
   children: React.ReactNode;
   header?: React.ReactNode;
+  activePath?: string;
+  preview?: boolean;
 }) {
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-[420px] flex-col bg-screen sm:my-6 sm:min-h-[680px] sm:rounded-[34px] sm:border sm:border-line sm:shadow-[0_18px_40px_-18px_rgba(60,40,20,.28)] sm:overflow-hidden">
+    <div className="app-shell">
       {header}
-      <main className="flex-1 overflow-y-auto px-4 py-3">{children}</main>
-      <TabBar />
+      <main className="app-main">{children}</main>
+      <TabBar activePath={activePath} preview={preview} />
     </div>
   );
 }
 
-export function TopBar({ title }: { title?: string }) {
+export function TopBar({ title, description, actions, illustrated = false, cityHeader }: {
+  title?: string;
+  description?: string;
+  actions?: React.ReactNode;
+  illustrated?: boolean;
+  cityHeader?: CityHeaderProps;
+}) {
   return (
-    <header className="flex items-center justify-between px-4 pb-3 pt-4">
-      {title ? (
-        <span className="text-[17px] font-bold">{title}</span>
-      ) : (
-        <span className="font-display text-base font-bold text-accent">DUD</span>
+    <header className={`top-bar ${illustrated || cityHeader ? "top-bar-illustrated" : ""} ${cityHeader ? "top-bar-cities" : ""}`}>
+      <div className="flex items-center justify-between gap-3">
+        <BrandLogo />
+        {actions}
+      </div>
+      {title && (
+        <div className="page-heading">
+          <div className="min-w-0 flex-1">
+            <h1>{title}</h1>
+            {description && <p>{description}</p>}
+          </div>
+          {illustrated && !cityHeader && <FriendsArt className="heading-art" />}
+        </div>
       )}
-      <div className="h-[34px] w-[34px] flex-shrink-0 rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent" />
+      {cityHeader && <CityHeader {...cityHeader} />}
     </header>
   );
 }

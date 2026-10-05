@@ -96,10 +96,10 @@ export default async function TeamChatPage({
         {activityIcon(team.activity)}
       </span>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-[14px] font-bold leading-tight">
+        <div className="truncate text-[16px] font-bold leading-tight">
           {activityFullLabel(team.activity, locale)}
         </div>
-        <div className="truncate text-[10.5px] text-muted">
+        <div className="truncate text-[12px] text-muted">
           {formatDate(team.wish_date, locale)} · {formatTime(team.wish_time, locale)} · {cityLabel(team.city, locale)}
           {team.district ? ` · ${districtLabel(team.district, locale)}` : ""}
         </div>

@@ -75,11 +75,11 @@ export function BrowseDistrictGroups({
           >
             <div className="min-w-0 flex-1">
               <div className="text-sm font-semibold">{label}</div>
-              <div className="mt-1 text-[11px] font-semibold text-accent">
+              <div className="mt-1 text-[13px] font-semibold text-accent">
                 {busy === key ? t("browse.joining") : t("browse.joinHere")}
               </div>
             </div>
-            <span className="flex-shrink-0 rounded-full bg-green-soft px-2.5 py-0.5 text-[11.5px] font-semibold text-green">
+            <span className="flex-shrink-0 rounded-full bg-green-soft px-2.5 py-0.5 text-[13px] font-semibold text-green">
               {t("browse.people", { n: g.cnt })}
             </span>
             <span className="flex-shrink-0 self-center text-muted">›</span>
@@ -92,7 +92,7 @@ export function BrowseDistrictGroups({
       {/* Запасной путь: своего района нет в списке / не важно → обычная форма желания. */}
       <Link
         href={fallbackHref}
-        className="mt-1 block rounded-2xl border border-dashed border-line bg-card p-3 text-center text-[12px] font-semibold text-muted transition hover:border-accent hover:text-accent"
+        className="mt-1 block rounded-2xl border border-dashed border-line bg-card p-3 text-center text-[14px] font-semibold text-muted transition hover:border-accent hover:text-accent"
       >
         {t("browse.otherDistrict")}
       </Link>

@@ -16,7 +16,7 @@ export function LanguageSelect({ className = "" }: { className?: string }) {
         value={locale}
         onChange={(e) => setLocale(e.target.value as Locale)}
         aria-label="Language"
-        className="rounded-lg border border-line bg-card px-2 py-1 text-[12px] font-semibold text-muted"
+        className="language-select"
       >
         {LOCALES.map((l) => (
           <option key={l} value={l}>

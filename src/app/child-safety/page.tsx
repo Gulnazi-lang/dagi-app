@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Child Safety Standards · DUD",
@@ -8,12 +9,12 @@ export const metadata: Metadata = {
 export default function ChildSafetyPage() {
   return (
     <main className="mx-auto max-w-[720px] px-6 py-10 text-[14px] leading-relaxed text-ink">
-      <a href="/" className="text-sm font-semibold text-accent">← DUD</a>
+      <Link href="/" className="text-sm font-semibold text-accent">← DUD</Link>
       <h1 className="mt-4 text-2xl font-bold">Child Safety Standards</h1>
       <p className="mt-1 text-[12.5px] text-muted">Last updated: 26 June 2026</p>
 
       <p className="mt-5">
-        DUD ("Domā un Dari", the "App", available at https://dud.lv) is a social app that
+        DUD (“Domā un Dari”, the “App”, available at https://dud.lv) is a social app that
         helps adults find people nearby for activities. DUD is intended exclusively for users
         aged 18 and older. This page describes our standards and practices to prevent child
         sexual abuse and exploitation (CSAE).

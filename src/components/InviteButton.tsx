@@ -37,7 +37,7 @@ export function InviteButton({ city }: { city?: string | null }) {
   return (
     <button
       onClick={handleInvite}
-      className="mt-4 w-full rounded-xl bg-accent py-2.5 text-sm font-semibold text-white"
+      className="primary-button mt-4 w-full"
     >
       {copied ? t("empty.copied") : `📤 ${t("empty.invite")}`}
     </button>

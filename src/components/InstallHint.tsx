@@ -23,6 +23,7 @@ export function InstallHint() {
     const dismissed = localStorage.getItem(DISMISS_KEY) === "1";
     const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- detects platform/display-mode/dismissal state from browser APIs, not derivable at render
     setIsIOS(ios);
     setHidden(standalone || dismissed);
 

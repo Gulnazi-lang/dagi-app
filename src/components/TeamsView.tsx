@@ -10,6 +10,7 @@ import { formatDate, formatTime } from "@/lib/datetime";
 import { reputationLabel } from "@/lib/reputation";
 import { cityLabel, districtLabel } from "@/lib/places";
 import { useI18n } from "@/lib/i18n/client";
+import { EmptyState } from "@/components/EmptyState";
 import type { TeamMemberStatus, Reputation } from "@/lib/types";
 
 export type RatingScore = -1 | 0 | 1;
@@ -44,13 +45,14 @@ const STATUS_KEY: Record<TeamMemberStatus, string> = {
   declined: "team.statusDeclined",
 };
 
-export function TeamsView({ teams, myId }: { teams: TeamView[]; myId: string }) {
+export function TeamsView({ teams, myId, preview = false }: { teams: TeamView[]; myId: string; preview?: boolean }) {
   const router = useRouter();
   const { t } = useI18n();
 
   // «Живые» обновления: при любом изменении команд/участников перезагружаем
   // серверные данные. RLS realtime отдаёт события только по видимым строкам.
   useEffect(() => {
+    if (preview) return;
     const supabase = createClient();
     const channel = supabase
       .channel("teams-live")
@@ -68,17 +70,11 @@ export function TeamsView({ teams, myId }: { teams: TeamView[]; myId: string }) 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [router]);
+  }, [router, preview]);
 
   if (teams.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-line bg-card px-4 py-10 text-center">
-        <div className="text-3xl">✉</div>
-        <p className="mt-2 text-sm font-semibold">{t("team.noTitle")}</p>
-        <p className="mt-1 text-[11.5px] leading-relaxed text-muted">
-          {t("team.noNote")}
-        </p>
-      </div>
+      <EmptyState title={t("team.noTitle")} description={t("team.noNote")} icon="team" />
     );
   }
 
@@ -227,17 +223,17 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
         </span>
         <div className="min-w-0 flex-1">
           <div className="text-sm font-semibold">{activityFullLabel(team.activity, locale)}</div>
-          <div className="text-[11.5px] text-muted">
+          <div className="text-[13px] text-muted">
             {formatDate(team.date, locale)} · {formatTime(team.time, locale)} · {cityLabel(team.city, locale)}
             {team.district ? ` · ${districtLabel(team.district, locale)}` : ""}
           </div>
         </div>
         {done ? (
-          <span className="flex-shrink-0 rounded-full bg-accent-soft px-2 py-0.5 text-[10.5px] font-semibold text-accent">
+          <span className="flex-shrink-0 rounded-full bg-accent-soft px-2 py-0.5 text-[12px] font-semibold text-accent">
             {t("team.played")}
           </span>
         ) : (
-          <span className="flex-shrink-0 rounded-full bg-green-soft px-2 py-0.5 text-[10.5px] font-semibold text-green">
+          <span className="flex-shrink-0 rounded-full bg-green-soft px-2 py-0.5 text-[12px] font-semibold text-green">
             {t("team.inTeam", { n: accepted })}
           </span>
         )}
@@ -252,21 +248,21 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           return (
             <div key={m.userId}>
               <div className="flex items-center gap-2">
-                <div className="relative h-7 w-7 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
+                <div className="relative h-7 w-7 flex-shrink-0 overflow-hidden rounded-full avatar-placeholder">
                   {m.avatarUrl && (
                     <Image src={m.avatarUrl} alt="" fill sizes="28px" className="object-cover" />
                   )}
                 </div>
-                <span className="min-w-0 flex-1 truncate text-[12.5px] font-medium">
+                <span className="min-w-0 flex-1 truncate text-[14px] font-medium">
                   {m.name}
                   {m.isCreator && <span className="text-muted"> · {t("team.creator")}</span>}
                 </span>
-                <span className="flex-shrink-0 rounded-full bg-green-soft px-1.5 py-0.5 text-[10px] font-semibold text-green">
+                <span className="flex-shrink-0 rounded-full bg-green-soft px-1.5 py-0.5 text-[11px] font-semibold text-green">
                   {reputationLabel(m.reputation, locale)}
                 </span>
                 {done ? (
                   <span
-                    className={`flex-shrink-0 text-[10.5px] font-semibold ${
+                    className={`flex-shrink-0 text-[12px] font-semibold ${
                       present ? "text-green" : "text-accent"
                     }`}
                   >
@@ -274,7 +270,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                   </span>
                 ) : (
                   <span
-                    className={`flex-shrink-0 text-[10.5px] font-semibold ${
+                    className={`flex-shrink-0 text-[12px] font-semibold ${
                       m.status === "accepted"
                         ? "text-green"
                         : m.status === "declined"
@@ -301,7 +297,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                             key={sc}
                             type="button"
                             onClick={() => rate(m.userId, sc)}
-                            className={`h-6 w-7 rounded-md text-[12px] ${
+                            className={`h-6 w-7 rounded-md text-[14px] ${
                               active
                                 ? "bg-accent text-white"
                                 : "bg-accent-soft text-accent"
@@ -318,7 +314,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                     <button
                       type="button"
                       onClick={() => markAttendance(m.userId, att === false)}
-                      className={`rounded-md px-2 py-0.5 text-[10.5px] font-semibold ${
+                      className={`rounded-md px-2 py-0.5 text-[12px] font-semibold ${
                         att === false ? "bg-accent text-white" : "bg-accent-soft text-accent"
                       }`}
                     >
@@ -330,7 +326,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
                     <button
                       type="button"
                       onClick={() => report(m.userId, m.name)}
-                      className="text-[10.5px] font-semibold text-muted underline underline-offset-2"
+                      className="text-[12px] font-semibold text-muted underline underline-offset-2"
                     >
                       {t("team.report")}
                     </button>
@@ -342,13 +338,13 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
         })}
       </div>
 
-      {err && <p className="mt-2 text-center text-[11px] font-semibold text-accent">{err}</p>}
+      {err && <p className="mt-2 text-center text-[13px] font-semibold text-accent">{err}</p>}
 
       {/* Чат команды — только пока игра не сыграна */}
       {!done && (
         <Link
           href={`/chats/${team.id}`}
-          className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl bg-accent-soft py-2.5 text-sm font-semibold text-accent"
+          className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-accent-soft py-3 text-sm font-semibold text-accent"
         >
           <span>✉</span> {t("team.openChat")}
         </Link>
@@ -356,12 +352,12 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
 
       {/* Подсказка после игры */}
       {done && !ratedAll && (
-        <p className="mt-3 text-center text-[11px] leading-relaxed text-muted">
+        <p className="mt-3 text-center text-[13px] leading-relaxed text-muted">
           {t("team.rateHint")}
         </p>
       )}
       {done && ratedAll && (
-        <p className="mt-3 text-center text-[11px] font-semibold leading-relaxed text-green">
+        <p className="mt-3 text-center text-[13px] font-semibold leading-relaxed text-green">
           {t("team.ratedAll")}
         </p>
       )}
@@ -373,7 +369,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
             type="button"
             onClick={() => respond("accepted")}
             disabled={busy}
-            className="flex-1 rounded-xl bg-accent py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+            className="primary-button flex-1"
           >
             {t("common.accept")}
           </button>
@@ -394,7 +390,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           type="button"
           onClick={() => respond("declined")}
           disabled={busy}
-          className="mt-3 w-full rounded-xl border border-line py-2 text-[12.5px] font-semibold text-muted disabled:opacity-60"
+          className="mt-3 w-full rounded-xl border border-line py-2 text-[14px] font-semibold text-muted disabled:opacity-60"
         >
           {t("team.leave")}
         </button>
@@ -406,7 +402,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           type="button"
           onClick={() => respond("accepted")}
           disabled={busy}
-          className="mt-3 w-full rounded-xl bg-accent py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+          className="primary-button mt-3 w-full"
         >
           {t("team.return")}
         </button>
@@ -431,7 +427,7 @@ function TeamCard({ team, myId }: { team: TeamView; myId: string }) {
           type="button"
           onClick={disband}
           disabled={busy}
-          className="mt-3 w-full rounded-xl border border-line py-2 text-[12.5px] font-semibold text-muted disabled:opacity-60"
+          className="mt-3 w-full rounded-xl border border-line py-2 text-[14px] font-semibold text-muted disabled:opacity-60"
         >
           {t("team.disband")}
         </button>

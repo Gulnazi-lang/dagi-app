@@ -4,6 +4,11 @@ type Dict = Record<string, string>;
 
 // ── Русский (исходный) ──────────────────────────────────────────────
 const ru: Dict = {
+  "header.yourCity": "Ваш город",
+  "header.cityOfDay": "Город дня",
+  "header.world": "Желания без границ",
+  "home.title": "Мои желания",
+  "chat.send": "Отправить сообщение",
   // login
   "login.tagline": "Найди, с кем поиграть и провести время рядом",
   "login.googleLoading": "Открываем Google…",
@@ -410,6 +415,11 @@ const ru: Dict = {
 
 // ── Latviešu ────────────────────────────────────────────────────────
 const lv: Dict = {
+  "header.yourCity": "Tava pilsēta",
+  "header.cityOfDay": "Dienas pilsēta",
+  "header.world": "Vēlmes bez robežām",
+  "home.title": "Manas vēlmes",
+  "chat.send": "Nosūtīt ziņu",
   "login.tagline": "Atrodi, ar ko pavadīt laiku un izklaidēties tuvumā",
   "login.googleLoading": "Atveram Google…",
   "login.googleSignIn": "Ienākt ar Google",
@@ -800,6 +810,11 @@ const lv: Dict = {
 
 // ── English ─────────────────────────────────────────────────────────
 const en: Dict = {
+  "header.yourCity": "Your city",
+  "header.cityOfDay": "City of the day",
+  "header.world": "Wishes without borders",
+  "home.title": "My wishes",
+  "chat.send": "Send message",
   "login.tagline": "Find people to play and hang out with nearby",
   "login.googleLoading": "Opening Google…",
   "login.googleSignIn": "Sign in with Google",
@@ -1190,6 +1205,11 @@ const en: Dict = {
 
 // ── ქართული (Georgian) ──────────────────────────────────────────────
 const ka: Dict = {
+  "header.yourCity": "შენი ქალაქი",
+  "header.cityOfDay": "დღის ქალაქი",
+  "header.world": "სურვილები საზღვრების გარეშე",
+  "home.title": "ჩემი სურვილები",
+  "chat.send": "შეტყობინების გაგზავნა",
   "login.tagline": "იპოვე, ვისთან ერთად ითამაშო და დრო გაატარო ახლოს",
   "login.googleLoading": "Google იხსნება…",
   "login.googleSignIn": "შესვლა Google-ით",
@@ -1580,6 +1600,11 @@ const ka: Dict = {
 
 // ── Eesti (Estonian) ────────────────────────────────────────────────
 const et: Dict = {
+  "header.yourCity": "Sinu linn",
+  "header.cityOfDay": "Päeva linn",
+  "header.world": "Soovid ilma piirideta",
+  "home.title": "Minu soovid",
+  "chat.send": "Saada sõnum",
   "login.tagline": "Leia, kellega koos mängida ja aega veeta sinu lähedal",
   "login.googleLoading": "Google avaneb…",
   "login.googleSignIn": "Logi sisse Google'iga",
@@ -1970,6 +1995,11 @@ const et: Dict = {
 
 // ── Lietuvių (Lithuanian) ───────────────────────────────────────────
 const lt: Dict = {
+  "header.yourCity": "Tavo miestas",
+  "header.cityOfDay": "Dienos miestas",
+  "header.world": "Norai be sienų",
+  "home.title": "Mano norai",
+  "chat.send": "Siųsti žinutę",
   "login.tagline": "Rask, su kuo žaisti ir praleisti laiką netoliese",
   "login.googleLoading": "Atveriama Google…",
   "login.googleSignIn": "Prisijungti su Google",
@@ -2360,6 +2390,11 @@ const lt: Dict = {
 
 // ── Deutsch (German) ────────────────────────────────────────────────
 const de: Dict = {
+  "header.yourCity": "Deine Stadt",
+  "header.cityOfDay": "Stadt des Tages",
+  "header.world": "Wünsche ohne Grenzen",
+  "home.title": "Meine Wünsche",
+  "chat.send": "Nachricht senden",
   "login.tagline": "Finde Leute zum Spielen und Zeitvertreib in deiner Nähe",
   "login.googleLoading": "Google wird geöffnet…",
   "login.googleSignIn": "Mit Google anmelden",
@@ -2750,6 +2785,11 @@ const de: Dict = {
 
 // ── Español (Spanish) ───────────────────────────────────────────────
 const es: Dict = {
+  "header.yourCity": "Tu ciudad",
+  "header.cityOfDay": "Ciudad del día",
+  "header.world": "Deseos sin fronteras",
+  "home.title": "Mis deseos",
+  "chat.send": "Enviar mensaje",
   "login.tagline": "Encuentra con quién jugar y pasar el rato cerca de ti",
   "login.googleLoading": "Abriendo Google…",
   "login.googleSignIn": "Iniciar sesión con Google",
@@ -3140,6 +3180,11 @@ const es: Dict = {
 
 // ── Français (French) ───────────────────────────────────────────────
 const fr: Dict = {
+  "header.yourCity": "Ta ville",
+  "header.cityOfDay": "Ville du jour",
+  "header.world": "Des envies sans frontières",
+  "home.title": "Mes souhaits",
+  "chat.send": "Envoyer le message",
   "login.tagline": "Trouve avec qui jouer et passer du temps près de chez toi",
   "login.googleLoading": "Ouverture de Google…",
   "login.googleSignIn": "Se connecter avec Google",
@@ -3530,6 +3575,11 @@ const fr: Dict = {
 
 // ── हिन्दी (Hindi) ──────────────────────────────────────────────────
 const hi: Dict = {
+  "header.yourCity": "तुम्हारा शहर",
+  "header.cityOfDay": "आज का शहर",
+  "header.world": "बिना सीमाओं की इच्छाएँ",
+  "home.title": "मेरी इच्छाएँ",
+  "chat.send": "संदेश भेजें",
   "login.tagline": "अपने आस-पास साथ खेलने और घूमने के लिए लोग खोजें",
   "login.googleLoading": "Google खुल रहा है…",
   "login.googleSignIn": "Google से साइन इन करें",
@@ -3920,6 +3970,11 @@ const hi: Dict = {
 
 // ── Türkçe (Turkish) ────────────────────────────────────────────────
 const tr: Dict = {
+  "header.yourCity": "Şehrin",
+  "header.cityOfDay": "Günün şehri",
+  "header.world": "Sınır tanımayan istekler",
+  "home.title": "İsteklerim",
+  "chat.send": "Mesaj gönder",
   "login.tagline": "Yakınındaki aktiviteler için arkadaş bul",
   "login.googleLoading": "Google açılıyor…",
   "login.googleSignIn": "Google ile giriş yap",
@@ -4172,6 +4227,11 @@ const tr: Dict = {
 
 // ── Polski (Polish) ──────────────────────────────────────────────────
 const pl: Dict = {
+  "header.yourCity": "Twoje miasto",
+  "header.cityOfDay": "Miasto dnia",
+  "header.world": "Życzenia bez granic",
+  "home.title": "Moje życzenia",
+  "chat.send": "Wyślij wiadomość",
   "login.tagline": "Znajdź kogoś do aktywności w pobliżu",
   "login.googleLoading": "Otwieranie Google…",
   "login.googleSignIn": "Zaloguj się przez Google",
@@ -4424,6 +4484,11 @@ const pl: Dict = {
 
 // ── Italiano (Italian) ───────────────────────────────────────────────
 const it: Dict = {
+  "header.yourCity": "La tua città",
+  "header.cityOfDay": "Città del giorno",
+  "header.world": "Desideri senza confini",
+  "home.title": "I miei desideri",
+  "chat.send": "Invia messaggio",
   "login.tagline": "Trova persone per attività nelle vicinanze",
   "login.googleLoading": "Apertura di Google…",
   "login.googleSignIn": "Accedi con Google",
@@ -4676,6 +4741,11 @@ const it: Dict = {
 
 // ── Ελληνικά (Greek) ─────────────────────────────────────────────────
 const el: Dict = {
+  "header.yourCity": "Η πόλη σου",
+  "header.cityOfDay": "Πόλη της ημέρας",
+  "header.world": "Επιθυμίες χωρίς σύνορα",
+  "home.title": "Οι επιθυμίες μου",
+  "chat.send": "Αποστολή μηνύματος",
   "login.tagline": "Βρες παρέα για δραστηριότητες κοντά σου",
   "login.googleLoading": "Άνοιγμα Google…",
   "login.googleSignIn": "Σύνδεση με Google",
@@ -4928,6 +4998,11 @@ const el: Dict = {
 
 // ── العربية (Arabic) ─────────────────────────────────────────────────
 const ar: Dict = {
+  "header.yourCity": "مدينتك",
+  "header.cityOfDay": "مدينة اليوم",
+  "header.world": "أمنيات بلا حدود",
+  "home.title": "رغباتي",
+  "chat.send": "إرسال الرسالة",
   "login.tagline": "ابحث عن شركاء للأنشطة بالقرب منك",
   "login.googleLoading": "جارٍ فتح Google…",
   "login.googleSignIn": "تسجيل الدخول بـ Google",

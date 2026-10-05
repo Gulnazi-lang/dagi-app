@@ -96,10 +96,10 @@ export default async function BrowseActivityPage({
           {activityIcon(activity)}
         </span>
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[14px] font-bold leading-tight">
+          <div className="truncate text-[16px] font-bold leading-tight">
             {activityFullLabel(activity, locale)}
           </div>
-          <div className="truncate text-[10.5px] text-muted">
+          <div className="truncate text-[12px] text-muted">
             {formatDate(pDate, locale)} · {formatTime(pTime ? `${pTime}:00` : null, locale)}
           </div>
         </div>
@@ -108,9 +108,9 @@ export default async function BrowseActivityPage({
 
     return (
       <AppShell header={header}>
-        <p className="mb-2 text-[11.5px] font-semibold text-muted">{t("browse.chooseDistrict")}</p>
+        <p className="mb-2 text-[13px] font-semibold text-muted">{t("browse.chooseDistrict")}</p>
         {groups.length === 0 ? (
-          <p className="mt-6 text-center text-[12px] text-muted">{t("browse.slotsEmpty")}</p>
+          <p className="mt-6 text-center text-[14px] text-muted">{t("browse.slotsEmpty")}</p>
         ) : (
           <BrowseDistrictGroups
             activity={activity}
@@ -146,10 +146,10 @@ export default async function BrowseActivityPage({
         {activityIcon(activity)}
       </span>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-[14px] font-bold leading-tight">
+        <div className="truncate text-[16px] font-bold leading-tight">
           {activityFullLabel(activity, locale)}
         </div>
-        <div className="truncate text-[10.5px] text-muted">{t("browse.hint")}</div>
+        <div className="truncate text-[12px] text-muted">{t("browse.hint")}</div>
       </div>
     </header>
   );
@@ -157,7 +157,7 @@ export default async function BrowseActivityPage({
   return (
     <AppShell header={header}>
       {slots.length === 0 ? (
-        <p className="mt-6 text-center text-[12px] text-muted">{t("browse.slotsEmpty")}</p>
+        <p className="mt-6 text-center text-[14px] text-muted">{t("browse.slotsEmpty")}</p>
       ) : (
         <div className="space-y-2">
           {slots.map((s, i) => {
@@ -186,9 +186,9 @@ export default async function BrowseActivityPage({
               >
                 <div className="min-w-0 flex-1">
                   <div className="text-sm font-semibold">{formatDate(s.wish_date, locale)}</div>
-                  <div className="mt-0.5 text-[11.5px] text-muted">{formatTime(s.wish_time, locale)}</div>
+                  <div className="mt-0.5 text-[13px] text-muted">{formatTime(s.wish_time, locale)}</div>
                 </div>
-                <span className="flex-shrink-0 rounded-full bg-green-soft px-2.5 py-0.5 text-[11.5px] font-semibold text-green">
+                <span className="flex-shrink-0 rounded-full bg-green-soft px-2.5 py-0.5 text-[13px] font-semibold text-green">
                   {t("browse.people", { n: s.cnt })}
                 </span>
                 <span className="flex-shrink-0 self-center text-muted">›</span>

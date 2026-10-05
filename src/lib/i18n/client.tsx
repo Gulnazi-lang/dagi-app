@@ -28,6 +28,8 @@ export function I18nProvider({
   const setLocale = useCallback(
     (l: Locale) => {
       document.cookie = `${LOCALE_COOKIE}=${l};path=/;max-age=31536000;samesite=lax`;
+      // Client navigation reuses the root layout, including its HTML language attribute.
+      document.documentElement.lang = l;
       setLocaleState(l);
       router.refresh(); // перерисовать серверные компоненты на новом языке
     },

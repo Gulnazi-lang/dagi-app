@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { useI18n } from "@/lib/i18n/client";
+import { Icon } from "@/components/Icon";
+import { EmptyState } from "@/components/EmptyState";
 import type { Locale } from "@/lib/i18n/locale";
 import type { Message } from "@/lib/types";
 
@@ -41,11 +43,13 @@ export function ChatView({
   myId,
   members,
   initialMessages,
+  preview = false,
 }: {
   teamId: string;
   myId: string;
   members: ChatMember[];
   initialMessages: Message[];
+  preview?: boolean;
 }) {
   const supabase = createClient();
   const { t, locale } = useI18n();
@@ -66,6 +70,7 @@ export function ChatView({
 
   // realtime: новые сообщения этой команды прилетают мгновенно
   useEffect(() => {
+    if (preview) return;
     const channel = supabase
       .channel(`team-messages-${teamId}`)
       .on(
@@ -83,7 +88,7 @@ export function ChatView({
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [supabase, teamId, addMessage]);
+  }, [supabase, teamId, addMessage, preview]);
 
   // автопрокрутка вниз при новых сообщениях
   useEffect(() => {
@@ -92,6 +97,7 @@ export function ChatView({
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
+    if (preview) return;
     const body = text.trim();
     if (!body || busy) return;
     setBusy(true);
@@ -120,13 +126,11 @@ export function ChatView({
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="chat-view">
       {/* Лента сообщений */}
-      <div className="flex-1 space-y-2.5 overflow-y-auto pb-2">
+      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto pb-4">
         {messages.length === 0 && (
-          <p className="mt-6 text-center text-[12px] text-muted">
-            {t("chat.empty")}
-          </p>
+          <EmptyState description={t("chat.empty")} icon="team" />
         )}
         {messages.map((m) => {
           const mine = m.user_id === myId;
@@ -136,7 +140,7 @@ export function ChatView({
               key={m.id}
               className={`flex items-end gap-1.5 ${mine ? "flex-row-reverse" : ""}`}
             >
-              <div className="relative h-6 w-6 flex-shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-[#7ED4DF] to-accent">
+              <div className="relative h-6 w-6 flex-shrink-0 overflow-hidden rounded-full avatar-placeholder">
                 {author?.avatarUrl && (
                   <Image
                     src={author.avatarUrl}
@@ -151,19 +155,19 @@ export function ChatView({
                 className={`max-w-[75%] rounded-2xl px-3 py-1.5 ${
                   mine
                     ? "rounded-br-md bg-accent text-white"
-                    : "rounded-bl-md bg-card text-ink"
+                    : "rounded-bl-md border border-line bg-card text-ink"
                 }`}
               >
                 {!mine && (
-                  <div className="text-[10.5px] font-semibold text-muted">
+                  <div className="text-[12px] font-semibold text-muted">
                     {author?.name ?? t("chat.member")}
                   </div>
                 )}
-                <div className="whitespace-pre-wrap break-words text-[13px] leading-snug">
+                <div className="whitespace-pre-wrap break-words text-[15px] leading-snug">
                   {m.body}
                 </div>
                 <div
-                  className={`mt-0.5 text-right text-[9.5px] ${
+                  className={`mt-0.5 text-right text-[11px] ${
                     mine ? "text-white/70" : "text-muted"
                   }`}
                 >
@@ -177,25 +181,27 @@ export function ChatView({
       </div>
 
       {err && (
-        <p className="pb-1 text-center text-[11px] font-semibold text-accent">{err}</p>
+        <p className="pb-1 text-center text-[13px] font-semibold text-accent">{err}</p>
       )}
 
       {/* Поле ввода */}
-      <form onSubmit={send} className="flex items-center gap-2 border-t border-line pt-2">
+      <form onSubmit={send} className="chat-compose">
         <input
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={t("chat.placeholder")}
+          aria-label={t("chat.placeholder")}
           maxLength={2000}
-          className="min-w-0 flex-1 rounded-xl border border-line bg-white px-3 py-2.5 text-[13px] outline-none focus:border-accent"
+          className="input-field"
         />
         <button
           type="submit"
-          disabled={busy || text.trim().length === 0}
-          className="flex-shrink-0 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-40"
+          disabled={preview || busy || text.trim().length === 0}
+          aria-label={t("chat.send")}
+          className="disabled:opacity-40"
         >
-          ➤
+          <Icon name="send" />
         </button>
       </form>
     </div>

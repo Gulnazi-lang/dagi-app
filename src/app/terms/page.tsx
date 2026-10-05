@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms of Service · DUD",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <main className="mx-auto max-w-[720px] px-6 py-10 text-[14px] leading-relaxed text-ink">
-      <a href="/" className="text-sm font-semibold text-accent">← DUD</a>
+      <Link href="/" className="text-sm font-semibold text-accent">← DUD</Link>
       <h1 className="mt-4 text-2xl font-bold">Terms of Service</h1>
       <p className="mt-1 text-[12.5px] text-muted">Last updated: 15 June 2026</p>
 

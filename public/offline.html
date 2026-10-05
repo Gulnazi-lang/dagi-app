@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fffaf3">
+<title>DUD — Offline</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#fffaf3;color:#30203f;font-family:system-ui,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px}main{width:100%;max-width:420px;text-align:center}strong{font-size:32px;font-weight:850}strong span{color:#ed805e}h1{font-size:24px;margin-top:32px}p{line-height:1.6;color:#766c80}button{border:0;border-radius:16px;padding:16px 24px;background:#7145aa;color:white;font:600 16px system-ui;cursor:pointer;width:100%;margin-top:12px}button:focus-visible{outline:3px solid #ed805e;outline-offset:4px}
+</style>
+<main>
+  <strong>DUD<span>.lv</span></strong>
+  <h1 id="title">You’re offline</h1>
+  <p id="note">Check your internet connection and try opening the page again.</p>
+  <button id="retry" type="button">Try again</button>
+</main>
+<script>
+  const texts={ru:["Нет соединения","Проверьте подключение к интернету и попробуйте открыть страницу снова.","Попробовать снова"],lv:["Nav savienojuma","Pārbaudiet interneta savienojumu un mēģiniet atvērt lapu vēlreiz.","Mēģināt vēlreiz"],ka:["ინტერნეტთან კავშირი არ არის","შეამოწმეთ ინტერნეტთან კავშირი და სცადეთ გვერდის ხელახლა გახსნა.","ხელახლა ცდა"]};
+  const language=(document.cookie.match(/(?:^|;\s*)dagi-lang=([^;]+)/)||[])[1]||navigator.language.split("-")[0];
+  if(texts[language]){document.documentElement.lang=language;["title","note","retry"].forEach((id,i)=>{document.getElementById(id).textContent=texts[language][i]})}
+  document.getElementById("retry").addEventListener("click",()=>location.reload());
+</script>
+</html>
